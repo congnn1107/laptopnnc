@@ -18,6 +18,7 @@ class CreatePromotionProductTable extends Migration
             $table->unsignedBigInteger("promotion");
             $table->unsignedBigInteger("product");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -19,6 +19,7 @@ class CreateProductPriceTable extends Migration
             $table->integer("import_price",false,true)->default(0);
             $table->integer("sell_price",false,true)->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

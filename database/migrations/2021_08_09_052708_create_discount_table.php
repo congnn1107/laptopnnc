@@ -20,6 +20,7 @@ class CreateDiscountTable extends Migration
             $table->integer("discounted_rate");
             $table->dateTime("expired_at");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

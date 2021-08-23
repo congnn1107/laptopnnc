@@ -18,9 +18,12 @@ class CreateAdminTable extends Migration
             $table->string("name");
             $table->string("username");
             $table->string("password");
+            $table->string("email");
+            $table->string("remember_token")->nullable();
             $table->unsignedBigInteger("role")->default(1)->nullable();
             $table->integer("status")->default(1)->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             //foreign key
             // $table->foreign("role")->references("id")->on("role");

@@ -19,6 +19,8 @@ class CreateCategoryTable extends Migration
             $table->unsignedBigInteger("parent_id");
             $table->integer("level")->default(0);
             $table->timestamps();
+            $table->string('slug');
+            $table->softDeletes();
         });
     }
 

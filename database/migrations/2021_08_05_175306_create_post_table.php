@@ -23,9 +23,9 @@ class CreatePostTable extends Migration
             $table->string("meta_description");
             $table->unsignedBigInteger("author");
             $table->integer("view")->default(0);
-            $table->integer("status")->default(0);//0=draff,1= saved, 2 = published, 3 = deleted
+            $table->integer("status")->default(0);//0=draff,1= saved, 2 = published
             $table->timestamps();
-
+            $table->softDeletes();
             //foreign_key
             // $table->foreign("author")->references("id")->on("admin");
         });

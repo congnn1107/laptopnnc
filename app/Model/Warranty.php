@@ -3,10 +3,12 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warranty extends Model
 {
     //
+    use SoftDeletes;
     protected $table="warranty";
     protected $fillable = [
         "product","emei","sold_at",

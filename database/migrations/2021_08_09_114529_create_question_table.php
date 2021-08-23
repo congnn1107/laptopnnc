@@ -21,6 +21,7 @@ class CreateQuestionTable extends Migration
             $table->unsignedBigInteger("reply_for");
             $table->unsignedBigInteger("product");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -18,6 +18,7 @@ class CreatePromotionTable extends Migration
             $table->string("title");
             $table->string("content");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

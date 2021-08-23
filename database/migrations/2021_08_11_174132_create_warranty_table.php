@@ -25,6 +25,7 @@ class CreateWarrantyTable extends Migration
             $table->dateTime("expired");
             $table->string("info");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

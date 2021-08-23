@@ -27,6 +27,7 @@ class CreateUserTable extends Migration
             $table->dateTime("email_verified_at")->nullable();
             $table->integer("status");
             $table->timestamps();
+           $table->softDeletes();
         });
     }
 

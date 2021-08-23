@@ -23,6 +23,7 @@ class CreateGpuTable extends Migration
             $table->string("branch");
             $table->string("addition");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

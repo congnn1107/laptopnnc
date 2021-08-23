@@ -26,6 +26,7 @@ class CreateCpuTable extends Migration
             $table->dateTime("release_date")->nullable();
             $table->string("branch");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

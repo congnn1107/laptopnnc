@@ -3,10 +3,12 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
     //
+    use SoftDeletes;
     private $list = [];
     protected $table = "category";
     protected $fillable = [
@@ -23,10 +25,7 @@ class Category extends Model
         return $this->hasManyThrough("App\Model\Product","App\Model\ProductCategory","category","id");
     }
 
-    public function getList(){
-
-        //code
-
-        return $this->list;
+    public function childs(){
+        return $this->hasMany("App\Model\Category","parent_id");
     }
 }

@@ -18,7 +18,7 @@ class CreateProductImageTable extends Migration
             $table->unsignedBigInteger("product");
             $table->string("image_path");
             $table->timestamps();
-
+            $table->softDeletes();
             //foreign key
             // $table->foreign("product")->references("id")->on("product");
         });

@@ -41,7 +41,7 @@ class CreateProductTable extends Migration
             $table->mediumText("describe");
             $table->unsignedBigInteger("status")->default(3);
             $table->timestamps();
-
+            $table->softDeletes();
 
             //$foreign key
             // $table->foreign("cpu")->references("id")->on("cpu");

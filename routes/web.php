@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Model\Admin;
+use App\Model\Category;
 use App\Model\Customer;
+use App\Model\Role;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +22,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get("test", function(){
+Route::resource("/categories","CategoryController");
+//test
+Route::get("/test",function(){
+    $admins = Admin::onlyTrashed()->first();
+    $role = $admins->role()->get();
+    return [$admins,$role];
+});
+
+Route::prefix("admin")->group(function(){
     
-    $category = App\Model\Category::find(1);
-    return $category->product()->get();
+    Route::middleware(['admin.login'])->group(function(){
+        Route::get("/dashboard",[DashboardController::class,"dashboard"])->name("admin.dashboard");
+        Route::get("/",[DashboardController::class,"dashboard"]);
+        Route::get("/login",[DashboardController::class,"login"])->name("admin.login");
+        Route::post("/login",[DashboardController::class,"checkLogin"])->name("admin.check");
+    });
+    Route::get("/logout", [DashboardController::class,"logout"])->name("admin.logout");
 });

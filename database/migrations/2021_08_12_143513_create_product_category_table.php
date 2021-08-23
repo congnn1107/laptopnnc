@@ -18,6 +18,7 @@ class CreateProductCategoryTable extends Migration
             $table->unsignedBigInteger("product");
             $table->unsignedBigInteger("category");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

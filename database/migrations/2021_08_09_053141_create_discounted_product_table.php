@@ -19,6 +19,7 @@ class CreateDiscountedProductTable extends Migration
             $table->unsignedBigInteger("product");
             $table->integer("quantity",false,true)->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

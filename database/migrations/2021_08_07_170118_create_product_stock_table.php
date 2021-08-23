@@ -18,6 +18,7 @@ class CreateProductStockTable extends Migration
             $table->unsignedBigInteger("product");
             $table->integer("quantity",false,true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
