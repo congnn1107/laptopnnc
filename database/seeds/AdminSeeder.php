@@ -15,6 +15,7 @@ class AdminSeeder extends Seeder
     public function run()
     {
         //
+        
         Admin::truncate();
         $admin = new Admin();
         $admin->name="Nguyễn Ngọc Công";

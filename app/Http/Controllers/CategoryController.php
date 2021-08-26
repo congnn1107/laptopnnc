@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Category;
+use Illuminate\Support\Str;
+use Exception;
+
 class CategoryController extends Controller
 {
     /**
@@ -27,6 +30,9 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        $categoriesList = Category::all();
+
+        return view("admin.categories.create")->with(["categoriesList"=>$categoriesList]);
     }
 
     /**
@@ -37,7 +43,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        
+        $request->validate([
+            "name"=>["required"],
+        ]);
+
+        $category = new Category();
+        $category->name= $request->name;
+        $category->parent_id = $request->parent;
+        $category->slug=Str::slug($request->name);
+        try{
+            if($category->save()){
+                return redirect(route('categories.create'))->with("success","Da luu");
+            }
+        }
+        catch(Exception $e){
+            
+                // dd($e->getMessage());
+                return redirect(route('categories.create'))->with("fail","Co loi xay ra!");
+        }
     }
 
     /**
