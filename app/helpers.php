@@ -17,7 +17,7 @@ function showCategoriesMenu($categoriesList,$parent_id=0,$level=0){
         foreach($categoriesList->where("parent_id",$parent_id) as $category){
 
             //html template here
-            echo '<li>'.str_repeat("-",$level*3).$category->name.'</li>';
+            echo '<option value="'.$category->id.'">'.str_repeat("-",$level*3).$category->name.'</option>';
 
             if($category->childs){
                 showCategoriesMenu($category->childs,$category->id,$level+1);
