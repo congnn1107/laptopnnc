@@ -8,6 +8,6 @@ return [
     ],
     "attributes" => [
         "username" => "Tên đăng nhập",
-        "password" => "Mật khẩu"
+        "password" => "Mật khẩu",
     ]
 ];

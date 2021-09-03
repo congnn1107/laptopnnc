@@ -18,6 +18,7 @@ class CreateAdminTable extends Migration
             $table->string("name");
             $table->string("username");
             $table->string("password");
+            $table->string('avatar')->nullable()->default('images/default-user.jpg');
             $table->string("email");
             $table->string("remember_token")->nullable();
             $table->unsignedBigInteger("role")->default(1)->nullable();

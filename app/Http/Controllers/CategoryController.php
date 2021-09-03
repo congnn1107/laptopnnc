@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\Request;
 use App\Model\Category;
 use Illuminate\Support\Str;
 use Exception;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -14,11 +17,17 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $categoriesList;
+
+    function __construct()
+    {
+        $this->categoriesList = Category::orderBy("parent_id")->get();
+    }
     public function index()
     {
         //
-        $categoriesList = Category::all();
-        return view("admin.categories.index")->with(["categoriesList"=>$categoriesList]);
+        
+        return view("admin.categories.index")->with(["categoriesList"=>$this->categoriesList]);
     }
     
 
@@ -30,9 +39,8 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        $categoriesList = Category::all();
-
-        return view("admin.categories.create")->with(["categoriesList"=>$categoriesList]);
+        
+        return view("admin.categories.index")->with(["categoriesList"=>$this->categoriesList]);
     }
 
     /**
@@ -45,9 +53,7 @@ class CategoryController extends Controller
     {
         // return $request;
         
-        $request->validate([
-            "name"=>["required"],
-        ]);
+        $this->checkValidate($request);
 
         $category = new Category();
         $category->name= $request->name;
@@ -85,6 +91,10 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
+        $category = Category::findOrFail($id);
+        $categoriesList = Category::where('id',"!=",$id)->get();
+        // dd($categoriesList);
+        return view("admin.categories.update",['category'=>$category, 'categoriesList'=>$categoriesList]);
     }
 
     /**
@@ -97,8 +107,29 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->checkValidate($request,$id);
+        $cate = Category::findOrFail($id);
+        if($cate){
+            $cate->name=$request->name;
+            $cate->slug=Str::slug($request->name);
+            $cate->parent_id=$request->parent;
+            $result = $cate->save();
+            if($result){
+                return back()->with("success","Đã lưu!");
+            }
+        }
+        return back()->with("error","Có lỗi xảy ra!");
     }
+    private function checkValidate($request , $id=0){
 
+        Validator::make($request->all(),[
+            "name"=>["required",Rule::unique("category",'name')->ignore($id)->whereNull('deleted_at')]
+        ],
+        [
+            "name.required" => "Tên danh mục không được bỏ trống!",
+            "name.unique" => "Tên danh mục \"$request->name\" đã được sử dụng!"
+        ])->validate();
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -108,5 +139,12 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+        $result = Category::destroy($id);
+        if($result){
+            return back()->with("deleted_success","Đã xóa danh mục có id =  $id!");
+        }
+        else{
+            return back()->with("deleted_error","Không xóa được!");
+        }
     }
 }

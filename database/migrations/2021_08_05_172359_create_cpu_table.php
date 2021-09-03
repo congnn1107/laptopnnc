@@ -22,6 +22,7 @@ class CreateCpuTable extends Migration
             $table->integer("threads");
             $table->string("base_clock");
             $table->string("turbo_clock");
+            $table->string('intergrated_vga');
             $table->string("cache");
             $table->dateTime("release_date")->nullable();
             $table->string("branch");

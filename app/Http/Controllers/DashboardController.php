@@ -11,6 +11,7 @@ class DashboardController extends Controller
     public function login(){
         return view("admin.login");
     }
+    
     public function checkLogin(Request $request){
         // dd($request);
         $request->validate([
@@ -33,6 +34,8 @@ class DashboardController extends Controller
     public function dashboard(){
         return view("admin.dashboard");
     }
+
+
     public function logout(Request $request){
         $accessToken = auth("admin")->user()->setRememberToken("");
 

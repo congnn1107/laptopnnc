@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Model\Admin;
@@ -19,9 +20,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::resource("/categories","CategoryController");
 //test
 Route::get("/test",function(){
@@ -29,6 +27,16 @@ Route::get("/test",function(){
     $role = $admins->role()->get();
     return [$admins,$role];
 });
+Route::get('/test-dashboard',function(){
+    return view('admin.dashboard');
+});
+Route::get('/test-master',function(){
+    return view('admin.layout.master');
+});
+Route::get('/', function () {
+    return view('welcome');
+});
+//end test
 
 Route::prefix("admin")->group(function(){
     
@@ -40,3 +48,6 @@ Route::prefix("admin")->group(function(){
     });
     Route::get("/logout", [DashboardController::class,"logout"])->name("admin.logout");
 });
+Route::get('/admins/json-list','AdminController@getDataList')->name('admins.getdatalist');
+Route::resource('admins',"AdminController");
+Route::resource('/product','ProductController');
