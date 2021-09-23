@@ -1,19 +1,6 @@
 @extends('admin.layout.master')
 @section('content')
-@if(Session::get('success'))
-<div class="alert alert-success alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h4><i class="icon fa fa-check"></i> Thành Công!</h4>
-    {{Session::get('success')}}
-</div>
-@endif
-@if(Session::get('error'))
-<div class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h4><i class="icon fa fa-ban"></i> Lỗi!</h4>
-    {!!Session::get('error')!!}
-</div>
-@endif
+@include('admin.layout.message')
 <div class="box box-danger">
     <div class="box-header with-border">
         <span class="text-primary">Tạo Admin User mới</span>

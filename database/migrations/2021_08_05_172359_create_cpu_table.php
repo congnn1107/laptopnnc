@@ -15,17 +15,17 @@ class CreateCpuTable extends Migration
     {
         Schema::create('cpu', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string("series")->unique();
-            $table->string("name");
+            $table->string("series");
+            $table->string("name")->unique();
             $table->string("gen");
             $table->integer("cores");
             $table->integer("threads");
             $table->string("base_clock");
             $table->string("turbo_clock");
-            $table->string('intergrated_vga');
+            $table->string('intergrated_gpu');
             $table->string("cache");
             $table->dateTime("release_date")->nullable();
-            $table->string("branch");
+            $table->string("brand");
             $table->timestamps();
             $table->softDeletes();
         });

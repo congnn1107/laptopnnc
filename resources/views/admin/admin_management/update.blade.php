@@ -73,12 +73,18 @@
             </div>
             <div class="form-group text-center">
                 <button class="form-button btn btn-primary" type="submit">Lưu lại</button>
-                @if($admin->id!=Auth::guard('admin')->user()->id)
-                <a href="{{route('admins.destroy',$admin->id)}}" class="pull-right btn btn-danger">Xóa</a>
-                @endif
+
             </div>
 
         </form>
+        @if($admin->id!=Auth::guard('admin')->user()->id)
+        <form action="{{route('admins.destroy',$admin->id)}}" method="post">
+            @csrf
+            @method('delete')
+            <button type="submit" class="btn btn-danger pull-right">Xóa</button>
+        </form>
+        @endif
+
     </div>
 </div>
 @endsection

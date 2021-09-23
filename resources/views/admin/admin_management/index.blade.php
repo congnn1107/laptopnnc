@@ -2,7 +2,7 @@
 @section('content')
 <div class="box box-primary">
     <div class="box-header with-border">
-        <span>Danh sách Admin</span>
+        <span class="h4 text-muted">Danh sách Admin</span>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
                 <i class="fa fa-minus"></i></button>
@@ -11,6 +11,9 @@
         </div>
     </div>
     <div class="box-body">
+        <div class="button">
+            <a href="{{route('admins.create')}}"><button class="btn bg-purple"><i class="fa fa-plus"></i> Thêm mới</button></a>
+        </div><br>
         <table class="table dataTable table-hover" id="table">
             <thead>
                 <th>ID</th>

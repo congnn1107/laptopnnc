@@ -12,7 +12,7 @@ class Product extends Model
     protected $table = "product";
     protected $fillable =[
         "name","slug","card_image",
-        "sku","memory_slot","memory_type",
+        "sku","memory_slots","memory_type",
         "memory_capacity","ssd_storage","ssd_capacity",
         "hdd_storage","hdd_capacity","cpu",
         "gpu","screen_type","screen_size",

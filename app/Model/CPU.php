@@ -14,7 +14,7 @@ class CPU extends Model
         "series","name","gen",
         "cores", "threads","base_clock",
         "turbo_clock","cache","release_date",
-        "branch"
+        "brand"
     ];
 
     public function product(){

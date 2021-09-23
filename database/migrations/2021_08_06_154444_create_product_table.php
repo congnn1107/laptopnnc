@@ -17,29 +17,31 @@ class CreateProductTable extends Migration
             $table->id()->autoIncrement();
             $table->string("name")->unique();
             $table->string("slug")->unique();
-            $table->string("card_image");
+            $table->string("card_image")->nullable();
             $table->string("sku")->unique();
             $table->integer("memory_slots");
             $table->string("memory_type");
             $table->string("memory_capacity");
-            $table->string("ssd_storage");
-            $table->integer("ssd_capacity");
-            $table->string("hdd_storage");
-            $table->integer("hdd_capacity");
-            $table->integer("cpu");
-            $table->integer("gpu");
+            $table->string("ssd_storage")->nullable();
+            $table->string("ssd_capacity")->nullable();
+            $table->string("hdd_storage")->nullable();
+            $table->string("hdd_capacity")->nullable();
+            $table->unsignedBigInteger("cpu");
+            $table->unsignedBigInteger("gpu");
             $table->string("screen_type");
             $table->integer("screen_size");
-            $table->string("screen_detail");
+            $table->string("screen_detail")->nullable();
             $table->string("case_material");
             $table->string("bluetooth");
             $table->string("wifi");
             $table->string("connection_jacks");
-            $table->string("key_board");
-            $table->string("addition");
-            $table->string("operating_system");
-            $table->mediumText("describe");
-            $table->unsignedBigInteger("status")->default(3);
+            $table->string("keyboard");
+            $table->string("battery");
+            $table->string("color");
+            $table->string("addition")->nullable();
+            $table->string("operating_system")->nullable();
+            $table->mediumText("describe")->nullable();
+            $table->unsignedBigInteger("status")->nullable()->default(3);
             $table->timestamps();
             $table->softDeletes();
 
@@ -56,6 +58,7 @@ class CreateProductTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('product');
     }
 }

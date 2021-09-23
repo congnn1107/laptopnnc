@@ -30,6 +30,6 @@ class CreateForeignKeyConstrainForAllTable extends Migration
      */
     public function down()
     {
-        
+        Schema::disableForeignKeyConstraints();
     }
 }

@@ -14,7 +14,8 @@
         margin: 0 auto;
         height: 350px;
     }
-    .picture-drag-drop .preview .btn-cancel-image{
+
+    .picture-drag-drop .preview .btn-cancel-image {
         position: absolute;
         right: 15px;
         top: 5px;
@@ -22,9 +23,11 @@
         opacity: 0.3;
         display: none;
     }
-    .picture-drag-drop .preview .btn-cancel-image:hover{
+
+    .picture-drag-drop .preview .btn-cancel-image:hover {
         opacity: 1;
     }
+
     .picture-drag-drop .preview img {
         display: block;
         margin: 0 auto;
@@ -69,6 +72,7 @@
     </div>
     <div class="box-body">
         <form action="{{route('product.store')}}" method="post">
+            @csrf
             <h4 class="text-muted">Thông tin sản phẩm</h4>
             <div class="row">
                 <div class="col-md-6">
@@ -82,9 +86,20 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-4">
                             <label for="">SKU</label>
                             <input type="text" placeholder="Mã SKU sản phẩm" name="sku" id="txtSku" class="form-control" value="{{old('sku')}}">
+                            @error('sku')
+                            <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="">Danh mục</label>
+                            <select name="categories[]" id="slCategories" class="form-control" multiple="multiple">
+                            <?php
+                            showCategoriesMenu(0,$categories);
+                            ?>
+                            </select>
                             @error('sku')
                             <p class="text-danger">{{$message}}</p>
                             @enderror
@@ -114,8 +129,6 @@
                             @enderror
                         </div>
                     </div>
-
-                    <?php $capacity = ["32GB", "64GB", "120GB", "128GB", "240GB", "256GB", "512GB", "1TB", "2TB"] ?>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="">Ổ cứng SSD: </label>
@@ -126,10 +139,10 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Dung lượng ổ SSD: </label>
-                            <select name="ssd_capacity"  class="form-control" id="slSSDCap">
+                            <select name="ssd_capacity" class="form-control" id="slSSDCap">
                                 <option value="0">0</option>
                                 @foreach($capacity as $cap)
-                                <option value="{{$cap}}" {{old('ssd_capacity')==$cap?selected:""}}>{{$cap}}</option>
+                                <option value="{{$cap}}" {{old('ssd_capacity')==$cap?"selected":""}}>{{$cap}}</option>
                                 @endforeach
                             </select>
                             @error('ssd_capacity')
@@ -151,7 +164,7 @@
                             <select name="hdd_capacity" class="form-control" id="slHDDCap">
                                 <option value="0">0</option>
                                 @foreach($capacity as $cap)
-                                <option value="{{$cap}}" {{old('hdd_capacity')==$cap?selected:""}}>{{$cap}}</option>
+                                <option value="{{$cap}}" {{old('hdd_capacity')==$cap?"selected":""}}>{{$cap}}</option>
                                 @endforeach
                             </select>
                             @error('hdd_capacity')
@@ -172,7 +185,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="file" dataTitle="Chọn hoặc kéo thả ảnh..." name="card_image" id="singleImageInput" defaultUrl="{{asset('images\default-product.png')}}" class="form-control">
+                            <input type="file" accept="image/*" dataTitle="Chọn hoặc kéo thả ảnh..." name="card_image" id="singleImageInput" defaultUrl="{{asset('images\default-product.png')}}" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -187,10 +200,9 @@
                 <div class="form-group col-md-6">
                     <label for="">CPU: </label>
                     <select name="cpu" class="form-control" id="slCPU">
-                        <option value="1">Intel Core i3</option>
-                        <option value="2">Intel Core i5</option>
-                        <option value="3">Intel Core i7</option>
-                        <option value="4">AMD Ryzen</option>
+                        @foreach($cpuList as $cpu)
+                        <option value="{{$cpu->id}}" {{old('cpu')==$cpu->id?'selected':''}}>{{"$cpu->branch $cpu->series - $cpu->name"}}</option>
+                        @endforeach
                     </select>
                     @error('cpu')
                     <p class="text-danger">{{$message}}</p>
@@ -198,12 +210,11 @@
                 </div>
                 <!-- Laptop có thể có 1 hoặc 2 gpu -> cần xử lý sau -->
                 <div class="form-group col-md-6">
-                    <label for="">GPU</label>
+                    <label for="">GPU Rời (nếu có)</label>
                     <select name="gpu" id="slGPU" class="form-control">
-                        <option value="1">UHD 620 Graphic</option>
-                        <option value="2">Iris XE Graphic</option>
-                        <option value="3">Radeon Vega 5</option>
-                        <option value="6">Radeon Vega 5</option>
+                        @foreach($gpuList as $gpu)
+                        <option value="{{$gpu->id}}" {{old('gpu')==$gpu->id?'selected':''}}>{{$gpu->branch}} {{$gpu->name}} - {{$gpu->graph_memory_cap}}</option>
+                        @endforeach
                     </select>
                     @error('gpu')
                     <p class="text-danger">{{$message}}</p>
@@ -213,20 +224,18 @@
 
             <h4 class="text-muted">Màn hình</h4>
             <div class="row">
-                <?php $screen_types = [1 => "IPS", 2 => "TN", 3 => "WVA"] ?>
                 <div class="form-group col-md-6">
                     <label for="">Loại màn hình</label>
                     <select name="screen_type" id="slSCreenType" class="form-control">
-                        @foreach($screen_types as $val)
+                        @foreach($screenTypes as $val)
                         <option value="{{$val}}" {{old('screen_type')==$val?"selected":""}}>{{$val}}</option>
                         @endforeach
                     </select>
                 </div>
-                <?php $screen_sizes = ["11.1", "13", "13.5", "14", "15.6", "16", "17", "19", "20", "21"] ?>
                 <div class="form-group col-md-6">
                     <label for="">Kích thước màn hình</label>
                     <select name="screen_size" id="slScreenSize" class="form-control">
-                        @foreach($screen_sizes as $val)
+                        @foreach($screenSizes as $val)
                         <option value="{{$val}}" {{old('screen_size')==$val?"selected":""}}>{{$val}} Inches</option>
                         @endforeach
                     </select>
@@ -359,10 +368,10 @@
             reader.readAsDataURL(input.files[0])
         })
         // nút hủy ảnh
-        $(".btn-cancel-image").on("click",(event)=>{
+        $(".btn-cancel-image").on("click", (event) => {
             input = $("#singleImageInput")
             input.val(null)
-            $('#card-preview').attr('src',input.attr('defaultUrl'))
+            $('#card-preview').attr('src', input.attr('defaultUrl'))
             $(".btn-cancel-image").hide();
         })
     })

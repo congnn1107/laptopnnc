@@ -51,3 +51,5 @@ Route::prefix("admin")->group(function(){
 Route::get('/admins/json-list','AdminController@getDataList')->name('admins.getdatalist');
 Route::resource('admins',"AdminController");
 Route::resource('/product','ProductController');
+Route::resource('/cpu',"CPUController");
+Route::resource('/gpu',"GPUController");

@@ -20,7 +20,7 @@ class CreateGpuTable extends Migration
             $table->string("graph_memory_cap");
             $table->string("clock");
             $table->dateTime("release_date")->nullable();
-            $table->string("branch");
+            $table->string("brand");
             $table->string("addition");
             $table->timestamps();
             $table->softDeletes();

@@ -12,7 +12,7 @@ class GPU extends Model
     protected $table = "gpu";
     protected $fillable = [
         "series","name","graph_memory_cap",
-        "clock","release_date","branch",
+        "clock","release_date","brand",
         "addition"
     ];
 
