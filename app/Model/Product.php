@@ -53,4 +53,7 @@ class Product extends Model
     public function question(){
         return $this->hasMany("App\Model\Question","product");
     }
+    public function categories(){
+        return $this->hasManyThrough('App\Model\Category',"App\Model\ProductCategory","product","id");
+    }
 }

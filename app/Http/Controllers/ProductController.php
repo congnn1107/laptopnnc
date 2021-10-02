@@ -9,6 +9,7 @@ use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Model\ProductCategory;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -38,6 +39,8 @@ class ProductController extends Controller
     public function index()
     {
         //
+        $productList = Product::all();
+        return view('admin.product.index', ['productList' => $productList]);
     }
 
     /**
@@ -101,21 +104,21 @@ class ProductController extends Controller
             "describe"
         );
         //xử lý slug
-        $options['slug']=Str::slug($options['name']);
+        $options['slug'] = Str::slug($options['name']);
         $product = Product::create($options);
         //Xử lý upload ảnh
         $file = $request->file('card_image');
-        if($file){
-            $path = $file->store("images/products/$product->id",'public');
-            if($path){
+        if ($file) {
+            $path = $file->store("images/products/$product->id", 'public');
+            if ($path) {
                 $product->card_image = $path;
                 $product->save();
             }
         }
         //xử lý thêm danh mục
-        $data = array_map(function($item) use($product) {
-            return ['product'=>$product->id,'category'=>$item];
-        },$inputList);
+        $data = array_map(function ($item) use ($product) {
+            return ['product' => $product->id, 'category' => $item];
+        }, $inputList);
         ProductCategory::insert($data);
     }
     /**
@@ -134,6 +137,12 @@ class ProductController extends Controller
         }
     }
 
+    private function getSelectedCategoryIDs($inputList, &$outputList)
+    {
+        foreach ($inputList as $category) {
+            $outputList[] = $category->id;
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -154,6 +163,20 @@ class ProductController extends Controller
     public function edit($id)
     {
         //
+        $product = Product::findOrFail($id);
+        $selectedCategories = [];
+        $this->getSelectedCategoryIDs($product->categories, $selectedCategories);
+
+        return view("admin.product.update", [
+            "product" => $product,
+            'capacity' => $this->capacity,
+            'cpuList' => $this->cpuList,
+            'gpuList' => $this->gpuList,
+            'screenTypes' => $this->screenTypes,
+            'screenSizes' => $this->screenSizes,
+            'categories' => $this->categories,
+            'selectedCategories' => $selectedCategories
+        ]);
     }
 
     /**
@@ -163,9 +186,67 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         //
+        $product = Product::findOrFail($id);
+        if ($product) {
+            $options = $request->all(
+                [
+                    'name',
+                    'sku',
+                    "memory_slots",
+                    "memory_type",
+                    "memory_capacity",
+                    "ssd_storage",
+                    "ssd_capacity",
+                    "hdd_storage",
+                    "hdd_capacity",
+                    "cpu",
+                    "gpu",
+                    "screen_type",
+                    "screen_size",
+                    "screen_detail",
+                    "case_material",
+                    "bluetooth",
+                    "wifi",
+                    "connection_jacks",
+                    "keyboard",
+                    "addition",
+                    "battery",
+                    "color",
+                    "operating_system",
+                    "describe"
+                ]
+            );
+            //lấy categories
+            $inputList = Category::findMany($request->categories); //objects collection
+            $outputList = [];
+            $this->makeFullCategories($inputList, $outputList);
+            $inputList = array_unique($outputList); //ids array
+
+            //cập nhật file
+            $file = $request->file('card_image');
+            if ($file) {
+                $path = $file->store("images/products/$product->id", 'public');
+                Storage::delete($product->card_image);
+                if ($path) {
+                    $options['card_image'] = $path;
+                }
+            }
+            //xử lý slug
+            $options['slug'] = Str::slug($options['name']);
+
+            if($product->update($options)){
+                $product->save();
+                return back()->with('success','Đã lưu thay đổi!');
+            }else{
+                return back()->with('error','Có lỗi xảy ra!');
+            }
+
+        }else{
+            return back()->with("error","Có gì đó bất ổn");
+        }
     }
 
     /**

@@ -14,12 +14,13 @@
  * @author NNC - Nguyen Ngoc Cong
  * @version 0.2
  */
-function showCategoriesMenu($template,$categoriesList,$selected=0,$current_category=0,$parent_id=0,$level=0){
+function showCategoriesMenu($template,$categoriesList,$selected=[],$current_category=0,$parent_id=0,$level=0){
 
+        
         foreach($categoriesList->where("parent_id",$parent_id) as $category){
             if($category->id==$current_category) return;
             //check selected
-            $str = $category->id==$selected?"selected":"";
+            $str = in_array($category->id,$selected)?"selected":"";
             //html template here
             if($template==0){
                 echo getSelectOptionTemplate($category,$str,$level);

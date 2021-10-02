@@ -25,7 +25,7 @@
             <label for="" class="form-label">Danh mục cha</label>
             <select class="form-control" name="parent" id="parentSelect">
                 <option value="0" selected>--</option>
-                <?php showCategoriesMenu(0,$categoriesList,$category->parent_id,$category->id) ?>
+                <?php showCategoriesMenu(0,$categoriesList,[$category->parent_id],$category->id) ?>
             </select>
         </div>
 

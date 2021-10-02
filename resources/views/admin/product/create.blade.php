@@ -66,6 +66,20 @@
         border: 4px dashed purple;
     }
 </style>
+
+{{-- CSS lại cho select 2 --}}
+<style>
+    .select2-selection__choice{
+        background-color: rgb(102, 178, 245) !important;
+        border: none !important;
+    }
+    .select2-selection__choice__remove{
+        color: white !important;
+    }
+    .select2-selection__choice__remove:hover{
+        color: red !important;
+    }
+</style>
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="text-info">Tạo sản phẩm mới</h3>
@@ -97,10 +111,10 @@
                             <label for="">Danh mục</label>
                             <select name="categories[]" id="slCategories" class="form-control" multiple="multiple">
                             <?php
-                            showCategoriesMenu(0,$categories);
+                            showCategoriesMenu(0,$categories,old('categories')??[]);
                             ?>
                             </select>
-                            @error('sku')
+                            @error('categories')
                             <p class="text-danger">{{$message}}</p>
                             @enderror
                         </div>
