@@ -229,7 +229,7 @@ class ProductController extends Controller
             $file = $request->file('card_image');
             if ($file) {
                 $path = $file->store("images/products/$product->id", 'public');
-                Storage::delete($product->card_image);
+                Storage::disk('public')->delete($product->card_image);
                 if ($path) {
                     $options['card_image'] = $path;
                 }
@@ -258,5 +258,11 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-    }
+        $result = Product::destroy($id);
+        if($result){
+            return back()->with('success',"Đã xóa sản phẩm $id!");
+        }else{
+            return back()->with('error','Không ổn dồi, có lỗi xảy ra!');
+        }
+    } 
 }

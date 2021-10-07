@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Model\Admin;
 use App\Model\Category;
 use App\Model\Customer;
@@ -50,6 +52,12 @@ Route::prefix("admin")->group(function(){
 });
 Route::get('/admins/json-list','AdminController@getDataList')->name('admins.getdatalist');
 Route::resource('admins',"AdminController");
+
+Route::get('product/images',[ProductImageController::class,'index'])->name('products.manage_image');
+Route::get('product/{id}/images',[ProductImageController::class,'images'])->name('products.show_image');
+Route::post('product/{id}/images',[ProductImageController::class,'store'])->name('products.store_image');
+Route::delete('product/{id}/images',[ProductImageController::class,'destroy'])->name('products.delete_image');
 Route::resource('/product','ProductController');
 Route::resource('/cpu',"CPUController");
 Route::resource('/gpu',"GPUController");
+
