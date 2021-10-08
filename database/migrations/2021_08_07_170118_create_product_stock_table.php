@@ -17,6 +17,8 @@ class CreateProductStockTable extends Migration
             $table->id()->autoIncrement();
             $table->unsignedBigInteger("product");
             $table->integer("quantity",false,true);
+            $table->integer("import_price",false,true)->default(0);
+            $table->integer("sell_price",false,true)->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

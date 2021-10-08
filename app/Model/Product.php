@@ -35,11 +35,9 @@ class Product extends Model
     public function images(){
         return $this->hasMany("App\Model\ProductImage","product");
     }
-    public function price(){
-        return $this->hasMany("App\Model\ProductPrice","product");
-    }
-    public function quantity(){
-        return $this->hasOne("App\Model\ProductStock","product");
+
+    public function stock(){
+        return $this->hasMany("App\Model\ProductStock","product");
     }
     public function discount(){
         return $this->hasManyThrough("App\Model\Discount","App\Model\DiscountedProduct","product","id");

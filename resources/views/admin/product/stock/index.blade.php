@@ -19,7 +19,7 @@
                         <tr>
                             <td>{{ $product->id }}</td>
                             <td>{{ $product->name }}</td>
-                            <td><a href="{{ route("products.show_price",$product->id)}}"><button class="btn"><i class="fa fa-pencil"></i></button></a></td>
+                            <td><a href="{{ route("products.show_stock",$product->id)}}"><button class="btn"><i class="fa fa-pencil"></i></button></a></td>
                         </tr>
                     @endforeach
 
