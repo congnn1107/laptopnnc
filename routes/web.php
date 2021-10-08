@@ -5,7 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
-use App\Http\Controllers\ProductPriceController;
+use App\Http\Controllers\ProductStockController;
 use App\Model\Admin;
 use App\Model\Category;
 use App\Model\Customer;
@@ -59,10 +59,10 @@ Route::get('product/{id}/images',[ProductImageController::class,'images'])->name
 Route::post('product/{id}/images',[ProductImageController::class,'store'])->name('products.store_image');
 Route::delete('product/{id}/images',[ProductImageController::class,'destroy'])->name('products.delete_image');
 //quản lý giá
-Route::get('product/prices',[ProductPriceController::class,'index'])->name('products.manage_price');
-Route::get('products/{id}/prices',[ProductPriceController::class,'manage'])->name('products.show_price');
-Route::post('products/{id}/prices',[ProductPriceController::class,'store'])->name('products.store_price');
-Route::put('products/{id}/prices',[ProductPriceController::class,'update'])->name('products.update_price');
+Route::get('product/stocks',[ProductStockController::class,'index'])->name('products.manage_stock');
+Route::get('products/{id}/stocks',[ProductStockController::class,'manage'])->name('products.show_stock');
+Route::post('products/{id}/stocks',[ProductStockController::class,'store'])->name('products.store_stock');
+Route::put('products/{id}/stocks',[ProductStockController::class,'update'])->name('products.update_stock');
 Route::resource('/product','ProductController');
 Route::resource('/cpu',"CPUController");
 Route::resource('/gpu',"GPUController");

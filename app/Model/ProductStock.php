@@ -11,6 +11,6 @@ class ProductStock extends Model
     use SoftDeletes;
     protected $table = "product_stock";
     protected $fillable = [
-        "product","quantity"
+        "product","quantity",'import_price','sell_price'
     ];
 }
