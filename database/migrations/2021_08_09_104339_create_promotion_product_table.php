@@ -17,6 +17,7 @@ class CreatePromotionProductTable extends Migration
             $table->id()->autoIncrement();
             $table->unsignedBigInteger("promotion");
             $table->unsignedBigInteger("product");
+            $table->integer("quantity",false,true)->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

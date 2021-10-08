@@ -16,7 +16,8 @@ class CreatePromotionTable extends Migration
         Schema::create('promotion', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string("title");
-            $table->string("content");
+            $table->text("content");
+            $table->dateTime('expired_at');
             $table->timestamps();
             $table->softDeletes();
         });
