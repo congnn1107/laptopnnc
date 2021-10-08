@@ -88,8 +88,10 @@
             </ul>
           </li>
           {{-- End Thông tin CPU-GPU --}}
+          {{-- Quản lý ảnh --}}
           <li><a style="font-style: italic; font-weight: bold; background-color: #fff;" href="{{route('products.manage_image')}}"><i class="fa fa-file-image-o"></i>Hình ảnh sản phẩm</a></li>
-          
+          {{-- Quản lý giá --}}
+          <li><a style="font-style: italic; font-weight: bold; background-color: #fff;" href="{{ route('products.manage_price') }}"><i class="fa fa-dollar"></i> Quản lý giá SP</a></li>
         </ul>
         
       </li>
