@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\ProductPriceController;
 use App\Model\Admin;
 use App\Model\Category;
 use App\Model\Customer;
@@ -52,11 +53,16 @@ Route::prefix("admin")->group(function(){
 });
 Route::get('/admins/json-list','AdminController@getDataList')->name('admins.getdatalist');
 Route::resource('admins',"AdminController");
-
+//quản lý ảnh sản phẩm
 Route::get('product/images',[ProductImageController::class,'index'])->name('products.manage_image');
 Route::get('product/{id}/images',[ProductImageController::class,'images'])->name('products.show_image');
 Route::post('product/{id}/images',[ProductImageController::class,'store'])->name('products.store_image');
 Route::delete('product/{id}/images',[ProductImageController::class,'destroy'])->name('products.delete_image');
+//quản lý giá
+Route::get('product/prices',[ProductPriceController::class,'index'])->name('products.manage_price');
+Route::get('products/{id}/prices',[ProductPriceController::class,'manage'])->name('products.show_price');
+Route::post('products/{id}/prices',[ProductPriceController::class,'store'])->name('products.store_price');
+Route::put('products/{id}/prices',[ProductPriceController::class,'update'])->name('products.update_price');
 Route::resource('/product','ProductController');
 Route::resource('/cpu',"CPUController");
 Route::resource('/gpu',"GPUController");

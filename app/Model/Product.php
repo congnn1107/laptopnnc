@@ -36,7 +36,7 @@ class Product extends Model
         return $this->hasMany("App\Model\ProductImage","product");
     }
     public function price(){
-        return $this->hasOne("App\Model\ProductPrice","product");
+        return $this->hasMany("App\Model\ProductPrice","product");
     }
     public function quantity(){
         return $this->hasOne("App\Model\ProductStock","product");
