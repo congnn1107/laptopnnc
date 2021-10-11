@@ -20,3 +20,4 @@ class DiscountedProduct extends Model
         return $this->belongsTo("App\Model\Discount","discount","id");
     }
 }
+
