@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\DiscountPromotionController;
 use App\Model\Admin;
 use App\Model\Category;
 use App\Model\Customer;
@@ -63,7 +64,45 @@ Route::get('product/stocks',[ProductStockController::class,'index'])->name('prod
 Route::get('products/{id}/stocks',[ProductStockController::class,'manage'])->name('products.show_stock');
 Route::post('products/{id}/stocks',[ProductStockController::class,'store'])->name('products.store_stock');
 Route::put('products/{id}/stocks',[ProductStockController::class,'update'])->name('products.update_stock');
+//quản lý khuyến mại, giảm giá
+Route::name('promotion.')->group(function(){
+    Route::prefix('promotion')->group(function(){
+        Route::get('/',[DiscountPromotionController::class,'index'])->name('index');
+        //d: discount - giảm giá
+        Route::name('d.')->group(function(){
+            Route::prefix('/d')->group(function(){
+                Route::get('/create',[DiscountPromotionController::class,'createDiscount'])->name('create');
+                Route::post('/store',[DiscountPromotionController::class,'storeDiscount'])->name('store');
+                Route::get('/{id}/edit',[DiscountPromotionController::class,'editDiscount'])->name('edit');
+                Route::put('/{id}/update',[DiscountPromotionController::class,'updateDiscount'])->name('update');
+                Route::post('/{id}/update',[DiscountPromotionController::class,'addProductsToDiscount'])->name('products');
+                Route::put('/',[DiscountPromotionController::class,'destroyDiscount'])->name('destroy');
+            });
+        });
+        //p: promotion - khuyến mại
+        Route::name('p.')->group(function(){
+            Route::prefix('/p')->group(function(){
+                Route::get('/create',[DiscountPromotionController::class,'createPromotion'])->name('create');
+                Route::post('/store',[DiscountPromotionController::class,'storePromotion'])->name('store');
+                Route::get('/{id}/edit',[DiscountPromotionController::class,'editPromotion'])->name('edit');
+                Route::put('/{id}/update',[DiscountPromotionController::class,'updatePromotion'])->name('update');
+                Route::post('/{id}/update',[DiscountPromotionController::class,'addProductsToPromotion'])->name('products');
+                Route::put('/',[DiscountPromotionController::class,'destroyPromotion'])->name('destroy');
+            });
+        });
+        
+    });
+});
+//khách: xem chương trình khuyến mại (test)
+Route::get('discount/{slug}',function(){
+    //làm gì đó
+})->name('discount.show');
+Route::get('promotion/{slug}',function(){
+    //làm gì đó
+})->name('promotion.show');
+//end test
 Route::resource('/product','ProductController');
 Route::resource('/cpu',"CPUController");
 Route::resource('/gpu',"GPUController");
+
 

@@ -95,6 +95,8 @@
         </ul>
         
       </li>
+      {{-- Quản lý khuyến mại --}}
+      <li><a href="{{ route('promotion.index') }}"><i class="fa fa-gift"></i>Quản lý khuyến mại</a></li>
   </section>
   <!-- /.sidebar -->
 </aside>

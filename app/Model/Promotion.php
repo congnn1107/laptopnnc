@@ -11,10 +11,10 @@ class Promotion extends Model
     use SoftDeletes;
     protected $table = "promotion";
     protected $fillable = [
-        "title", "content"
+        "title", "content","expired_at"
     ];
 
     public function detail(){
-        return $this->hasMany("App\Model\PromotionProduct");
+        return $this->hasMany("App\Model\PromotionProduct",'promotion');
     }
 }
