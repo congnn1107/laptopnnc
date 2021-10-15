@@ -87,16 +87,20 @@
               <li><a href="{{ route('gpu.index') }}"><i class="fa fa-circle-o"></i> Thông tin GPU</a></li>
             </ul>
           </li>
+          
           {{-- End Thông tin CPU-GPU --}}
           {{-- Quản lý ảnh --}}
           <li><a style="font-style: italic; font-weight: bold; background-color: #fff;" href="{{route('products.manage_image')}}"><i class="fa fa-file-image-o"></i>Hình ảnh sản phẩm</a></li>
           {{-- Quản lý kho --}}
           <li><a style="font-style: italic; font-weight: bold; background-color: #fff;" href="{{ route('products.manage_stock') }}"><i class="fa fa-dollar"></i> Quản lý kho</a></li>
+          {{-- Quản lý bảo hành --}}
+          <li><a style="font-style: italic; font-weight: bold; background-color: #fff;" href="{{ route('warranty.index') }}"><i class="fa fa-wrench"></i>Sản phẩm bảo hành</a></li>
         </ul>
         
       </li>
       {{-- Quản lý khuyến mại --}}
       <li><a href="{{ route('promotion.index') }}"><i class="fa fa-gift"></i>Quản lý khuyến mại</a></li>
+      
   </section>
   <!-- /.sidebar -->
 </aside>

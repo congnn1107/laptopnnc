@@ -104,5 +104,9 @@ Route::get('promotion/{slug}',function(){
 Route::resource('/product','ProductController');
 Route::resource('/cpu',"CPUController");
 Route::resource('/gpu',"GPUController");
+Route::resource('/customer','CustomerController');
+// Bảo hành
+Route::resource('/warranty','WarrantyController');
+Route::resource('/warranty/log','WarrantyLogController');
 
 
