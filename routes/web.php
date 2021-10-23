@@ -11,6 +11,7 @@ use App\Model\Admin;
 use App\Model\Category;
 use App\Model\Customer;
 use App\Model\Role;
+use App\Model\Slider;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -100,6 +101,12 @@ Route::get('discount/{slug}',function(){
 Route::get('promotion/{slug}',function(){
     //làm gì đó
 })->name('promotion.show');
+
+//xem slider
+Route::get('test/slider', function(){
+    $slider = Slider::where('status',1)->get();
+    return view("slidertest",compact('slider'));
+});
 //end test
 Route::resource('/product','ProductController');
 Route::resource('/cpu',"CPUController");
@@ -109,4 +116,7 @@ Route::resource('/customer','CustomerController');
 Route::resource('/warranty','WarrantyController');
 Route::resource('/warranty/log','WarrantyLogController');
 
+//slider
+Route::resource('/slider','SliderController');
+Route::post('slider/stt','SliderController@changeStatus')->name('slider.stt');
 
