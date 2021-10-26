@@ -119,4 +119,6 @@ Route::resource('/warranty/log','WarrantyLogController');
 //slider
 Route::resource('/slider','SliderController');
 Route::post('slider/stt','SliderController@changeStatus')->name('slider.stt');
-
+//banner
+Route::resource('/banner','BannerController');
+Route::post('banner/stt','BannerController@changeStatus')->name('banner.stt');
