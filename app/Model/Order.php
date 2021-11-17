@@ -10,7 +10,7 @@ class Order extends Model
     //
     use SoftDeletes;
     protected $table="order";
-    protected $fillable=["customer"];
+    protected $fillable=["customer","admin","address"];
 
     public function detail(){
         return $this->hasMany("App\Model\OrderDetail","order");

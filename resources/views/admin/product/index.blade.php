@@ -43,7 +43,9 @@
     </div>
 <script>
     $(document).ready(()=>{
-        $('#productTable').DataTable();
+        $('#productTable').DataTable({
+            "aaSorting": []
+        });
 
     })
 </script>
