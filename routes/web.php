@@ -122,3 +122,7 @@ Route::post('slider/stt','SliderController@changeStatus')->name('slider.stt');
 //banner
 Route::resource('/banner','BannerController');
 Route::post('banner/stt','BannerController@changeStatus')->name('banner.stt');
+//order
+Route::resource('/order','OrderController');
+Route::post('/order/search-product','OrderController@searchProduct')->name('order.search_product');
+

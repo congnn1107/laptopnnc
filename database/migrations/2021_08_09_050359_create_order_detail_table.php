@@ -19,6 +19,8 @@ class CreateOrderDetailTable extends Migration
             $table->unsignedBigInteger("product");
             $table->integer("quantity",false,true)->default(0);
             $table->integer("price",false,true)->default(0);
+            $table->integer("discounted",false,true)->default(0);
+            $table->integer("final_price",false,true)->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
