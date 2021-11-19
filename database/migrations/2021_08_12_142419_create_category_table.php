@@ -20,6 +20,7 @@ class CreateCategoryTable extends Migration
             $table->integer("level")->default(0);
             $table->timestamps();
             $table->string('slug');
+            $table->string('image')->nullable();
             $table->softDeletes();
         });
     }

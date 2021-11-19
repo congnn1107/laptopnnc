@@ -42,6 +42,9 @@ class CreateProductTable extends Migration
             $table->string("operating_system")->nullable();
             $table->mediumText("describe")->nullable();
             $table->unsignedBigInteger("status")->nullable()->default(3);
+            $table->double('import_price')->nullable();
+            $table->double('sell_price')->nullable();
+            $table->integer('quantity')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

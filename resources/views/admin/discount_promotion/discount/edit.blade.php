@@ -28,18 +28,14 @@
                         <div class="form-group">
                             <label>Giảm giá theo</label>
                             <div>
-                                <div class="radio-inline">
-                                    <label>
-                                        <input type="radio" name="type" value="1" checked>
-                                        Phần trăm
-                                    </label>
-                                </div>
-                                <div class="radio-inline">
-                                    <label>
-                                        <input type="radio" name="type" value="2" {{ $discount->type == 2 ? 'checked' : '' }}>
-                                        Số tiền
-                                    </label>
-                                </div>
+                                @foreach ($typeList as $index => $type)
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="type" value="{{ $index }}" {{ $discount->type == $index? 'checked':'' }}>
+                                            {{ $type }}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -75,6 +71,10 @@
                             @enderror
                         </div>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Đường dẫn:</label>
+                    <input type="text" name="url" id="" value="{{ $discount->url) }}" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="">Nội dung chương trình khuyến mại</label>

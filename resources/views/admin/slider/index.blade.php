@@ -33,6 +33,33 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Phân loại:</label>
+                            <div>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" name="type" id="" value="1" checked>
+                                        Slider
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" name="type" id="" value="2" {{ old('type')==2?'checked':'' }}>
+                                        Banner
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Vị trí</label>
+                            <input type="number" name="position" min="1" max="15" id="" value="{{ old('position') }}" class="form-control">
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="">Đường dẫn URL:</label>
                     <input type="text" name="url" class="form-control" id="">

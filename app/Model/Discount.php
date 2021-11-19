@@ -11,7 +11,7 @@ class Discount extends Model
     use SoftDeletes;
     protected $table="discount";
     protected $fillable=[
-        "title","content",'type',"discounted_rate",'discounted_amount','expired_at'
+        "title","content",'type',"discounted_rate",'discounted_amount','expired_at','url'
     ];
 
     function detail(){

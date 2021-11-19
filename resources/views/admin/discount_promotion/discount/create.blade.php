@@ -4,7 +4,7 @@
     <div class="box box-primary">
         <div class="box-header with-border">
             <span class="h4 text-purple">
-                Tạo chương trình giảm giá
+                Tạo chương trình khuyến mại
             </span>
         </div>
         <div class="box-body">
@@ -24,18 +24,16 @@
                         <div class="form-group">
                             <label>Giảm giá theo</label>
                             <div>
-                                <div class="radio-inline">
-                                    <label>
-                                        <input type="radio" name="type" value="1" checked>
-                                        Phần trăm
-                                    </label>
-                                </div>
-                                <div class="radio-inline">
-                                    <label>
-                                        <input type="radio" name="type" value="2" {{ old('type') == 2 ? 'checked' : '' }}>
-                                        Số tiền
-                                    </label>
-                                </div>
+                                @foreach ($typeList as $index => $type)
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="type" value="{{ $index }}" {{ old('type') == $index? 'checked':'' }}>
+                                            {{ $type }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                                
+        
                             </div>
                         </div>
                     </div>
@@ -71,6 +69,10 @@
                             @enderror
                         </div>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Đường dẫn:</label>
+                    <input type="text" name="url" id="" value="{{ old('url') }}" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="">Nội dung chương trình khuyến mại</label>

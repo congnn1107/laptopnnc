@@ -20,7 +20,7 @@ class Product extends Model
         "bluetooth","wifi","connection_jacks",
         "keyboard","addition","battery",
         "color","operating_system","describe",
-        "status"
+        "status", "import_price","sell_price","quantity"
     ];
 
     public function cpu(){

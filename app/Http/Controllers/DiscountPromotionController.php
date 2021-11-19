@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Model\Discount;
 use App\Model\DiscountedProduct;
 use App\Model\Product;
-use App\Model\Promotion;
-use App\Model\PromotionProduct;
 use DateTime;
 use Illuminate\Http\Request;
 
@@ -14,27 +12,26 @@ class DiscountPromotionController extends Controller
 {
     //
     protected $discountList;
-    protected $promotionList;
+    protected $typeList;
     public function __construct()
     {
         $this->discountList = Discount::all();
-        $this->promotionList = Promotion::all();
+        $this->typeList = ['Phần trăm', 'Số tiền', 'Tặng quà'];
     }
     public function index()
     {
         return view('admin.discount_promotion.index', [
             'discountList' => $this->discountList,
-            'promotionList' => $this->promotionList
         ]);
     }
     public function createDiscount()
     {
-        return view('admin.discount_promotion.discount.create');
+        return view('admin.discount_promotion.discount.create',['typeList'=> $this->typeList]);
     }
     public function storeDiscount(Request $request)
     {
         $request->validate([]);
-        $options = $request->all(['title', 'type', 'discounted_rate', 'discounted_amount', 'expired_at', 'content']);
+        $options = $request->all(['title', 'type', 'discounted_rate', 'discounted_amount', 'expired_at', 'content','url']);
         $result = Discount::create($options);
         if ($result) {
             return back()->with('success', 'Đã thêm chương trình khuyến mại!');
@@ -49,7 +46,7 @@ class DiscountPromotionController extends Controller
         if ($discount) {
             $productList = Product::all('id', 'name', 'sku');
 
-            return view('admin.discount_promotion.discount.edit', compact('discount', 'productList'));
+            return view('admin.discount_promotion.discount.edit', ['discount' => $discount, 'productList'=>$productList,'typeList'=>$this->typeList]);
         } else {
             return back()->with('error', 'Không thể truy cập trang!');
         }
@@ -59,7 +56,7 @@ class DiscountPromotionController extends Controller
         // dd($request->input(), $id);
         $discount = Discount::findOrFail($id);
         if($discount){
-            $options = $request->all('title','type','discounted_rate','discounted_amount','expired_at','content');
+            $options = $request->all('title','type','discounted_rate','discounted_amount','expired_at','content','url');
             if($discount->update($options)){
                 return back()->with('success','Đã lưu thay đổi!');
             }
@@ -97,80 +94,6 @@ class DiscountPromotionController extends Controller
     public function destroyDiscount(Request $request)
     {
 
-    }
-
-    //Promotion
-
-    public function createPromotion()
-    {
-        return view('admin.discount_promotion.promotion.create');
-    }
-    public function storePromotion(Request $request){
-        $request->validate([
-
-        ]);
-        $options = $request->all('title','expired_at','content');
-
-        if(Promotion::create($options)){
-            return back()->with('success','Đã thêm dữ liệu!');
-        }
-
-        return back()->with('error','Có lỗi xảy ra!');
-    }
-
-    public function editPromotion($id)
-    {
-
-        $promotion = Promotion::findOrFail($id);
-        if ($promotion) {
-            $productList = Product::all('id', 'name', 'sku');
-
-            return view('admin.discount_promotion.promotion.edit', compact('promotion', 'productList'));
-        } else {
-            return back()->with('error', 'Không thể truy cập trang!');
-        }
-    }
-
-    public function updatePromotion(Request $request, $id)
-    {
-        // dd($request->input(), $id);
-        $promotion = Promotion::findOrFail($id);
-        if($promotion){
-            $options = $request->all('title','expired_at','content');
-            if($promotion->update($options)){
-                return back()->with('success','Đã lưu thay đổi!');
-            }
-        }
-
-        return back()->with('error','Có lỗi xảy ra!');
-    }
-
-    public function addProductsToPromotion(Request $request, $id)
-    {
-        // dd($request->input(),$id);
-        /**
-         * TODO
-         * Thêm danh sách sản phẩm vào bảng discounted_product => done
-         */
-
-        $filtered = array_filter($request->input('products'), function ($product) {
-            return isset($product['checked']);
-        });
-        if (!empty($filtered)) {
-            $mapped = array_map(function ($key, $value) use ($id) {
-                return ['product' => $key, 'promotion' => $id, 'quantity' => $value['quantity'] ?? 0, 'created_at' => new DateTime()];
-            }, array_keys($filtered), array_values($filtered));
-
-            PromotionProduct::where('promotion', $id)->forceDelete();
-            // dd($mapped);
-            if (PromotionProduct::insert($mapped)) {
-                return back()->with('success', 'Đã lưu thay đổi!');
-            }
-
-
-            return back()->with('error', 'Có lỗi xảy ra!');
-        }
-        return back();
     }
 }
 

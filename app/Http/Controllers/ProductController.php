@@ -101,7 +101,10 @@ class ProductController extends Controller
             "battery",
             "color",
             "operating_system",
-            "describe"
+            "describe",
+            "import_price",
+            "sell_price",
+            "quantity"
         );
         //xử lý slug
         $options['slug'] = Str::slug($options['name']);
@@ -216,7 +219,10 @@ class ProductController extends Controller
                     "battery",
                     "color",
                     "operating_system",
-                    "describe"
+                    "describe",
+                    "import_price",
+                    "sell_price",
+                    "quantity"
                 ]
             );
             //lấy categories

@@ -18,6 +18,8 @@ class CreateSliderTable extends Migration
             $table->string("image");
             $table->string("url")->nullable();
             $table->integer("status")->default(0);
+            $table->integer("position")->nullable();
+            $table->integer("type")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -369,6 +369,27 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
+                <h4 class="text-muted">Thông tin kho:</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Giá nhập: </label>
+                        <input type="text" name="import_price" id="" class="form-control" value="{{ $product->import_price }}">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Giá bán: </label>
+                        <input type="text" name="sell_price" id="" class="form-control" value="{{ $product->sell_price }}">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Số lượng: </label>
+                        <input type="text" name="quantity" id="" class="form-control" value="{{ $product->quantity }}">
+                    </div>
+                </div>
+            </div>
                 <div class="form-group text-center">
                     <button type="submit" class="form-button btn bg-purple">Lưu</button>
                 </div>

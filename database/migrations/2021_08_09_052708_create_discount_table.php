@@ -21,6 +21,7 @@ class CreateDiscountTable extends Migration
             $table->double("discounted_rate")->nullable()->default(0);
             $table->integer('discounted_amount')->nullable()->default(0);
             $table->dateTime("expired_at");
+            $table->string("url")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

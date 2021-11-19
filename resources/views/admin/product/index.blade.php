@@ -25,7 +25,9 @@
                             <td>{{ $product->sku }}</td>
                             <td>{{ $product->created_at }}</td>
 
-                            <td class="text-center"><a class="btn btn-success" title="Sửa thông tin"
+                            <td class="text-center">
+                                <a href="{{ route('products.show_image',$product->id) }}" class="btn btn-warning" title="Quản lý hình ảnh"><i class="fa fa-picture-o"></i></a>
+                                <a class="btn btn-success" title="Sửa thông tin"
                                     href="{{ route('product.edit', $product->id) }}"><i class="fa fa-pencil"></i></a>
 
                                 <form style="display:inline" action="{{ route('product.destroy', $product->id) }}"
