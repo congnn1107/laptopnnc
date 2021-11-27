@@ -14,24 +14,32 @@
  * @author NNC - Nguyen Ngoc Cong
  * @version 0.2
  */
-function showCategoriesMenu($template,$categoriesList,$selected=[],$current_category=0,$parent_id=0,$level=0){
+function showCategoriesMenu($template, $categoriesList, $selected = [], $current_category = 0, $parent_id = 0, $level = 0)
+{
 
-        
-        foreach($categoriesList->where("parent_id",$parent_id) as $category){
-            if($category->id==$current_category) return;
-            //check selected
-            $str = in_array($category->id,$selected)?"selected":"";
-            //html template here
-            if($template==0){
-                echo getSelectOptionTemplate($category,$str,$level);
-            }else{
-                echo getNavMenuTemplate($category);
+
+    foreach ($categoriesList->where("parent_id", $parent_id) as $category) {
+        if ($category->id == $current_category) return;
+        //check selected
+        $str = in_array($category->id, $selected) ? "selected" : "";
+        //html template here
+        if ($template == 0) {
+            echo getSelectOptionTemplate($category, $str, $level);
+            if ($category->childs) {
+                showCategoriesMenu($template, $category->childs, $selected, $current_category, $category->id, $level + 1);
             }
+        } else {
 
-            if($category->childs){
-                showCategoriesMenu($template,$category->childs,$selected,$current_category,$category->id,$level+1);
+            if ($category->childs()->count()>0) {
+
+                echo getNavMenuTemplate($category, 1);
+                showCategoriesMenu($template, $category->childs, $selected, $current_category, $category->id, $level + 1);
+                echo "</ul></div></li>";
+            } else {
+                echo getNavMenuTemplate($category, 0);
             }
         }
+    }
 }
 /**
  * Lấy mẫu options cho select các category
@@ -43,8 +51,9 @@ function showCategoriesMenu($template,$categoriesList,$selected=[],$current_cate
  * @author NNC
  * @version 0.1
  */
-function getSelectOptionTemplate($category,$str,$level){
-    return '<option value="'.$category->id.'"'.$str.'>'.str_repeat("&nbsp;",$level*3).$category->name.'</option>';
+function getSelectOptionTemplate($category, $str, $level)
+{
+    return '<option value="' . $category->id . '"' . $str . '>' . str_repeat("&nbsp;", $level * 3) . $category->name . '</option>';
 }
 /**
  * Lấy mẫu Menu item cho các categories ở nav bar menu
@@ -54,6 +63,11 @@ function getSelectOptionTemplate($category,$str,$level){
  * @author NNC
  * @version 0.0
  */
-function getNavMenuTemplate($category){
-    return "";
+function getNavMenuTemplate($category, $isDropDown = 0)
+{
+    if ($isDropDown == 0) {
+        return '<li><a href="#">' . $category->name . '</a></li>';
+    }else{
+        return '<li class="dropdown-submenu"><a href="#">'. $category->name .'</a><div class="dropdown-menu"><ul>';
+    }
 }

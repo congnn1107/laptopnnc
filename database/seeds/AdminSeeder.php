@@ -22,6 +22,8 @@ class AdminSeeder extends Seeder
         $admin->username="nncpro";
         $admin->email="nncpro@gmail.com";
         $admin->password = Hash::make("12345678");
+        $admin->phone="0352765398";
+        $admin->address="Trâu Quỳ, Gia Lâm, Hà Nội";
         $admin->save();
     }
 }

@@ -2,7 +2,7 @@
 
 use App\Model\Product;
 use Illuminate\Database\Seeder;
-use App\Model\ProductStatus;
+// use App\Model\ProductStatus;
 class ProductStatusSeeder extends Seeder
 {
     /**

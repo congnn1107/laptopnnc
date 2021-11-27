@@ -6,7 +6,7 @@
         </div>
         <div class="box-body">
             <div style="margin-bottom: 15px">
-                <a href="{{ route('promotion.d.create') }}"><button class="btn btn-info">Tạo chương trình giảm giá</button></a>
+                <a href="{{ route('promotion.create') }}"><button class="btn btn-info">Tạo chương trình giảm giá</button></a>
             </div>
             <table class="table" id="discountTable">
                 <thead>
@@ -30,8 +30,8 @@
                            <td>{{ $discount->expired_at }}</td>
                            <td>{{ route('discount.show',Str::slug($discount->title)) }}</td>
                            <td class="text-center">
-                                <a href="{{ route('promotion.d.edit',$discount->id) }}"><button class="btn"><i class="fa fa-pencil-square-o"></i></button></a>
-                                <form style="display: inline" action="{{ route('promotion.d.destroy') }}" method="post">
+                                <a href="{{ route('promotion.edit',$discount->id) }}"><button class="btn"><i class="fa fa-pencil-square-o"></i></button></a>
+                                <form style="display: inline" action="{{ route('promotion.destroy') }}" method="post">
                                     @csrf
                                     @method('put')
                                     <input type="hidden" name="id" id="" value="{{ $discount->id }}">

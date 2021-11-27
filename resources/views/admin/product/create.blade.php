@@ -226,6 +226,7 @@
                 <div class="form-group col-md-6">
                     <label for="">GPU Rời (nếu có)</label>
                     <select name="gpu" id="slGPU" class="form-control">
+                        <option value="0">Không có</option>
                         @foreach($gpuList as $gpu)
                         <option value="{{$gpu->id}}" {{old('gpu')==$gpu->id?'selected':''}}>{{$gpu->branch}} {{$gpu->name}} - {{$gpu->graph_memory_cap}}</option>
                         @endforeach

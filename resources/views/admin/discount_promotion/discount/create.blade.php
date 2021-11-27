@@ -8,7 +8,7 @@
             </span>
         </div>
         <div class="box-body">
-            <form action="{{ route('promotion.d.store') }}" method="post" class="form">
+            <form action="{{ route('promotion.store') }}" method="post" class="form">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">

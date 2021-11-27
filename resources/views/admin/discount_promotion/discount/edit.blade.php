@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="box-body">
-            <form action="{{ route('promotion.d.update',$discount->id) }}" method="post" class="form">
+            <form action="{{ route('promotion.update',$discount->id) }}" method="post" class="form">
                 @csrf
                 @method('put')
                 <div class="row">
@@ -96,7 +96,7 @@
             </span>
         </div>
         <div class="box-body">
-            <form action="{{ route('promotion.d.products',$discount->id) }}" method="post" class="form">
+            <form action="{{ route('promotion.products',$discount->id) }}" method="post" class="form">
                 @csrf
                 <table class="table" id="productTable">
                     <thead>
