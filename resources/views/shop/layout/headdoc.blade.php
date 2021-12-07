@@ -13,7 +13,6 @@
     <!-- Bootstrap -->
     <link href="{{asset('shop/assets/css/bootstrap.css')}}" rel="stylesheet">
     <link href="{{asset('shop/assets/css/custom.css')}}" rel="stylesheet">
-    <link href="{{asset('shop/assets/css/carousel.css')}}" rel="stylesheet">
     <link href="{{asset('shop/assets/ionicons-2.0.1/css/ionicons.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">

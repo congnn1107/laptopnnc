@@ -1,27 +1,27 @@
 @extends('shop.layout.master')
 @section('headdoc')
-@parent
-<link href="{{asset('shop/assets/css/carousel-product.css')}}" rel="stylesheet">
-<style>
-    h1,
-    h2.h1 {
-        font-size: 25px;
-        line-height: 28px;
-        word-break: break-all;
-    }
+    @parent
+    <link href="{{ asset('shop/assets/css/carousel-product.css') }}" rel="stylesheet">
+    <style>
+        h1,
+        h2.h1 {
+            font-size: 25px;
+            line-height: 28px;
+            word-break: break-all;
+        }
 
-    p a img {
-        display: block;
-        width: 100%;
-    }
+        p a img {
+            display: block;
+            width: 100%;
+        }
 
-    .carousel-product>.markers>li {
-        width: 30px;
-        height: 30px;
-        opacity: 0.3;
-    }
+        .carousel-product>.markers>li {
+            width: 30px;
+            height: 30px;
+            opacity: 0.3;
+        }
 
-</style>
+    </style>
 @endsection
 
 @section('title')
@@ -87,7 +87,9 @@
                         <p class="price through">$3 449.99</p>
                         <hr class="offset-md">
 
-                        <button class="btn btn-primary rounded"> <i class="ion-bag"></i> Thêm vào giỏ hàng</button>
+                        <button class="btn btn-primary rounded add-to-cart"
+                            data-url="{{ route('shop.product.addtocart', $product->id) }}"> <i class="ion-bag"></i>
+                            Thêm vào giỏ hàng</button>
                         <button class="btn btn-link"> <i class="ion-ios-heart"></i> Mua sau </button>
                     </div>
                 </div>
@@ -416,16 +418,10 @@
     </div>
 
 @endsection
-@section('script')
+@section('scripts')
     @parent
-    <script src="{{asset('shop/assets/js/carousel-product.js')}}"></script>
+    <script src="{{ asset('shop/assets/js/carousel-product.js') }}"></script>
     <script>
-        $(document).ready(() => {
-            $('scrollable').mCustomScrollbar({
-                axis: "y",
-                theme: "dark",
-                setHeight: 100
-            });
-        });
+
     </script>
 @endsection

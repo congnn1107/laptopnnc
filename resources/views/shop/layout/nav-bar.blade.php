@@ -111,6 +111,11 @@
                 }
             }
 
+            /*cart*/
+            .cart .media-heading{
+                width: 200px;
+                word-break: break-all;
+            }
         </style>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">

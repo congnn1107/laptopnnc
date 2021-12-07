@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Invoice;
 use App\Model\Customer;
 use App\Model\Order;
 use App\Model\OrderDetail;
 use App\Model\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+Use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -43,6 +48,77 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function storeForCustomer(Request $request)
+    {
+        // dd($request);
+        //format address
+        $addressInput = $request->input('address');
+        $address = "";
+        if (isset($addressInput[3])) {
+            $address .= $addressInput[3] . ',';
+        }
+        $address .= " $addressInput[2], $addressInput[1], $addressInput[0]";
+
+        //process customer
+        $customerInput = $request->all('name', 'phone', 'email');
+        $customerInput['address'] = $address;
+        $customer = Customer::where('phone', $customerInput['phone'])->first();
+        if (!$customer) {
+            $customer = Customer::create($customerInput);
+        }
+
+        // dd($customer);
+        //process order detail
+        $productIDs = $request->input('product_id');
+        $qty = $request->input('qty');
+        $details = [];
+        for ($i = 0; $i < count($productIDs); $i++) {
+
+            $product =  Product::findOrFail($productIDs[$i]);
+            // dd($product);
+            //process promotions
+            $price = $product->sell_price;
+            $discounts = $product->discount;
+            $discounted = 0;
+            foreach ($discounts as $discount) {
+                if ($discount->type == 1) {
+                    $discounted += $price * $discount->discounted_rate * 0.01;
+                } else {
+                    $discounted += $discount->discounted_amount;
+                }
+            }
+
+            $details[] = [
+                'product' => $product->id,
+                'quantity' => $qty[$i],
+                'price' => $price,
+                'discounted' => $discounted,
+                'final_price' => ($price - $discounted) * $qty[$i]
+            ];
+            // dd($details);
+        }
+        // dd($details);
+        $orderCode = 'HD'.substr($customer->phone,6).Str::random(6);
+        // dd($orderCode);
+        $order = Order::create(['customer' => $customer->id, 'address' => $address, 'order_code' => $orderCode]);
+        // foreach ($details as $detail) {
+        //     $result = $order->detail()->create($detail);
+        // }
+        $result = $order->detail()->createMany($details);
+        //clear shopping cart
+        Cart::destroy();
+        //todo: gửi mail thông báo đặt hàng thành công
+        $mailContent = [
+            'title' => 'Cảm ơn bạn đã đặt hàng tại shop!',
+            'order' => $order
+        ];
+        
+        Mail::to($customer->email)->send(new Invoice($mailContent));
+
+        return redirect(route('order.show', $order->id))->with('success', 'Đã tạo hóa đơn!');
+        
+    }
+
     public function store(Request $request)
     {
         //
@@ -57,7 +133,7 @@ class OrderController extends Controller
         for ($i = 0; $i < count($productInput['id']); $i++) {
 
             $product =  Product::findOrFail($productInput['id'][$i]);
-            $price = $product->stock()->orderBy('created_at', 'DESC')->first()->sell_price;
+            $price = $product->sell_price;
             $discounts = $product->discount;
             $discounted = 0;
             foreach ($discounts as $discount) {
@@ -82,8 +158,7 @@ class OrderController extends Controller
         //     $result = $order->detail()->create($detail);
         // }
         $result = $order->detail()->createMany($details);
-
-        return redirect(route('order.show',$order->id))->with('success', 'Đã tạo hóa đơn!');
+        return redirect(route('order.show', $order->id))->with('success', 'Đã tạo hóa đơn!');
     }
 
     /**
@@ -96,7 +171,7 @@ class OrderController extends Controller
     {
         //
         $order = Order::findOrFail($id);
-        return view('admin.order.show', ['order'=>$order,'statusArray' => $this->statusArray]);
+        return view('admin.order.show', ['order' => $order, 'statusArray' => $this->statusArray]);
     }
 
 

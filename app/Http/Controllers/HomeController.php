@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Category;
 use App\Model\Product;
 use App\Model\Slider;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -53,6 +54,10 @@ class HomeController extends Controller
     }
     public function contactPage(){
         return view('shop.contact',['categories' => $this->categories]);
+    }
+    public function checkOut(){
+        if(Cart::count()==0) return back();
+        return view('shop.checkout',['categories' => $this->categories]);
     }
     /**
      * Store a newly created resource in storage.

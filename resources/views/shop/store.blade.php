@@ -2,9 +2,7 @@
 @section('headdoc')
     @parent
     <style>
-        .navbar{
-            background-color:  rgba(200,0,0.2)
-        }
+        
     </style>
 @endsection
 @section('title')
@@ -248,7 +246,7 @@
 
                                         <button class="btn btn-sm btn-link"><a href="{{ route('shop.product.show',$item->slug) }}"> <i class="ion-android-open"></i> Xem chi
                                             tiết</a></button>
-                                        <button class="btn btn-primary btn-xs rounded"> <i class="ion-bag"></i>
+                                        <button class="btn btn-primary btn-xs rounded add-to-cart" data-url="{{ route('shop.product.addtocart',$item->id) }}"> <i class="ion-bag"></i>
                                         Thêm vào giỏ</button>
                                     </div>
                                 </div>
@@ -283,3 +281,7 @@
         </div>
 
     @endsection
+@section('scripts')
+    @parent
+    
+@endsection

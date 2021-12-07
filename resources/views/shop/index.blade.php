@@ -2,6 +2,10 @@
 @section('title')
     Trang Chủ
 @endsection
+@section('headdoc')
+    @parent
+    <link href="{{asset('shop/assets/css/carousel.css')}}" rel="stylesheet">
+@endsection
 @section('content')
 <hr class="offset-lg">
     <hr class="offset-lg">
@@ -144,7 +148,7 @@
                             <hr class="offset-sm">
 
                             <button class="btn btn-link"> <i class="ion-android-open"></i> Xem chi tiết</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Thêm vào giỏ hàng</button>
+                            <button class="btn btn-primary btn-sm rounded add-to-cart" data-url="{{ route('shop.product.addtocart',$item->id) }}"> <i class="ion-bag"></i> Thêm vào giỏ hàng</button>
                         </div>
                     </div>
                 </div>
@@ -420,4 +424,8 @@
 
     <hr class="offset-lg">
     <hr class="offset-sm">
+@endsection
+@section('scripts')
+    @parent
+    <script type="text/javascript" src="{{ asset('shop/assets/js/carousel.js') }}"></script>
 @endsection

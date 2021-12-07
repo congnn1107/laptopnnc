@@ -9,6 +9,8 @@ use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Model\ProductCategory;
+use Exception;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -39,7 +41,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $productList = Product::orderBy('created_at','desc')->get();
+        $productList = Product::orderBy('created_at', 'desc')->get();
         return view('admin.product.index', ['productList' => $productList]);
     }
 
@@ -243,15 +245,14 @@ class ProductController extends Controller
             //xử lý slug
             $options['slug'] = Str::slug($options['name']);
 
-            if($product->update($options)){
+            if ($product->update($options)) {
                 $product->save();
-                return back()->with('success','Đã lưu thay đổi!');
-            }else{
-                return back()->with('error','Có lỗi xảy ra!');
+                return back()->with('success', 'Đã lưu thay đổi!');
+            } else {
+                return back()->with('error', 'Có lỗi xảy ra!');
             }
-
-        }else{
-            return back()->with("error","Có gì đó bất ổn");
+        } else {
+            return back()->with("error", "Có gì đó bất ổn");
         }
     }
 
@@ -265,11 +266,75 @@ class ProductController extends Controller
     {
         //
         $result = Product::destroy($id);
-        if($result){
-            return back()->with('success',"Đã xóa sản phẩm $id!");
-        }else{
-            return back()->with('error','Không ổn dồi, có lỗi xảy ra!');
+        if ($result) {
+            return back()->with('success', "Đã xóa sản phẩm $id!");
+        } else {
+            return back()->with('error', 'Không ổn dồi, có lỗi xảy ra!');
         }
-    } 
-}
+    }
 
+    //trang shop
+    //shopping cart
+    public function addToCart($id)
+    {
+        // Cart::destroy();
+        $product = Product::with(['discount'])->findOrFail($id);
+        $items = Cart::search(function ($item, $rowId) use ($id) {
+            return $item->id == $id;
+        });
+        $cartItemData = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'qty' => 1,
+            'price' => $product->sell_price,
+            'weight' => 1,
+            'options' => [
+                'image' => asset('storage/' . $product->card_image),
+                'product_url' => route('shop.product.show', $product->slug),
+                'display_price' => number_format($product->sell_price)
+            ]
+        ];
+        $item = Cart::add($cartItemData);
+        
+        if (count($items) > 0)
+            return response()->json([
+                'type' => 'update',
+                'item' => $item,
+                'total_items' => Cart::count(),
+                '_token' => csrf_token(),
+                'remove_link' => route('shop.product.removecart', $item->rowId)
+            ]);
+        return response()->json([
+            'type' => 'create',
+            'item' => $item,
+            'total_items' => Cart::count(),
+            '_token' => csrf_token(),
+            'remove_link' => route('shop.product.removecart', $item->rowId)
+        ]);
+    }
+
+    public function updateQuantityCartItem(Request $request)
+    {
+        try {
+
+            $result = Cart::update($request->rowId, $request->qty);
+            return response()->json(['type' => 'update', 'total_items' => Cart::count()]);
+        } catch (Exception $e) {
+            return response('Item not found!', 404);
+        }
+    }
+    public function removeCartItem($id)
+    {
+        try {
+            $result =  Cart::remove($id);
+            return response()->json([
+                'type' => 'delete',
+                'success' => true,
+                'total_items' => Cart::count(),
+                'result' => $result
+            ]);
+        } catch (Exception $e) {
+            return response('Item not found', 404);
+        }
+    }
+}

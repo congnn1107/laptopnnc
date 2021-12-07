@@ -15,6 +15,7 @@ class CreateOrderTable extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id()->autoIncrement();
+            $table->string('order_code')->unique();
             $table->integer("status")->default(1);//0 = đã hủy, 1 = chờ xác nhận, 2 = đã xác nhận, 3 = đang giao hàng, 4 = đã giao hàng, 5 = đã xóa
             $table->unsignedBigInteger("customer");
             $table->string("address")->nullable();
@@ -33,6 +34,7 @@ class CreateOrderTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('order');
     }
 }

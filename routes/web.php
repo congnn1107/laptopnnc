@@ -7,11 +7,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\DiscountPromotionController;
+use App\Mail\Invoice;
 use App\Model\Admin;
 use App\Model\Category;
 use App\Model\Customer;
 use App\Model\Role;
 use App\Model\Slider;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,19 +42,31 @@ Route::get('/test-master', function () {
     return view('admin.layout.master');
 });
 
-Route::get("/",'HomeController@index')->name('shop.index');
-Route::get("/san-pham",'HomeController@storePage')->name('shop.product.index');
-Route::get("/lien-he",'HomeController@contactPage')->name('shop.contact');
-Route::get('/san-pham/{slug}.html','HomeController@showProduct')->name('shop.product.show');
+Route::get("/", 'HomeController@index')->name('shop.index');
+Route::get("/san-pham", 'HomeController@storePage')->name('shop.product.index');
+Route::get("/lien-he", 'HomeController@contactPage')->name('shop.contact');
+Route::get('/san-pham/{slug}.html', 'HomeController@showProduct')->name('shop.product.show');
+Route::get('/add-to-cart/{id}', 'ProductController@addToCart')->name('shop.product.addtocart');
+Route::get('/checkout', 'HomeController@checkOut')->name('shop.checkout');
+Route::post('/dat-hang', 'OrderController@storeForCustomer')->name('shop.order');
+Route::post('/update-cart', 'ProductController@updateQuantityCartItem')->name('shop.product.update_qty_cart');
+Route::get('/remove-cart-item/{id}', 'ProductController@removeCartItem')->name('shop.product.removecart');
+Route::get('/clear-cart', function () {
+    Cart::destroy();
+    return back();
+});
 //end test
 
 Route::prefix("admin")->group(function () {
-
+    Route::middleware(['admin.afterlogin'])->group(function () {
+        Route::get("/login", [DashboardController::class, "login"])->name("admin.login");
+        Route::post("/login", [DashboardController::class, "checkLogin"])->name("admin.check");
+    });
+    Route::get("/logout", [DashboardController::class, "logout"])->name("admin.logout");
     Route::middleware(['admin.login'])->group(function () {
         Route::get("/dashboard", [DashboardController::class, "dashboard"])->name("admin.dashboard");
         Route::get("/", [DashboardController::class, "dashboard"]);
-        Route::get("/login", [DashboardController::class, "login"])->name("admin.login");
-        Route::post("/login", [DashboardController::class, "checkLogin"])->name("admin.check");
+
         Route::get('/admins/json-list', 'AdminController@getDataList')->name('admins.getdatalist');
         Route::resource('admins', "AdminController");
         //quản lý ảnh sản phẩm
@@ -91,7 +106,6 @@ Route::prefix("admin")->group(function () {
         Route::resource('/order', 'OrderController');
         Route::post('/order/search-product', 'OrderController@searchProduct')->name('order.search_product');
     });
-    Route::get("/logout", [DashboardController::class, "logout"])->name("admin.logout");
 });
 
 //khách: xem chương trình khuyến mại (test)

@@ -7,25 +7,25 @@
                 <div class="col-xs-6 col-sm-3">
                     <div class="item">
                         <i class="ion-ios-telephone-outline"></i>
-                        <h1>24/7 free <br> <span>support</span></h1>
+                        <h1>24/7 <br> <span>Hỗ trợ</span></h1>
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-3">
                     <div class="item">
                         <i class="ion-ios-star-outline"></i>
-                        <h1>Low price <br> <span>guarantee</span></h1>
+                        <h1>Cạnh tranh <br> <span>Giá bán</span></h1>
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-3">
                     <div class="item">
                         <i class="ion-ios-gear-outline"></i>
-                        <h1> Manufacturer’s <br> <span>warranty</span></h1>
+                        <h1> Chính hãng <br> <span>Bảo hành</span></h1>
                     </div>
                 </div>
                 <div class="col-xs-6 col-sm-3">
                     <div class="item">
                         <i class="ion-ios-loop"></i>
-                        <h1> Full refund <br> <span>guarantee</span> </h1>
+                        <h1> Hoàn tiền 100% <br> <span>Cam kết</span> </h1>
                     </div>
                 </div>
 
@@ -38,8 +38,8 @@
         <div class="container align-center">
             <hr class="offset-md">
 
-            <h1 class="h3 upp">Join our newsletter</h1>
-            <p>Get more information and receive special discounts for our products.</p>
+            <h1 class="h3 upp">tin tức từ chúng tôi</h1>
+            <p>Nhận email thông báo về thông tin sản phẩm và các khuyến mãi hấp dẫn.</p>
             <hr class="offset-sm">
 
             <form action="index.php" method="post">
@@ -47,7 +47,7 @@
                     <input type="email" name="email" value="" placeholder="E-mail" required=""
                         class="form-control">
                     <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary"> Subscribe <i class="ion-android-send"></i>
+                        <button type="submit" class="btn btn-primary"> Đăng ký <i class="ion-android-send"></i>
                         </button>
                     </span>
                 </div><!-- /input-group -->
@@ -76,43 +76,33 @@
 
         <div class="row menu">
             <div class="col-sm-3 col-md-2">
-                <h1 class="h4">Information <i
+                <h1 class="h4">Thông tin <i
                         class="ion-plus-round hidden-sm hidden-md hidden-lg"></i> </h1>
 
                 <div class="list-group">
-                    <a href="#" class="list-group-item">About</a>
-                    <a href="#" class="list-group-item">Terms</a>
-                    <a href="#" class="list-group-item">How to order</a>
-                    <a href="#" class="list-group-item">Delivery</a>
+                    <a href="#" class="list-group-item">Về chúng tôi</a>
+                    <a href="#" class="list-group-item">Điều khoản</a>
+                    <a href="#" class="list-group-item">Hướng dẫn đặt hàng</a>
+                    <a href="#" class="list-group-item">Chính sách giao hàng</a>
                 </div>
             </div>
             <div class="col-sm-3 col-md-2">
-                <h1 class="h4">Products <i class="ion-plus-round hidden-sm hidden-md hidden-lg"></i>
+                <h1 class="h4">Hỗ trợ <i class="ion-plus-round hidden-sm hidden-md hidden-lg"></i>
                 </h1>
 
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Laptops</a>
-                    <a href="#" class="list-group-item">Tablets</a>
-                    <a href="#" class="list-group-item">Servers</a>
-                </div>
-            </div>
-            <div class="col-sm-3 col-md-2">
-                <h1 class="h4">Support <i class="ion-plus-round hidden-sm hidden-md hidden-lg"></i>
-                </h1>
-
-                <div class="list-group">
-                    <a href="#" class="list-group-item">Returns</a>
+                    <a href="#" class="list-group-item">Trả hàng</a>
                     <a href="#" class="list-group-item">FAQ</a>
-                    <a href="#" class="list-group-item">Contacts</a>
+                    <a href="#" class="list-group-item">Liên hệ</a>
                 </div>
             </div>
             <div class="col-sm-3 col-md-2">
-                <h1 class="h4">Location</h1>
+                <h1 class="h4">Địa điểm</h1>
 
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Language
+                        Ngôn ngữ
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -127,7 +117,7 @@
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Currency
+                        Tiền tệ
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -140,17 +130,17 @@
 
             </div>
             <div class="col-sm-3 col-md-3 col-md-offset-1 align-right hidden-sm hidden-xs">
-                <h1 class="h4">Unistore Pro, Inc.</h1>
+                <h1 class="h4">NNC Shop.</h1>
 
                 <address>
                     1305 Market Street, Suite 800<br>
                     San Francisco, CA 94102<br>
-                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                    <abbr title="Phone">P:</abbr> (035) 276-6398
                 </address>
 
                 <address>
-                    <strong>Support</strong><br>
-                    <a href="mailto:#">sup@example.com</a>
+                    <strong>Hỗ trợ</strong><br>
+                    <a href="mailto:#">nngoccong.nncpro@gmail.com</a>
                 </address>
 
             </div>
@@ -162,7 +152,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-8 col-md-9 payments">
-                <p>Pay your order in the most convenient way</p>
+                <p>Thanh toán tiện lợi</p>
 
                 <div class="payment-icons">
                     <img src="shop/assets/img/payments/paypal.svg" alt="paypal">
