@@ -31,7 +31,7 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
                     if (empty.length > 0) {
                         empty.remove();
                         $('.checkout-box').append(
-                            '<a class="btn btn-primary" href="checkout/"> Mua hàng </a>')
+                            '<a class="btn btn-primary" href="{{route('shop.checkout')}}"> Mua hàng </a>')
 
                     }
 
@@ -72,7 +72,7 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
                     let qty = $('#qty-' + result.item.id);
                     qty.val(parseInt(qty.val()) + 1);
                 }
-                let items_quantity = $('#items-quantity');
+                let items_quantity = $('.items-quantity');
                 items_quantity.text(result.total_items);
 
             },
@@ -95,7 +95,7 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
                         '<h4 class="text-center">Bạn chưa có sản phẩm nào trong giỏ hàng!</h4>');
                     $('.checkout-box').empty();
                 }
-                $('#items-quantity').text(result.total_items);
+                $('.items-quantity').text(result.total_items);
             },
             error: function(response) {
                 //
@@ -142,3 +142,54 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
         });
     })
 </script>
+
+<script>
+    //xử lí tìm kiếm sản phẩm
+    $(document).ready(()=>{
+        $('#txtSearch').keypress(function(event){
+            
+            let searchKey = this.value;
+            if(searchKey.trim() != ''){
+
+                searchUrl = `{{route('shop.livesearch')}}?q=${searchKey}`;
+                if(event.key=='Enter'){
+                    console.log(searchKey);
+                    location.href=`{{route('shop.product.index')}}?q=${searchKey}`;
+                }
+                
+               
+               //xử lí live search
+                    $.ajax({
+                    url: searchUrl,
+                    method: 'get',
+                    success: function(result){
+                        console.log(result)
+                    },
+                    error: function(response){
+                        console.log('error!',response)
+                        // hiển thị tên và link sản phẩm chỗ khung tìm kiếm
+                    }
+                })
+               
+                
+
+            }
+            
+        })
+    })
+</script>
+{{-- Xử lí form đăng nhập đăng ký khi lỗi --}}
+@if ($errors->register->any())
+<script>
+    $(document).ready(()=>{
+        $('#btnRegister').click();
+    })
+</script>
+@endif
+@if ($errors->login->any())
+<script>
+    $(document).ready(()=>{
+        $('#btnLogin').click();
+    })
+</script>
+@endif

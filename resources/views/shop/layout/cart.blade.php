@@ -1,6 +1,6 @@
 <div class="cart" data-toggle="inactive">
     <div class="label">
-        <i class="ion-bag"></i> <span id="items-quantity"> {{ Cart::count() }}</span>
+        <i class="ion-bag"></i> <span class="items-quantity"> {{ Cart::count() }}</span>
     </div>
 
     <div class="overlay"></div>
@@ -58,7 +58,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 align-right checkout-box">
                     @if (Cart::count()>0)
-                    <a class="btn btn-primary" href="checkout/"> Mua hàng </a>
+                    <a class="btn btn-primary" href="{{route('shop.checkout')}}"> Mua hàng </a>
                     @endif
                 </div>
             </div>

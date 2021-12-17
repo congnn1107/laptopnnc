@@ -44,7 +44,8 @@ class SliderController extends Controller
         $request->validate([], []);
         $status = $request->status ? 1 : 0;
         $imagePath = $request->file('image')->store('images/slider', 'public');
-        $options = ['status' => $status, 'image' => $imagePath, 'url' => $request->url];
+    
+        $options = ['status' => $status,'position'=>$request->input('position'), 'image' => $imagePath, 'url' => $request->url, 'type' =>  $request->input('type')];
         if (Slider::create($options)) {
             return back()->with('success', 'Đã lưu!');
         } else {
@@ -126,6 +127,8 @@ class SliderController extends Controller
     public function destroy($id)
     {
         //
+        $slide = Slider::findOrFail($id);
+        Storage::disk('public')->delete($slide->image);
         if (Slider::destroy($id)) {
             return back()->with('success', 'Đã xóa slide');
         } else {

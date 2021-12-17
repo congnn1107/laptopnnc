@@ -67,5 +67,7 @@ class Kernel extends HttpKernel
         //addition
         "admin.login" => \App\Http\Middleware\AdminLoginCheck::class,
         "admin.afterlogin" => \App\Http\Middleware\AfterLogin::class,
+        "shop.checkLogin" =>\App\Http\Middleware\CheckUserLogin::class,
+        "shop.preventLogin" =>\App\Http\Middleware\PreventUserLogin::class,
     ];
 }

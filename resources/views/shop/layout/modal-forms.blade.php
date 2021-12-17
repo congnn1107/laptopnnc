@@ -9,32 +9,38 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
-                            <h2 class="modal-title text-center">Sign In</h2>
+                            <h2 class="modal-title text-center">Đăng nhập</h2>
+                            @error('msg','login')
+                            <div class="alert alert-danger">
+                                {{$message}}
+                            </div>
+                            @enderror
                             <br>
 
-                            <form class="signin" action="index.php" method="post">
-                                <input type="email" name="email" value="" placeholder="E-mail" required=""
+                            <form class="signin" action="{{ route('shop.login') }}" method="post">
+                                <input type="email" name="email" value="{{old('email')}}" placeholder="Email" required=""
                                     class="form-control" />
                                 <br>
-                                <input type="password" name="password" value="" placeholder="Password" required=""
+                                @csrf
+                                <input type="password" name="password" value="" placeholder="Mật khẩu" required=""
                                     class="form-control" />
                                 <br>
 
-                                <button type="submit" class="btn btn-primary">Ok</button>
-                                <a href="#forgin-password" data-action="Forgot-Password">Password recovery ></a>
+                                <button type="submit" class="btn btn-primary">OK</button>
+                                <a href="#forgin-password" data-action="Forgot-Password">Quên mật khẩu? ></a>
                             </form>
                             <br>
 
-                            <div class="social-login">
+                            {{-- <div class="social-login">
                                 <div class="or">
-                                    <p>OR</p>
+                                    <p>Hoặc</p>
                                 </div>
                                 <a href="#"><i class="icon"
                                         data-src="shop/assets/img/icons/facebook.svg"></i></a>
-                                <p>via</p>
+                                <p>&</p>
                                 <a href="#"><i class="icon"
                                         data-src="shop/assets/img/icons/google-plus.svg"></i></a>
-                            </div>
+                            </div> --}}
                             <br><br>
                         </div>
                     </div>
@@ -57,33 +63,62 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
-                            <h2 class="modal-title text-center">Registration</h2>
+                            <h2 class="modal-title text-center">Đăng ký tài khoản</h2>
                             <br>
 
-                            <form class="join" action="index.php" method="post">
-                                <input type="text" name="name" value="" placeholder="Name" required=""
-                                    class="form-control" />
-                                <br>
+                            <form class="join" action="{{ route('shop.register') }}" method="post">
+                                @csrf
 
-                                <input type="email" name="email" value="" placeholder="E-mail" required=""
-                                    class="form-control" />
-                                <br>
+                                <div class="form-group @error('name', 'register') has-error @enderror">
+                                    <input type="text" name="name" value="{{ old('name') }}" placeholder="Họ tên"
+                                        required="" class="form-control" />
+                                    <br>
+                                    @error('name', 'register')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                                <input type="password" name="password" value="" placeholder="Password" required=""
-                                    class="form-control" />
-                                <br>
+                                <div class="form-group @error('email', 'register') has-error @enderror">
+                                    <input type="text" name="email" placeholder="Email" value="{{ old('email') }}"
+                                        required="" class="form-control  " />
+                                    <br>
+                                    @error('email', 'register')
 
-                                <input type="text" name="confirm" value="" placeholder="Password again" required=""
-                                    class="form-control" />
-                                <br>
 
-                                <button type="submit" class="btn btn-primary btn-sm">Ok</button> &nbsp;&nbsp;
-                                <a href="#">Terms ></a>
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group @error('phone', 'register') has-error @enderror">
+                                    <input type="text" name="phone" id="" value="{{ old('phone') }}"
+                                        class="form-control " required placeholder="Số điện thoại">
+                                    <br>
+                                    @error('phone', 'register')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group @error('password', 'register') has-error @enderror">
+                                    <input type="password" name="password" value="" onkeypress="return event.charCode != 32" placeholder="Mật khẩu" required=""
+                                        class="form-control" />
+                                    <br>
+                                    @error('password', 'register')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group @error('confirm', 'register') has-error @enderror">
+                                    <input type="password" name="confirm" value="" placeholder="Nhập lại mật khẩu"
+                                        required="" class="form-control" />
+                                    <br>
+
+                                    @error('confirm', 'register')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm">OK</button> &nbsp;&nbsp;
+                                {{-- <a href="#">Terms ></a> --}}
 
                                 <br><br>
                                 <p>
-                                    By creating an account you will be able to shop faster, be up to date on an
-                                    order's status, and keep track of the orders you have previously made.
+                                    Đăng ký tài khoản để mua sắm tiện lợi hơn!
                                 </p>
                             </form>
                         </div>
@@ -107,7 +142,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h4 class="modal-title">Forgot Your Password?</h4>
+                            <h4 class="modal-title">Bạn quên mật khẩu?</h4>
                             <br>
 
                             <form class="join" action="index.php" method="post">
@@ -115,15 +150,14 @@
                                     class="form-control" />
                                 <br>
 
-                                <button type="submit" class="btn btn-primary btn-sm">Continue</button>
-                                <a href="#Sign-In" data-action="Sign-In">Back ></a>
+                                <button type="submit" class="btn btn-primary btn-sm">Tiếp tục</button>
+                                <a href="#Sign-In" data-action="Sign-In">Trở lại ></a>
                             </form>
                         </div>
                         <div class="col-sm-6">
                             <br><br>
                             <p>
-                                Enter the e-mail address associated with your account. Click submit to have your
-                                password e-mailed to you.
+                                Nhập lại email bạn đã dùng để đăng ký tài khoản, nhấn "Tiếp tục" và truy cập link từ email để đặt lại mật khẩu!
                             </p>
                         </div>
                     </div>

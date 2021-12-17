@@ -83,8 +83,8 @@
                 <i class="fa fa-angle-left pull-right"></i>  
               </span></a>
             <ul class="treeview-menu">
-              <li><a href="{{ route('cpu.index') }}"><i class="fa fa-circle-o"></i> Thông tin CPU</a></li>
-              <li><a href="{{ route('gpu.index') }}"><i class="fa fa-circle-o"></i> Thông tin GPU</a></li>
+              <li><a href="{{ route('cpu.index') }}"><i class="fa fa-circle-o"></i> <span>Thông tin CPU</span></a></li>
+              <li><a href="{{ route('gpu.index') }}"><i class="fa fa-circle-o"></i> <span>Thông tin GPU</span></a></li>
             </ul>
           </li>
           
@@ -99,9 +99,15 @@
         
       </li>
       {{-- Quản lý khuyến mại --}}
-      <li><a href="{{ route('promotion.index') }}"><i class="fa fa-gift"></i>Quản lý khuyến mại</a></li>
+      <li class=""><a href="{{ route('promotion.index') }}"><i class="fa fa-gift"></i><span>Quản lý khuyến mại</span></a></li>
       {{-- Quản lý hóa đơn --}}
-      <li><a href="{{route('order.index')}}"><i class="fa fa-sticky-note-o"></i>Quản lý đơn hàng</a></li>
+      <li class=""><a href="{{route('order.index')}}"><i class="fa fa-sticky-note-o"></i><span>Quản lý đơn hàng</span></a></li>
+      {{-- Quản lý bài viết --}}
+      <li class=""><a href="{{route('post.index')}}"><i class="fa fa-pencil-square-o"></i><span>Quản lý bài viết</span></a></li>
+      <li class=""><a href="{{route('customer.index')}}"><i class="fa fa-user-secret"></i><span>Quản lý khách hàng</span></a></li>
+      <li class=""><a href="{{route('user.index')}}"><i class="fa fa-users"></i><span>Quản lý User</span></a></li>
+
+
   </section>
   <!-- /.sidebar -->
 </aside>

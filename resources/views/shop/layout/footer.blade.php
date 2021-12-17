@@ -75,7 +75,7 @@
         <hr class="offset-md">
 
         <div class="row menu">
-            <div class="col-sm-3 col-md-2">
+            <div class="col-sm-3 col-md-3">
                 <h1 class="h4">Thông tin <i
                         class="ion-plus-round hidden-sm hidden-md hidden-lg"></i> </h1>
 
@@ -86,7 +86,7 @@
                     <a href="#" class="list-group-item">Chính sách giao hàng</a>
                 </div>
             </div>
-            <div class="col-sm-3 col-md-2">
+            <div class="col-sm-3 col-md-3">
                 <h1 class="h4">Hỗ trợ <i class="ion-plus-round hidden-sm hidden-md hidden-lg"></i>
                 </h1>
 
@@ -96,8 +96,8 @@
                     <a href="#" class="list-group-item">Liên hệ</a>
                 </div>
             </div>
-            <div class="col-sm-3 col-md-2">
-                <h1 class="h4">Địa điểm</h1>
+            <div class="col-sm-3 col-md-3">
+                {{-- <h1 class="h4">Địa điểm</h1>
 
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
@@ -126,15 +126,15 @@
                         <li><a href="#Yen"><i class="ion-social-yen"></i> Yen</a></li>
                         <li><a href="#Bitcoin"><i class="ion-social-bitcoin"></i> Bitcoin</a></li>
                     </ul>
-                </div>
+                </div> --}}
 
             </div>
-            <div class="col-sm-3 col-md-3 col-md-offset-1 align-right hidden-sm hidden-xs">
+            <div class="col-sm-3 col-md-3 align-right hidden-sm hidden-xs">
                 <h1 class="h4">NNC Shop.</h1>
 
                 <address>
-                    1305 Market Street, Suite 800<br>
-                    San Francisco, CA 94102<br>
+                    Ngõ 173, đường Trâu Quỳ<br>
+                    TT. Trâu Quỳ, Gia Lâm, Hà Nội<br>
                     <abbr title="Phone">P:</abbr> (035) 276-6398
                 </address>
 
@@ -151,8 +151,8 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-8 col-md-9 payments">
-                <p>Thanh toán tiện lợi</p>
+            <div class="col-sm-8 col-md-8 payments">
+                {{-- <p>Thanh toán tiện lợi</p>
 
                 <div class="payment-icons">
                     <img src="shop/assets/img/payments/paypal.svg" alt="paypal">
@@ -161,10 +161,10 @@
                     <img src="shop/assets/img/payments/discover.svg" alt="discover">
                     <img src="shop/assets/img/payments/american-express.svg" alt="ae">
                 </div>
-                <br>
+                <br> --}}
 
             </div>
-            <div class="col-sm-4 col-md-3 align-right align-center-xs">
+            <div class="col-sm-4 col-md-4 align-right align-center-xs">
                 <hr class="offset-sm hidden-sm">
                 <hr class="offset-sm">
                 <p>Powered By Unistore Pro © 2016 <br> Designed By <a href="http://sunrise.ru.com/" target="_blank">Sunrise

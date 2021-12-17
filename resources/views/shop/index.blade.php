@@ -7,9 +7,7 @@
     <link href="{{asset('shop/assets/css/carousel.css')}}" rel="stylesheet">
 @endsection
 @section('content')
-<hr class="offset-lg">
-    <hr class="offset-lg">
-    <hr class="offset-lg hidden-xs">
+
     <header>
         <div class="carousel" data-count="{{ $sliders->count() }}" data-current="1">
 
@@ -123,7 +121,7 @@
     {{-- end banner --}}
     <section class="products">
         <div class="container">
-            <h2 class="h2 upp align-center"> Sản Phẩm Nổi Bật </h2>
+            <h2 class="h2 upp align-center"> Laptop Nổi Bật </h2>
             <hr class="offset-lg">
 
             <div class="row">
@@ -138,7 +136,7 @@
                                 alt="{{ $item->name }}" /></a>
 
                         <div class="content align-center">
-                            <p class="price">{{ $item->sell_price }}đ</p>
+                            <p class="price">{{ number_format($item->sell_price) }}đ</p>
                             <h2 class="h3" style="overflow: hidden;
                             text-overflow: ellipsis;
                             display: -webkit-box;
@@ -147,8 +145,8 @@
                             -webkit-box-orient: vertical;" title="{{ $item->name }}">{{ $item->name }}</h2>
                             <hr class="offset-sm">
 
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Xem chi tiết</button>
-                            <button class="btn btn-primary btn-sm rounded add-to-cart" data-url="{{ route('shop.product.addtocart',$item->id) }}"> <i class="ion-bag"></i> Thêm vào giỏ hàng</button>
+                            <a class="btn btn-link" href="{{{route('shop.product.show',$item->slug)}}}"> <i class="ion-android-open" ></i > Chi tiết</a>
+                            <button class="btn btn-primary btn-xs rounded add-to-cart" data-url="{{ route('shop.product.addtocart',$item->id) }}"> <i class="ion-bag"></i> Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
@@ -158,8 +156,8 @@
 
             <div class="align-right align-center-xs">
                 <hr class="offset-sm">
-                <a href="./store/">
-                    <h5 class="upp">View all desktops </h5>
+                <a href="{{route('shop.product.index')}}">
+                    <h5 class="upp">Xem tất cả laptop </h5>
                 </a>
             </div>
         </div>
@@ -167,7 +165,7 @@
 
     <section class="products">
         <div class="container">
-            <h2 class="h2 upp align-center"> Hybrid devices</h2>
+            <h2 class="h2 upp align-center"> Laptop mới </h2>
             <hr class="offset-lg">
 
             <div class="row">
@@ -179,13 +177,12 @@
                         <a href="./"><img src="shop/assets/img/products/lenovo-yoga.jpg" alt="Lenovo Yoga 900" /></a>
 
                         <div class="content align-center">
-                            <p class="price">$1899.99</p>
+                            <p class="price">17,550,000đ</p>
                             <h2 class="h3">Lenovo Yoga 900</h2>
                             <hr class="offset-sm">
 
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
@@ -197,14 +194,13 @@
                         <a href="./"><img src="shop/assets/img/products/surface-pro.jpg" alt="Surface Pro" /></a>
 
                         <div class="content align-center">
-                            <p class="sale">$2099.99</p>
-                            <p class="price through">$2499.99</p>
+                            <p class="sale">18,840,000đ</p>
+                            <p class="price through">19,990,000đ</p>
                             <h2 class="h3">Microsoft Surface Pro</h2>
                             <hr class="offset-sm">
 
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i>Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
@@ -216,13 +212,12 @@
                         <a href="./"><img src="shop/assets/img/products/hp-spectre-x360.jpg" alt="HP Spectre x360" /></a>
 
                         <div class="content align-center">
-                            <p class="price">$2994.99</p>
+                            <p class="price">21,090,000đ</p>
                             <h2 class="h3">HP Spectre x360</h2>
                             <hr class="offset-sm">
 
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i>Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
@@ -235,13 +230,12 @@
                                 alt="Dell Inspiron 7000 2-in-1s" /></a>
 
                         <div class="content align-center">
-                            <p class="price">$1994.99</p>
+                            <p class="price">17,200,000đ</p>
                             <h2 class="h3">Dell Inspiron 7000</h2>
                             <hr class="offset-sm">
 
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
@@ -250,8 +244,8 @@
             </div>
             <div class="align-right align-center-xs">
                 <hr class="offset-sm">
-                <a href="./store/">
-                    <h5 class="upp">View all devices </h5>
+                <a href="{{route('shop.product.index')}}">
+                    <h5 class="upp">Xem tất cả laptop </h5>
                 </a>
             </div>
         </div>
@@ -260,7 +254,7 @@
 
     <section class="products">
         <div class="container">
-            <h2 class="h2 upp align-center"> Tablets</h2>
+            <h2 class="h2 upp align-center"> Laptop bán chạy</h2>
             <hr class="offset-lg">
 
             <div class="row">
@@ -269,52 +263,16 @@
                     <div class="body">
                         <a href="#favorites" class="favorites" data-favorite="inactive"><i
                                 class="ion-ios-heart-outline"></i></a>
-                        <a href="./"><img src="shop/assets/img/products/mi-pad-2.jpg" alt="Xiamomi Mi Pad 2" /></a>
+                        <a href="./"><img src="shop/assets/img/products/surface-pro.jpg" alt="Surface Pro" /></a>
 
                         <div class="content align-center">
-                            <p class="price">$899.99</p>
-                            <h2 class="h3">Mi Pad 2</h2>
+                            <p class="sale">19,990,000đ</p>
+                            <p class="price through">21,690,000đ</p>
+                            <h2 class="h3">Microsoft Surface Pro</h2>
                             <hr class="offset-sm">
 
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4 product">
-                    <div class="body">
-                        <a href="#favorites" class="favorites" data-favorite="inactive"><i
-                                class="ion-ios-heart-outline"></i></a>
-                        <a href="./"><img src="shop/assets/img/products/ipad-air.jpg" alt="Apple iPad Air" /></a>
-
-                        <div class="content align-center">
-                            <p class="price">$1099.99</p>
-                            <h2 class="h3">Apple iPad Air</h2>
-                            <hr class="offset-sm">
-
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4 product">
-                    <div class="body">
-                        <a href="#favorites" class="favorites" data-favorite="inactive"><i
-                                class="ion-ios-heart-outline"></i></a>
-                        <a href="./"><img src="shop/assets/img/products/asus-transformer.jpg" alt="Asus Transformer" /></a>
-
-                        <div class="content align-center">
-                            <p class="price">$987.99</p>
-                            <h2 class="h3">Asus Transformer</h2>
-                            <hr class="offset-sm">
-
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
@@ -323,16 +281,50 @@
                     <div class="body">
                         <a href="#favorites" class="favorites" data-favorite="inactive"><i
                                 class="ion-ios-heart-outline"></i></a>
-                        <a href="./"><img src="shop/assets/img/products/ipad-mini.jpg" alt="iPad Mini" /></a>
+                        <a href="./"><img src="shop/assets/img/products/dell-inspiron-2in1.jpg"
+                                alt="Dell Inspiron 7000 2-in-1s" /></a>
 
                         <div class="content align-center">
-                            <p class="price">$399.99</p>
-                            <h2 class="h3">iPad Mini</h2>
+                            <p class="price">18,290,000đ</p>
+                            <h2 class="h3">Dell Inspiron 7000</h2>
                             <hr class="offset-sm">
 
-                            <button class="btn btn-link"> <i class="ion-android-open"></i> Details</button>
-                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Add to
-                                cart</button>
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 product">
+                    <div class="body">
+                        <a href="#favorites" class="favorites" data-favorite="inactive"><i
+                                class="ion-ios-heart-outline"></i></a>
+                        <a href="./"><img src="shop/assets/img/products/hp-spectre-x360.jpg" alt="HP Spectre x360" /></a>
+
+                        <div class="content align-center">
+                            <p class="price">22,349,000đ</p>
+                            <h2 class="h3">HP Spectre x360</h2>
+                            <hr class="offset-sm">
+
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i>Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 product">
+                    <div class="body">
+                        <a href="#favorites" class="favorites" data-favorite="inactive"><i
+                                class="ion-ios-heart-outline"></i></a>
+                        <a href="./"><img src="shop/assets/img/products/lenovo-yoga.jpg" alt="Lenovo Yoga 900" /></a>
+
+                        <div class="content align-center">
+                            <p class="price">15,690,000đ</p>
+                            <h2 class="h3">Lenovo Yoga 900</h2>
+                            <hr class="offset-sm">
+
+                            <button class="btn btn-link"> <i class="ion-android-open"></i> Chi tiết</button>
+                            <button class="btn btn-primary btn-sm rounded"> <i class="ion-bag"></i> Thêm vào giỏ</button>
                         </div>
                     </div>
                 </div>
@@ -342,7 +334,7 @@
             <div class="align-right align-center-xs">
                 <hr class="offset-sm">
                 <a href="./store/">
-                    <h5 class="upp">View all tablets </h5>
+                    <h5 class="upp">Xem tất cả laptop </h5>
                 </a>
             </div>
         </div>
@@ -351,7 +343,7 @@
 
     <section class="blog">
         <div class="container">
-            <h2 class="h2 upp align-center"> Blog Headlines </h2>
+            <h2 class="h2 upp align-center"> Bài viết </h2>
             <hr class="offset-lg">
 
             <div class="row">
@@ -361,24 +353,20 @@
                     <div class="body">
                         <a href="#" class="view"><i class="ion-ios-book-outline"></i></a>
                         <a href="#">
-                            <img src="shop/assets/img/blog/img1.jpg" title="Apple Devices" alt="Apple Devices">
+                            <img src="https://cellphones.com.vn/sforum/wp-content/uploads/2021/12/thong-tin-Mac-2022-cover-350x250.jpg" title="Apple Devices" alt="Apple Devices">
                         </a>
 
                         <div class="caption">
-                            <h2 class="h3">The next generation of Multi-Touch</h2>
-                            <label> 07.01.2017</label>
+                            <h2 class="h3">Chúng ta có thể mong chờ gì từ dòng máy Mac 2022 của Apple?</h2>
+                            <label> 07.11.2021</label>
                             <hr class="offset-sm">
 
                             <p>
-                                The original iPhone introduced the world to Multi-Touch, forever changing the way people
-                                experience technology. With 3D Touch, you can do things that were never possible before.
-                                It senses how deeply you press the display, letting you do all kinds of essential things
-                                more quickly and simply. And it gives you real-time feedback in the form of subtle taps
-                                from the all-new Taptic Engine.
+                                Vào cuối năm ngoái, Apple đã bắt đầu quá trình chuyển đổi từ chip Intel sang Silicon M-series cho dòng máy Mac của hãng. Hiện tại, công ty này đã đi được một nửa chặng đường và gặt hái được khá nhiều thành công.
                             </p>
                             <hr class="offset-sm">
 
-                            <a href="#"> View article </a>
+                            <a href="#"> Xem bài viết </a>
                         </div>
                     </div>
                 </div>
@@ -388,23 +376,20 @@
                     <div class="body">
                         <a href="#" class="view"><i class="ion-ios-book-outline"></i></a>
                         <a href="#">
-                            <img src="shop/assets/img/blog/img2.jpg" title="Coffee" alt="Coffee">
+                            <img src="https://cellphones.com.vn/sforum/wp-content/uploads/2021/10/ASUS-TUF-GAMING-F7-1-350x250.jpg" title="Coffee" alt="Coffee">
                         </a>
 
                         <div class="caption">
-                            <h2 class="h3">MacBook Pro - brand new day for business.</h2>
-                            <label> 02.01.2017</label>
+                            <h2 class="h3">Trên tay Asus TUF Gaming F17: Thiết kế tinh tế, đậm chất gaming</h2>
+                            <label> 01.09.2021</label>
                             <hr class="offset-sm">
 
                             <p>
-                                Organizations everywhere are realizing the potential that Mac brings to their employees
-                                by giving them the freedom to use the tools they already know and love. Software and
-                                hardware made for each other. Because Apple designs both the software and hardware,
-                                every Mac delivers the best possible experience for employees.
+                                Một mùa “Back to school nữa cũng đã tới” đã tới, và đây cũng chính là thời điểm mà Asus vừa tung ra thị trường 2 mẫu laptop gaming mới trong bộ sưu tập TUF Gaming của mình để phục vụ nhu cầu học tập của các bạn học sinh, sinh viên...
                             </p>
                             <hr class="offset-sm">
 
-                            <a href="#"> View article <i class="ion-ios-arrow-right"></i> </a>
+                            <a href="#"> Xem bài viết <i class="ion-ios-arrow-right"></i> </a>
                         </div>
                     </div>
                 </div>
@@ -414,7 +399,7 @@
             <div class="align-right align-center-xs">
                 <hr class="offset-sm">
                 <a href="./blog/">
-                    <h5 class="upp">View all articels </h5>
+                    <h5 class="upp">Xem thêm bài viết </h5>
                 </a>
             </div>
         </div>

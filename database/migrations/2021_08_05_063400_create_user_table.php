@@ -17,17 +17,17 @@ class CreateUserTable extends Migration
             $table->id()->autoIncrement();
             $table->string("name");
             $table->dateTime("birthday")->nullable();
-            $table->integer("gender");
-            $table->string("address");
+            $table->integer("gender")->nullable();
+            $table->string("address")->nullable();
             $table->string("email")->unique();
             $table->string("phone");
-            $table->string("avatar");
+            $table->string("avatar")->nullable()->default('images/default-user.jpg');
             $table->string("password");
             $table->rememberToken();
             $table->dateTime("email_verified_at")->nullable();
-            $table->integer("status");
+            $table->integer("status")->nullable()->default(1);
             $table->timestamps();
-           $table->softDeletes();
+            $table->softDeletes();
         });
     }
 

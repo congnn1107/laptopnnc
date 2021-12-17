@@ -7,6 +7,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\DiscountPromotionController;
+use App\Http\Controllers\LocalController;
+use App\Http\Controllers\PostController;
 use App\Mail\Invoice;
 use App\Model\Admin;
 use App\Model\Category;
@@ -29,19 +31,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource("/categories", "CategoryController");
-//test
-Route::get("/test", function () {
-    $admins = Admin::onlyTrashed()->first();
-    $role = $admins->role()->get();
-    return [$admins, $role];
-});
-Route::get('/test-dashboard', function () {
-    return view('admin.dashboard');
-});
-Route::get('/test-master', function () {
-    return view('admin.layout.master');
-});
 
+Route::prefix('/local')->name('local.')->group(function(){
+    Route::get('/province',[LocalController::class,'getProvinces'])->name('province');
+    Route::get('/district/parent={id}',[LocalController::class,'getDistricts'])->name('district');
+    Route::get('/ward/parent={id}',[LocalController::class,'getWards'])->name('ward');
+});
 Route::get("/", 'HomeController@index')->name('shop.index');
 Route::get("/san-pham", 'HomeController@storePage')->name('shop.product.index');
 Route::get("/lien-he", 'HomeController@contactPage')->name('shop.contact');
@@ -51,12 +46,27 @@ Route::get('/checkout', 'HomeController@checkOut')->name('shop.checkout');
 Route::post('/dat-hang', 'OrderController@storeForCustomer')->name('shop.order');
 Route::post('/update-cart', 'ProductController@updateQuantityCartItem')->name('shop.product.update_qty_cart');
 Route::get('/remove-cart-item/{id}', 'ProductController@removeCartItem')->name('shop.product.removecart');
+Route::get('/livesearch','HomeController@liveSearch')->name('shop.livesearch');
 Route::get('/clear-cart', function () {
     Cart::destroy();
     return back();
 });
-//end test
+Route::get('/bai-viet','HomeController@postPage')->name('shop.post');
 
+Route::middleware(['shop.checkLogin'])->group(function(){
+    Route::get('/test-login', function(){
+        return "OK";
+    });
+});
+Route::post('/login','HomeController@login')->name('shop.login')->middleware('shop.preventLogin');
+Route::get('/logout','HomeController@logout')->name('shop.logout');
+Route::post('/register','HomeController@register')->name('shop.register');
+//khách: xem chương trình khuyến mại (test)
+Route::get('discount/{slug}', function () {
+    //làm gì đó
+})->name('shop.discount.show');
+
+//Trang Quản trị
 Route::prefix("admin")->group(function () {
     Route::middleware(['admin.afterlogin'])->group(function () {
         Route::get("/login", [DashboardController::class, "login"])->name("admin.login");
@@ -105,20 +115,9 @@ Route::prefix("admin")->group(function () {
         //order
         Route::resource('/order', 'OrderController');
         Route::post('/order/search-product', 'OrderController@searchProduct')->name('order.search_product');
+        Route::resource('/post','PostController');
+        Route::resource('/user','UserController');
     });
 });
 
-//khách: xem chương trình khuyến mại (test)
-Route::get('discount/{slug}', function () {
-    //làm gì đó
-})->name('discount.show');
-Route::get('promotion/{slug}', function () {
-    //làm gì đó
-})->name('promotion.show');
 
-//xem slider
-Route::get('test/slider', function () {
-    $slider = Slider::where('status', 1)->get();
-    return view("slidertest", compact('slider'));
-});
-//end test

@@ -22,7 +22,7 @@ class Category extends Model
 
 
     public function product(){
-        return $this->hasManyThrough("App\Model\Product","App\Model\ProductCategory","category","id");
+        return $this->hasManyThrough("App\Model\Product","App\Model\ProductCategory","category","id","id","product");
     }
     public function parent(){
         return $this->belongsTo("App\Model\Category","parent_id");

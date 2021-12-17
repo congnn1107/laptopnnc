@@ -11,7 +11,7 @@ class Slider extends Model
     use SoftDeletes;
     protected $table="slider";
     protected $fillable = [
-        "image","url","status"
+        "image","url","status",'type', 'position'
     ];
 
     

@@ -8,9 +8,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{route('shop.index')}}"> NNCSHOP </a>
+            <a class="navbar-brand" href="{{ route('shop.index') }}"> NNCSHOP </a>
             <a class="navbar-brand pull-right hidden-sm hidden-md hidden-lg" href="#open-cart"> <i
-                    class="ion-bag"></i> 7 </a>
+                    class="ion-bag"></i> <span class="items-quantity"> {{ Cart::count() }}</span> </a>
         </div>
 
         <style>
@@ -22,7 +22,7 @@
                 display: block;
                 width: 100%;
                 padding: 15px 0 15px 35px;
-               
+
             }
 
 
@@ -37,11 +37,11 @@
 
             @media screen and (min-width:800px) {
 
-                .nav .dropdown-menu>ul>li:hover>a {
+                .nav .dropdown-menu>li:hover>a {
                     color: rgb(0, 0, 0) !important;
                 }
 
-                .nav .dropdown-menu>ul>li:hover {
+                .nav .dropdown-menu>li:hover {
                     background-color: #fff;
                 }
 
@@ -61,11 +61,13 @@
             }
 
             @media screen and (max-width:799px) {
+
                 .nav .dropdown a,
                 .nav .dropdown-submenu a {
                     display: block;
                     padding: 15px 35px;
                 }
+
                 .nav .dropdown>.dropdown-menu {
                     position: initial !important;
                     outline: none;
@@ -73,21 +75,27 @@
                     margin: 0;
                     width: inherit;
                     padding: 0;
+
                 }
-                .nav .dropdown-menu{
+
+                .nav .dropdown-menu {
                     width: 100% !important;
                     border: none;
                 }
+
                 .nav .dropdown-submenu .dropdown-menu {
                     position: unset;
                 }
 
-                .nav ul li {
+                ul li {
                     overflow: hidden;
                 }
-                .nav .dropdown:hover, .dropdown-submenu:hover{
+
+                .nav .dropdown:hover,
+                .dropdown-submenu:hover {
                     background: none;
                 }
+
                 .nav .dropdown:hover>.dropdown-menu {
 
                     display: block;
@@ -97,53 +105,63 @@
                 .nav .dropdown-submenu:hover>.dropdown-menu {
                     display: block;
                 }
+
                 .nav .dropdown-menu li {
                     width: inherit;
                 }
-                .nav .dropdown-menu>ul>li:hover>a {
+
+                .nav .dropdown-menu>li:hover>a {
                     color: rgb(0, 0, 0) !important;
                 }
+
                 .nav .dropdown-menu li:hover {
                     background-color: #fff !important;
                 }
+
                 .nav .dropdown-menu li:hover ul {
                     background-color: rgb(31, 30, 30) !important;
                 }
             }
 
             /*cart*/
-            .cart .media-heading{
+            .cart .media-heading {
                 width: 200px;
                 word-break: break-all;
             }
+
         </style>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{route('shop.index')}}">Trang chủ</a></li>
+                <li><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                 <li class="dropdown">
-                    <a href="{{route('shop.product.index')}}">Sản Phẩm</a>
-                    <div class="dropdown-menu">
-                        <ul>
-                            <?php
-                            showCategoriesMenu(1, $categories);
-                            ?>
-                        </ul>
-                    </div>
+                    <a href="{{ route('shop.product.index') }}">Sản Phẩm</a>
+
+                    <ul class="dropdown-menu">
+                        <?php
+                        showCategoriesMenu(1, $categories);
+                        ?>
+                    </ul>
+
                 </li>
-                <li><a href="./blog/">Bài viết</a></li>
-                <li><a href="./contacts/">Liên hệ</a></li>
+                <li><a href="{{ route('shop.post') }}">Bài viết</a></li>
+                <li><a href="{{ route('shop.contact') }}">Liên hệ</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->
 
 
-        <div class="search hidden-xs" data-style="hidden">
-            <div class="input">
-                <button type="button"><i class="ion-ios-search"></i></button>
+            <div class="search hidden-xs" data-style="hidden">
 
-                <input type="text" name="search" value="" placeholder="Type here..." />
+                <div class="input">
+                    <button type="button"><i class="ion-ios-search"></i></button>
+
+                    <input type="text" name="q" value="" id="txtSearch" placeholder="Type here..." />
+
+                </div>
+
             </div>
-        </div>
+ 
+
     </div>
     <!--/.container-fluid -->
 </nav>

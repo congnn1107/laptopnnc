@@ -20,7 +20,7 @@ class CreateAdminTable extends Migration
             $table->string("password");
             $table->string('avatar')->nullable()->default('images/default-user.jpg');
             $table->string("email");
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->date('birthday')->nullable()->useCurrent();
             $table->string('address')->nullable();
             $table->string("remember_token")->nullable();

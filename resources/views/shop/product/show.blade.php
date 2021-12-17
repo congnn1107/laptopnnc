@@ -241,36 +241,38 @@
                     <hr class="offset-sm hidden-xs">
 
                     <div class="comments white">
-                        <h2 class="h3">What do you think? (#3)</h2>
+                        <h2 class="h3">Bình luận: (#4)</h2>
                         <br>
 
 
                         <div class="wrapper">
                             <div class="content">
-                                <h3>Anne Hathaway</h3>
-                                <label>2 years ago</label>
+                                <h3>Ngô Toàn Cà</h3>
+                                <label>30 phút trước</label>
                                 <p>
-                                    Apple Music brings iTunes music streaming to the UK. But is it worth paying for? In our
-                                    Apple Music review, we examine the service's features, UK pricing, audio quality and
-                                    music library
+                                    Mới mua em này hôm qua, dùng ổn, lâu dài thì chưa biết.
                                 </p>
 
 
-                                <h3>Chris Hemsworth</h3>
-                                <label>Today</label>
+                                <h3>Mai Anh Bảo</h3>
+                                <label>45 phút trước</label>
                                 <p>
-                                    Samsung's Galaxy S7 smartphone is getting serious hype. Here's what it does better than
-                                    Apple's iPhone 6s.
+                                    Máy mỏng đẹp, màn hình đẹp, pin trâu.
                                 </p>
 
-
-                                <h3>Anne Hathaway</h3>
-                                <label>2 years ago</label>
+                                <h3>Nguyễn Văn A</h3>
+                                <label>46 phút trước</label>
                                 <p>
-                                    Apple Music brings iTunes music streaming to the UK. But is it worth paying for? In our
-                                    Apple Music review, we examine the service's features, UK pricing, audio quality and
-                                    music library
+                                    Máy ổn, shop giao hàng nhanh, đóng gói chắc chắn.
                                 </p>
+
+                                <h3>Nguyễn Văn B</h3>
+                                <label>1 ngày trước</label>
+                                <p>
+                                    Thấy giá ổn nên vừa đặt hàng luôn cho nóng.
+                                </p>
+
+                                
                             </div>
                         </div>
                         <hr class="offset-lg">

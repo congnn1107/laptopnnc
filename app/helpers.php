@@ -34,7 +34,7 @@ function showCategoriesMenu($template, $categoriesList, $selected = [], $current
 
                 echo getNavMenuTemplate($category, 1);
                 showCategoriesMenu($template, $category->childs, $selected, $current_category, $category->id, $level + 1);
-                echo "</ul></div></li>";
+                echo "</ul></li>";
             } else {
                 echo getNavMenuTemplate($category, 0);
             }
@@ -66,8 +66,9 @@ function getSelectOptionTemplate($category, $str, $level)
 function getNavMenuTemplate($category, $isDropDown = 0)
 {
     if ($isDropDown == 0) {
-        return '<li><a href="#">' . $category->name . '</a></li>';
+        return '<li><a href="'.route('shop.product.index').'?catalog='.$category->id.'">' . $category->name . '</a></li>';
     }else{
-        return '<li class="dropdown-submenu"><a href="#">'. $category->name .'</a><div class="dropdown-menu"><ul>';
+        // return '<li class="dropdown-submenu"><a href="#">'. $category->name .'</a><div class="dropdown-menu"><ul>';
+        return '<li class="dropdown-submenu"><a href="'.route('shop.product.index').'?catalog='.$category->id.'">'. $category->name .'</a><ul class="dropdown-menu">';
     }
 }

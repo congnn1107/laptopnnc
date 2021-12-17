@@ -38,7 +38,7 @@
                         Ghi nhớ đăng nhập
                         <input type="checkbox" name="remember" id="remember" >
                     </div>
-                    <button type="submit" title="Đăng nhập" class="form-submit btn btn-block btn-primary">Login</button>
+                    <button type="submit" title="Đăng nhập" class="form-submit btn btn-block btn-primary">Đăng nhập</button>
                 </form>
                 <a href="/">Quay lại trang shop?</a>
             </div>

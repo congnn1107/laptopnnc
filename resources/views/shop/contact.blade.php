@@ -13,18 +13,18 @@
         <div class="col-sm-4">
           <div id="Address">
             <address>
-              <label class="h3">Unistore Pro, Inc.</label><br>
-              1305 Market Street, Suite 800<br>
-              San Francisco, CA 94102<br>
-              <abbr title="Phone">P:</abbr> (123) 456-7890
+              <label class="h3">LAPTOPNNC</label><br>
+              Số 8, Ngõ 173, Đường Trâu Quỳ<br>
+              TT. Trâu Quỳ, Gia Lâm, Hà Nội<br>
+              <abbr title="Phone">P:</abbr> (035) 276-5398
             </address>
 
             <address>
-              <strong>Support</strong><br>
+              <strong>Hỗ trợ:</strong><br>
               <a href="mailto:#">sup@example.com</a>
               <br><br>
 
-              <strong>Partners</strong><br>
+              <strong>Cộng tác:</strong><br>
               <a href="mailto:#">col@example.com</a>
             </address>
           </div>
@@ -44,20 +44,20 @@
   <hr class="offset-lg">
 
   <div class="container align-center">
-    <h1 class="upp"> Need our help? </h1>
-    <p> Please insert question to a form below. </p>
+    <h1 class="upp"> Bạn cần tư vấn? </h1>
+    <p> Để lại câu hỏi ở bên dưới cho chúng tôi! </p>
     <hr class="offset-md">
 
     <div class="row">
       <div class="col-sm-4 col-sm-offset-4">
         <form class="contact" action="index.php" method="post">
-          <textarea class="form-control" name="message" placeholder="Message" required="" rows="5"></textarea>
+          <textarea class="form-control" name="message" placeholder="Nội dung thắc mắc..." required="" rows="5"></textarea>
           <br>
 
-          <input type="email" name="email" value="" placeholder="E-mail" required="" class="form-control" />
+          <input type="email" name="email" value="" placeholder="Email" required="" class="form-control" />
           <br>
 
-          <button type="submit" class="btn btn-primary justify"> Send question </button>
+          <button type="submit" class="btn btn-primary justify"> Gửi </button>
         </form>
       </div>
     </div>

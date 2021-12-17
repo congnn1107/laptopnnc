@@ -23,6 +23,7 @@ class ProductController extends Controller
     protected $screenTypes;
     protected $screenSizes;
     protected $categories;
+    protected $statusList;
 
     public function __construct()
     {
@@ -32,6 +33,7 @@ class ProductController extends Controller
         $this->cpuList = CPU::all();
         $this->gpuList = GPU::all();
         $this->categories = Category::all();
+        $this->statusList= ['Sắp về','Đang kinh doanh','Không kinh doanh'];
     }
     /**
      * Display a listing of the resource.
@@ -59,7 +61,8 @@ class ProductController extends Controller
             'gpuList' => $this->gpuList,
             'screenTypes' => $this->screenTypes,
             'screenSizes' => $this->screenSizes,
-            'categories' => $this->categories
+            'categories' => $this->categories,
+            'statusList' => $this->statusList
         ]);
     }
 
@@ -82,8 +85,7 @@ class ProductController extends Controller
         $options = $request->all(
             'name',
             'sku',
-            "memory_slots",
-            "memory_type",
+            "memory",
             "memory_capacity",
             "ssd_storage",
             "ssd_capacity",
@@ -97,16 +99,22 @@ class ProductController extends Controller
             "case_material",
             "bluetooth",
             "wifi",
-            "connection_jacks",
+            "connection_port",
             "keyboard",
             "addition",
             "battery",
             "color",
             "operating_system",
             "describe",
+            "size",
+            "weight",
+            "warranty_time",
+            "package",
             "import_price",
             "sell_price",
-            "quantity"
+            "stock",
+            "status",
+            'webcam'
         );
         //xử lý slug
         $options['slug'] = Str::slug($options['name']);
@@ -125,6 +133,8 @@ class ProductController extends Controller
             return ['product' => $product->id, 'category' => $item];
         }, $inputList);
         ProductCategory::insert($data);
+
+        return redirect(route('product.index'));
     }
     /**
      * Lấy thêm các danh mục cha dựa vào các danh mục người dùng nhập vào cho sản phẩm
@@ -171,7 +181,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $selectedCategories = [];
         $this->getSelectedCategoryIDs($product->categories, $selectedCategories);
-
+     
         return view("admin.product.update", [
             "product" => $product,
             'capacity' => $this->capacity,
@@ -180,7 +190,8 @@ class ProductController extends Controller
             'screenTypes' => $this->screenTypes,
             'screenSizes' => $this->screenSizes,
             'categories' => $this->categories,
-            'selectedCategories' => $selectedCategories
+            'selectedCategories' => $selectedCategories,
+            'statusList' =>$this->statusList
         ]);
     }
 
@@ -200,8 +211,7 @@ class ProductController extends Controller
                 [
                     'name',
                     'sku',
-                    "memory_slots",
-                    "memory_type",
+                    "memory",
                     "memory_capacity",
                     "ssd_storage",
                     "ssd_capacity",
@@ -215,16 +225,22 @@ class ProductController extends Controller
                     "case_material",
                     "bluetooth",
                     "wifi",
-                    "connection_jacks",
+                    "connection_port",
                     "keyboard",
                     "addition",
                     "battery",
                     "color",
                     "operating_system",
                     "describe",
+                    "size",
+                    "weight",
+                    "warranty_time",
+                    "package",
                     "import_price",
                     "sell_price",
-                    "quantity"
+                    "stock",
+                    "status",
+                    'webcam'
                 ]
             );
             //lấy categories
@@ -247,6 +263,11 @@ class ProductController extends Controller
 
             if ($product->update($options)) {
                 $product->save();
+                $data = array_map(function ($item) use ($product) {
+                    return ['product' => $product->id, 'category' => $item];
+                }, $inputList);
+                ProductCategory::where('product',$id)->delete();
+                ProductCategory::insert($data);
                 return back()->with('success', 'Đã lưu thay đổi!');
             } else {
                 return back()->with('error', 'Có lỗi xảy ra!');

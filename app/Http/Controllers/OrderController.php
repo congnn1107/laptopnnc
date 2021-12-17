@@ -9,6 +9,7 @@ use App\Model\OrderDetail;
 use App\Model\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 Use Illuminate\Support\Str;
@@ -55,9 +56,13 @@ class OrderController extends Controller
         $addressInput = $request->input('address');
         $address = "";
         if (isset($addressInput[3])) {
-            $address .= $addressInput[3] . ',';
+            $address.=$addressInput[3];
         }
-        $address .= " $addressInput[2], $addressInput[1], $addressInput[0]";
+        $ward= DB::table('ward')->where('id',$addressInput[2])->first(['id','_name','_prefix']);
+        $district = DB::table('district')->where('id',$addressInput[1])->first(['id','_name','_prefix']);
+        $province = DB::table('province')->where('id',$addressInput[0])->first(['id','_name']);
+        // dd($ward);
+        $address .= ", $ward->_prefix $ward->_name, $district->_prefix $district->_name, $province->_name";
 
         //process customer
         $customerInput = $request->all('name', 'phone', 'email');

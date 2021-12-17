@@ -17,7 +17,7 @@
         }
         table img{
             display: block;
-            width: 50px;
+            width: 100px;
         }
         .total{
             color: red;
@@ -61,8 +61,10 @@
                         <td>{{$number+1}}</td>
                         <td>
                             <a href="{{route('shop.product.show',$product->slug)}}" target="_blank">
-                                <img src="{{asset('storage/'.$product->card_image)}}" alt="{{$product->name}}" srcset="">
-                            </a>
+                                {{-- <img src="{{asset('storage/'.$product->card_image)}}" alt="{{$product->name}}" srcset=""> --}}
+                                <img src="https://cdn.tgdd.vn/Products/Images/44/255561/lenovo-yoga-slim-7-14itl05-i5-82a300dpvn-021121-030538-600x600.jpg
+                            </a>" alt="{{$product->name}}" srcset="">
+                                
                         </td>
                         <td>{{$product->name}}</td>
                         <td>{{$item->quantity}}</td>

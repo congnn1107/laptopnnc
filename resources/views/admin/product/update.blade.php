@@ -118,24 +118,14 @@
                         </div>
                         <h4 class="text-muted">Bộ nhớ & ổ cứng</h4>
                         <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="">Số lượng khe ram</label>
-                                <input type="text" placeholder="Ví dụ: 1 Khe onboard | 2 Khe | 1 onboard, 1 Khe mở rộng..."
-                                    name="memory_slots" min="0" max="4" id="txtMemSlot" class="form-control"
-                                    value="{{ $product->memory_slots }}">
-                                @error('memory_slots')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
+                            <div class="form-group col-md-6">
+                                <label for="">Bộ nhớ ram</label>
+                            <input type="text" name="memory" id="" placeholder="Ví dụ: 2 Khe ram DDR4 3200MHz..." class="form-control" value="{{$product->memory}}">
+                            @error('memory')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="">Loại bộ nhớ ram</label>
-                                <input type="text" placeholder="Ví dụ: DDR4 3600 Mhz..." name="memory_type" id="txtMemType"
-                                    class="form-control" value="{{ $product->memory_type }}">
-                                @error('memory_type')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="">Dung lượng bộ nhớ ram: </label>
                                 <input type="text" placeholder="Ví dụ: 4GB | 8GB (4GB onboard, 4GB sodimm..."
                                     name="memory_capacity" id="txtMemCap" class="form-control"
@@ -236,6 +226,7 @@
                     <div class="form-group col-md-6">
                         <label for="">GPU Rời (nếu có)</label>
                         <select name="gpu" id="slGPU" class="form-control">
+                            <option value="0">Không có</option>
                             @foreach ($gpuList as $gpu)
                                 <option value="{{ $gpu->id }}" {{ $product->gpu == $gpu->id ? 'selected' : '' }}>
                                     {{ $gpu->branch }} {{ $gpu->name }} - {{ $gpu->graph_memory_cap }}</option>
@@ -279,14 +270,28 @@
                 <h4 class="text-muted">
                     Vỏ
                 </h4>
-                <div class="form-group">
-                    <label for="">Chất liệu vỏ</label>
-                    <input type="text" placeholder="Ví dụ: Nhựa | Kim loại nguyên khối | ..." id="txtCaseMaterial"
-                        class="form-control" name="case_material" value="{{ $product->case_material }}">
-                    @error('case_material')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Chất liệu vỏ</label>
+                            <input type="text" placeholder="Ví dụ: Nhựa | Kim loại nguyên khối | ..." id="txtCaseMaterial"
+                                class="form-control" name="case_material" value="{{ $product->case_material }}">
+                            @error('case_material')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Webcam</label>
+                            <input type="text" placeholder="Ví dụ: HD 720p..." id="txtCaseMaterial" class="form-control" name="webcam" value="{{$product->webcam}}">
+                            @error('webcam')
+                            <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
+                
 
                 <h4 class="text-muted">Kết nối</h4>
                 <div class="row">
@@ -309,9 +314,9 @@
                     <div class="form-group col-md-4">
                         <label for="">Cổng kết nối</label>
                         <input type="text" placeholder="Ví dụ: 2xUSB 3.2, 1xCombo audio/microphone jacket"
-                            name="connection_jacks" id="txtConnect" class="form-control"
-                            value="{{ $product->connection_jacks }}">
-                        @error('connection_jacks')
+                            name="connection_port" id="txtConnect" class="form-control"
+                            value="{{ $product->connection_port }}">
+                        @error('connection_port')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
@@ -361,6 +366,38 @@
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label for="">Kích thước máy: </label>
+                        <input type="text" name="size" id="" class="form-control" placeholder="Dài x Rộng x Dày" value="{{$product->size}}">
+                        @error('size')
+                            <p class="text-danger">{{$message}}</p>
+                        @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Cân nặng: </label>
+                        <input type="text" name="weight" id="" class="form-control" placeholder="Ví dụ: 1.1 KG" value="{{$product->weight}}">
+                        @error('weight')
+                            <p class="text-danger">{{$message}}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label for="">Hộp sản phẩm gồm: </label>
+                        <input type="text" name="package" id="" class="form-control" placeholder="Ví dụ: Thân máy, dây nguồn..." value="{{$product->package}}">
+                        @error('package')
+                            <p class="text-danger">{{$message}}</p>
+                        @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Bảo hành: </label>
+                        <input type="text" name="warranty_time" id="" class="form-control" placeholder="Ví dụ: 12 tháng" value="{{$product->warranty_time}}">
+                        @error('warranty_time')
+                            <p class="text-danger">{{$message}}</p>
+                        @enderror
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="">Mô tả sản phẩm: </label>
                     <textarea type="text" placeholder="Phần viết giới thiệu, mô tả cho sản phẩm..." name="describe"
@@ -371,22 +408,32 @@
                 </div>
                 <h4 class="text-muted">Thông tin kho:</h4>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="">Giá nhập: </label>
                         <input type="text" name="import_price" id="" class="form-control" value="{{ $product->import_price }}">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="">Giá bán: </label>
                         <input type="text" name="sell_price" id="" class="form-control" value="{{ $product->sell_price }}">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="">Số lượng: </label>
-                        <input type="text" name="quantity" id="" class="form-control" value="{{ $product->quantity }}">
+                        <input type="text" name="stock" id="" class="form-control" value="{{ $product->stock }}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Trạng thái</label>
+                        <select name="status" id="" class="form-control">
+                            @foreach ($statusList as $key=> $item)
+                                <option value="{{$key}}" {{$product->status==$key?'selected':''}}>{{$item}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
