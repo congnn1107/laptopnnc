@@ -26,7 +26,7 @@
                         <div class="col-sm-4">
                             <h2 class="h4">Họ và tên:</h2>
                         </div>
-                        <div class="col-sm-8"> <input type="text" class="form-control" name="name" required=""
+                        <div class="col-sm-8"> <input type="text" @if(Auth::check()) value="{{Auth::user()->name}}" @endif class="form-control" name="name" required=""
                                 placeholder="" /></div>
                     </div>
 
@@ -34,7 +34,7 @@
                         <div class="col-sm-4">
                             <h2 class="h4">Số điện thoại</h2>
                         </div>
-                        <div class="col-sm-8"> <input type="text" class="form-control" name="phone" required=""
+                        <div class="col-sm-8"> <input type="text" class="form-control" @if(Auth::check()) value="{{Auth::user()->phone}}" @endif name="phone" required=""
                                 placeholder="" /></div>
                     </div>
 
@@ -42,7 +42,7 @@
                         <div class="col-sm-4">
                             <h2 class="h4">E-mail</h2>
                         </div>
-                        <div class="col-sm-8"> <input type="email" class="form-control" name="email" required=""
+                        <div class="col-sm-8"> <input type="email" @if(Auth::check()) value="{{Auth::user()->email}}" @endif class="form-control" name="email" required=""
                                 placeholder="" /></div>
                     </div>
 

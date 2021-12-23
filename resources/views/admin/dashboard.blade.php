@@ -8,7 +8,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Tổng số sản phẩm</span>
-                    <span class="info-box-number">5</span>
+                    <span class="info-box-number">{{ $totalProduct }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -21,7 +21,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Tổng số đơn hàng</span>
-                    <span class="info-box-number">6</span>
+                    <span class="info-box-number">{{ $totalOrder }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -38,7 +38,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Số sản phẩm đã bán</span>
-                    <span class="info-box-number">11</span>
+                    <span class="info-box-number">{{ $totalSoldProduct }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -51,7 +51,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Số người dùng đăng ký tk</span>
-                    <span class="info-box-number">2</span>
+                    <span class="info-box-number">{{ $totalUser }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -81,8 +81,8 @@
                                 {{-- <li><a href="#">Separated link</a></li> --}}
                             </ul>
                         </div>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                class="fa fa-times"></i></button>
+                        {{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i></button> --}}
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -90,7 +90,23 @@
                     <div class="row">
                         <div class="col-md-8">
                             <p class="text-center">
-                                <strong>Doanh số bán hàng tuần 2 tháng 12/2021</strong>
+                                @php
+                                    
+                                    $now = Carbon\Carbon::now();
+                                    
+                                @endphp
+                                @if (request()->query('reportBy'))
+                                    @if (request()->query('reportBy') == 'month')
+                                        <strong>Doanh số bán hàng tháng {{ $now->month }}/{{ $now->year }}</strong>
+
+                                    @else
+                                        <strong>Doanh số bán hàng tuần {{ $now->weekOfMonth }} tháng
+                                            {{ $now->month }}/{{ $now->year }}</strong>
+                                    @endif
+                                @else
+                                    <strong>Tổng doanh số bán hàng</strong>
+                                @endif
+
                             </p>
 
                             <div class="chart">
@@ -107,24 +123,24 @@
 
                             <p class="text-left row">
                                 <span class="col-md-6">Đơn hàng chờ xác nhận: </span> <span
-                                    class="label bg-yellow  col-md-6">1</span>
+                                    class="label bg-yellow  col-md-6">{{ $report['waiting'] }}</span>
 
                             </p>
                             <p class="text-left row">
                                 <span class="col-md-6">Đơn hàng đã xác nhận: </span> <span
-                                    class="label bg-orange  col-md-6">1</span>
+                                    class="label bg-orange  col-md-6">{{ $report['accepted'] }}</span>
                             </p>
                             <p class="text-left row">
                                 <span class="col-md-6">Đơn hàng đang giao: </span> <span
-                                    class="label bg-blue  col-md-6">2</span>
+                                    class="label bg-blue  col-md-6">{{ $report['shipping'] }}</span>
                             </p>
                             <p class="text-left row">
                                 <span class="col-md-6">Đơn hàng đã giao: </span> <span
-                                    class="label bg-green  col-md-6">1</span>
+                                    class="label bg-green  col-md-6">{{ $report['received'] }}</span>
                             </p>
                             <p class="text-left row">
                                 <span class="col-md-6">Đơn hàng đã hủy: </span> <span
-                                    class="label bg-red col-md-6">1</span>
+                                    class="label bg-red col-md-6">{{ $report['canceled'] }}</span>
                             </p>
                         </div>
                         <!-- /.col -->
@@ -136,8 +152,10 @@
                     <div class="row">
                         <div class="col-sm-4 col-xs-6">
                             <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                                <h5 class="description-header">102,000,000 đ</h5>
+                                <span class="description-percentage text-info"><i class="fa fa-caret-up"></i>
+                                    <!--20%-->
+                                </span>
+                                <h5 class="description-header">{{ number_format($report['turnOver']) }} đ</h5>
                                 <span class="description-text">Tổng doanh thu</span>
                             </div>
                             <!-- /.description-block -->
@@ -145,8 +163,10 @@
                         <!-- /.col -->
                         <div class="col-sm-4 col-xs-6">
                             <div class="description-block border-right">
-                                <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                                <h5 class="description-header">90,000,000 đ</h5>
+                                <span class="description-percentage text-yellow"><i class="fa fa-caret-up"></i>
+                                    <!--20%-->
+                                </span>
+                                <h5 class="description-header">{{ number_format($report['raw']) }} đ</h5>
                                 <span class="description-text">Tổng vốn thu lại</span>
                             </div>
                             <!-- /.description-block -->
@@ -154,8 +174,11 @@
                         <!-- /.col -->
                         <div class="col-sm-4 col-xs-6">
                             <div class="description-block border-right">
-                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                                <h5 class="description-header">12,000,000 đ</h5>
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i>
+                                    <!--20%-->
+                                </span>
+                                <h5 class="description-header">{{ number_format($report['turnOver'] - $report['raw']) }} đ
+                                </h5>
                                 <span class="description-text">Tổng lợi nhuận</span>
                             </div>
                             <!-- /.description-block -->
@@ -195,8 +218,8 @@
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                class="fa fa-times"></i></button>
+                        {{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i></button> --}}
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -212,60 +235,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><a href="pages/examples/invoice.html">HDJHJBHG01</a></td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td><span class="label bg-yellow">Chờ xác nhận</span></td>
-                                    <td>
-                                        <div class="sparkbar" data-color="#00a65a" data-height="20">
-                                            17,000,000 đ</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href="pages/examples/invoice.html">HDJHJBHG02</a></td>
-                                    <td>Trần Thị B</td>
-                                    <td><span class="label bg-green ">Đã giao hàng</span></td>
-                                    <td>
-                                        <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                            17,000,000 đ</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href="pages/examples/invoice.html">HDJHJBHG03</a></td>
-                                    <td>Bùi Như Lạc</td>
-                                    <td><span class="label bg-blue">Đang giao hàng</span></td>
-                                    <td>
-                                        <div class="sparkbar" data-color="#f56954" data-height="20">
-                                            17,000,000 đ</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href="pages/examples/invoice.html">HDJHJBHG04</a></td>
-                                    <td>Mai Anh Bảo</td>
-                                    <td><span class="label bg-blue">Đang giao hàng</span></td>
-                                    <td>
-                                        <div class="sparkbar" data-color="#00c0ef" data-height="20">
-                                            17,000,000 đ</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href="pages/examples/invoice.html">HDJHJBHG05</a></td>
-                                    <td>Ngô Toàn Cà</td>
-                                    <td><span class="label bg-orange">Đã xác nhận</span></td>
-                                    <td>
-                                        <div class="sparkbar" data-color="#f39c12" data-height="20">
-                                            17,000,000 đ</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href="pages/examples/invoice.html">HDJHJBHG06</a></td>
-                                    <td>Mai Thanh Toán</td>
-                                    <td><span class="label bg-red">Đã hủy</span></td>
-                                    <td>
-                                        <div class="sparkbar" data-color="#f56954" data-height="20">
-                                            17,000,000 đ</div>
-                                    </td>
-                                </tr>
+                                @foreach ($newOrders as $item)
+
+
+                                    <tr>
+                                        <td><a href="{{ route('order.show', $item->id) }}">{{ $item->order_code }}</a>
+                                        </td>
+                                        <td>{{ $item->customer()->first()->name }}</td>
+                                        <td><span
+                                                class="label bg-{{ $orderStatusColor[$item->status] }}">{{ $orderStatus[$item->status] }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                                {{ number_format($item->detail()->sum('final_price')) }}đ</div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -273,8 +258,11 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Tạo đơn hàng mới</a>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Xem tất cả đơn hàng</a>
+                    <a href="{{ route('order.create') }}" class="btn btn-sm btn-info btn-flat pull-left">Tạo đơn hàng
+                        mới</a>
+                    <a href="{{ route('order.index') }}" class="btn btn-sm btn-default btn-flat pull-right">Xem tất cả
+                        đơn
+                        hàng</a>
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -293,75 +281,39 @@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                 class="fa fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                class="fa fa-times"></i></button>
+                        {{-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i></button> --}}
                     </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <ul class="products-list product-list-in-box">
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="{{ asset('storage/images/products/1/5kYgsD04Xh9ZeYt7xdrEO0BDb9pOQqLOE5pGnuaV.jpg') }}"
-                                    alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Lenovo Yoga Slim 7 14ITL05 i5
-                                    1135G7/8GB/512GB/Win10 (82A300DPVN)
-                                    <span class="label label-warning pull-right">17,000,000 đ</span></a>
-                                <span class="product-description">
-                                    {{--  --}}
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="{{ asset('storage/images/products/1/5kYgsD04Xh9ZeYt7xdrEO0BDb9pOQqLOE5pGnuaV.jpg') }}"
-                                    alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Lenovo Yoga Slim 7 14ITL05 i5
-                                    1135G7/8GB/512GB/Win10 (82A300DPVN)
-                                    <span class="label label-warning pull-right">17,000,000 đ</span></a>
-                                <span class="product-description">
-                                    {{--  --}}
-                                </span>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="{{ asset('storage/images/products/1/5kYgsD04Xh9ZeYt7xdrEO0BDb9pOQqLOE5pGnuaV.jpg') }}"
-                                    alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Lenovo Yoga Slim 7 14ITL05 i5
-                                    1135G7/8GB/512GB/Win10 (82A300DPVN)
-                                    <span class="label label-warning pull-right">17,000,000 đ</span></a>
-                                <span class="product-description">
-                                    {{--  --}}
-                                </span>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="{{ asset('storage/images/products/1/5kYgsD04Xh9ZeYt7xdrEO0BDb9pOQqLOE5pGnuaV.jpg') }}"
-                                    alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Lenovo Yoga Slim 7 14ITL05 i5
-                                    1135G7/8GB/512GB/Win10 (82A300DPVN)
-                                    <span class="label label-warning pull-right">17,000,000 đ</span></a>
-                                <span class="product-description">
-                                    {{--  --}}
-                                </span>
-                            </div>
-                        </li>
+                        @foreach ($products as $item)
+
+
+                            <!--.item-->
+                            <li class="item">
+                                <div class="product-img">
+                                    <img src="{{ asset('storage/' . $item->card_image) }}" alt="Product Image">
+                                </div>
+                                <div class="product-info">
+                                    <a href="{{ route('shop.product.show', $item->slug) }}" target="_blank"
+                                        class="product-title">{{ $item->name }}
+                                        <span
+                                            class="label label-warning pull-right">{{ number_format($item->sell_price) }}đ</span></a>
+                                    <span class="product-description">
+                                        {{--  --}}
+                                    </span>
+                                </div>
+                            </li>
+                            <!-- /.item -->
+                        @endforeach
+
                     </ul>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">Xem tất cả sản phẩm</a>
+                    <a href="{{ route('product.index') }}" class="uppercase">Xem tất cả sản phẩm</a>
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -373,6 +325,84 @@
     <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{-- <script src="{{ asset('dist/js/pages/dashboard2.js') }}"></script> --}}
+
+    {{-- Xử lí dữ liệu vẽ biểu đồ --}}
+    @php
+    $dayOfWeekName = ['Monday'=>'Thứ 2','Tuesday'=> 'Thứ 3','Wednesday' => 'Thứ 4', 'Thusday'=> 'Thứ 5','Friday' => 'Thứ 6','Saturday'=> 'Thứ 7','Sunday' =>'Chủ Nhật'];
+    $label = '';
+    $daysInMonth = Carbon\Carbon::now()->daysInMonth;
+    $receivedData='';
+    $data = '';
+    if (request()->query('reportBy')) {
+        if (request()->query('reportBy') == 'month') {
+            for ($i = 1; $i <= $daysInMonth; $i++) {
+                $label .= $i.',';
+                
+                
+                if ($day = $countOrderDataResult->where('day',$i)->first()) {
+                    $data.=$day->orders.',';
+                }
+                
+                else{
+                    $data.=0;
+                    $data.=',';
+                }
+
+                if($day= $countReceivedOrderData->where('day',$i)->first()){
+                     $receivedData.=$day->orders.',';
+                }  else{
+                    $receivedData.=0;
+                    $receivedData.=',';
+                }
+                
+            }
+        }
+        if (request()->query('reportBy') == 'week') {
+            foreach ($dayOfWeekName as $key => $value) {
+                $label .= "'$value',";
+                
+                
+                if ($day = $countOrderDataResult->where('day',$key)->first()) {
+                    $data.=$day->orders.',';
+                }
+                
+                else{
+                    $data.=0;
+                    $data.=',';
+                }
+
+                if($day= $countReceivedOrderData->where('day',$key)->first()){
+                     $receivedData.=$day->orders.',';
+                }  else{
+                    $receivedData.=0;
+                    $receivedData.=',';
+                }
+                
+            }
+        }
+    }
+    else{
+        
+        for($i = 0; $i< $countOrderDataResult->count();$i++){
+            $label.= "'".$countOrderDataResult->get($i)->day."',";
+            $data.=$countOrderDataResult->get($i)->orders;
+            $data.=',';
+            if($day = $countReceivedOrderData->where('day',$countOrderDataResult->get($i)->day)->first()){
+                $receivedData.=$day->orders.',';
+               
+            }
+            else{
+                $receivedData.=0;
+                $receivedData.=',';
+            }
+        }
+    }
+    
+
+    // dd(Carbon\Carbon::now()->dayOfWeek)
+
+    @endphp
+    
     <script>
         $(document).ready(() => {
             var salesChartCanvas = $('#salesChart').get(0).getContext('2d');
@@ -380,7 +410,7 @@
             var salesChart = new Chart(salesChartCanvas);
 
             var salesChartData = {
-                labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
+                labels: [0,{!! $label !!}],
                 datasets: [{
                         label: 'Đặt hàng',
                         fillColor: 'rgb(210, 214, 222)',
@@ -389,7 +419,7 @@
                         pointStrokeColor: '#c1c7d1',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgb(220,220,220)',
-                        data: [0, 6, 0, 0, 0, 0, 0]
+                        data: [0,{{$data}}]
                     },
                     {
                         label: 'Đã giao',
@@ -399,7 +429,7 @@
                         pointStrokeColor: 'rgba(60,141,188,1)',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [0, 1, 0, 0, 0, 0, 0]
+                        data: [0,{{$receivedData}}]
                     }
                 ]
             };

@@ -17,10 +17,10 @@ class CreatePostTable extends Migration
             $table->id()->autoIncrement();
             $table->string("title");
             $table->string("slug");
-            $table->mediumText("content");
-            $table->string("cover_image");
-            $table->string("meta_keyword");
-            $table->string("meta_description");
+            $table->mediumText("content")->nullable();
+            $table->string("cover_image")->nullable();
+            $table->string("meta_keyword")->nullable();
+            $table->string("meta_description")->nullable();
             $table->unsignedBigInteger("author");
             $table->integer("view")->default(0);
             $table->integer("status")->default(0);//0=draff,1= saved, 2 = published

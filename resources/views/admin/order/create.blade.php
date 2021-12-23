@@ -8,6 +8,8 @@
             </span>
         </div>
         <div class="box-body">
+            <a href="{{ route('order.index') }}" class="btn"><i class="fa fa-caret-left"></i> Trở về</a>
+
             <form action="{{ route('order.store') }}" method="post" class="form">
                 @csrf
                 <div class="row">

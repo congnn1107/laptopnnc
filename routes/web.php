@@ -47,16 +47,19 @@ Route::post('/dat-hang', 'OrderController@storeForCustomer')->name('shop.order')
 Route::post('/update-cart', 'ProductController@updateQuantityCartItem')->name('shop.product.update_qty_cart');
 Route::get('/remove-cart-item/{id}', 'ProductController@removeCartItem')->name('shop.product.removecart');
 Route::get('/livesearch','HomeController@liveSearch')->name('shop.livesearch');
+
 Route::get('/clear-cart', function () {
     Cart::destroy();
     return back();
 });
 Route::get('/bai-viet','HomeController@postPage')->name('shop.post');
-
+Route::get('/bai-viet/{slug}.html','HomeController@showPost')->name('shop.post.show');
 Route::middleware(['shop.checkLogin'])->group(function(){
     Route::get('/test-login', function(){
         return "OK";
     });
+    Route::get('/ca-nhan','HomeController@editUserInfo')->name('shop.user.edit');
+    Route::put('/ca-nhan','HomeController@updateUserInfo')->name('shop.user.update');
 });
 Route::post('/login','HomeController@login')->name('shop.login')->middleware('shop.preventLogin');
 Route::get('/logout','HomeController@logout')->name('shop.logout');
@@ -72,8 +75,13 @@ Route::prefix("admin")->group(function () {
         Route::get("/login", [DashboardController::class, "login"])->name("admin.login");
         Route::post("/login", [DashboardController::class, "checkLogin"])->name("admin.check");
     });
+   
     Route::get("/logout", [DashboardController::class, "logout"])->name("admin.logout");
     Route::middleware(['admin.login'])->group(function () {
+        
+        Route::get('/profile','DashboardController@profile')->name('dashboard.profile');
+        Route::put('/profile','DashboardController@updateProfile')->name('dashboard.profile.update');
+
         Route::get("/dashboard", [DashboardController::class, "dashboard"])->name("admin.dashboard");
         Route::get("/", [DashboardController::class, "dashboard"]);
 
@@ -113,6 +121,8 @@ Route::prefix("admin")->group(function () {
         Route::resource('/banner', 'BannerController');
         Route::post('banner/stt', 'BannerController@changeStatus')->name('banner.stt');
         //order
+        Route::post('/change-status','OrderController@changeStatus')->name('order.changeStatus');
+
         Route::resource('/order', 'OrderController');
         Route::post('/order/search-product', 'OrderController@searchProduct')->name('order.search_product');
         Route::resource('/post','PostController');

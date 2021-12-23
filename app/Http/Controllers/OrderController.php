@@ -9,6 +9,7 @@ use App\Model\OrderDetail;
 use App\Model\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -22,14 +23,17 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $statusArray;
+    protected $colorLabel;
     public function __construct()
     {
-        $this->statusArray = ['Đã hủy', 'Chờ xác nhận', 'Đã xác nhận', 'Đang giao hàng', 'Đã giao hàng'];
+        $this->statusArray = [ 'Chờ xác nhận', 'Đã xác nhận', 'Đang giao hàng', 'Đã giao hàng','Đã hủy'];
+        $this->colorLabel= ['yellow','orange','blue','green','red'];
     }
     public function index()
     {
         //
-        return view('admin.order.index');
+        $orders = Order::orderBy('created_at','desc')->get();
+        return view('admin.order.index',['statusArray'=>$this->statusArray,'orders'=>$orders,'colorLabel'=>$this->colorLabel]);
     }
 
     /**
@@ -42,7 +46,17 @@ class OrderController extends Controller
         //
         return view('admin.order.create');
     }
-
+    public function changeStatus(Request $request){
+        $order = Order::findOrFail($request->input('order'));
+        $order->status = $request->input('status');
+        $order->admin = Auth::guard('admin')->user()->id;
+        if($order->save()){
+            return back()->with('success','Đã thay đổi trạng thái đơn hàng!');
+        }
+        else{
+            return back('error','Có lỗi xảy ra!');
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -67,7 +81,8 @@ class OrderController extends Controller
         //process customer
         $customerInput = $request->all('name', 'phone', 'email');
         $customerInput['address'] = $address;
-        $customer = Customer::where('phone', $customerInput['phone'])->first();
+        $customer = Customer::where('email', $customerInput['email'])
+            ->where('phone',$customerInput['phone'])->where('name',$customerInput['name'])->first();
         if (!$customer) {
             $customer = Customer::create($customerInput);
         }
@@ -105,7 +120,7 @@ class OrderController extends Controller
         // dd($details);
         $orderCode = 'HD'.substr($customer->phone,6).Str::random(6);
         // dd($orderCode);
-        $order = Order::create(['customer' => $customer->id, 'address' => $address, 'order_code' => $orderCode]);
+        $order = Order::create(['customer' => $customer->id,'phone'=>$request->input('phone'), 'address' => $address, 'order_code' => $orderCode]);
         // foreach ($details as $detail) {
         //     $result = $order->detail()->create($detail);
         // }
@@ -120,7 +135,7 @@ class OrderController extends Controller
         
         Mail::to($customer->email)->send(new Invoice($mailContent));
 
-        return redirect(route('order.show', $order->id))->with('success', 'Đã tạo hóa đơn!');
+        return redirect(route('shop.product.index'))->with('success', 'Đã tạo hóa đơn, vui lòng kiểm tra email!');
         
     }
 

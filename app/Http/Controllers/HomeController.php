@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Category;
 use App\Model\CPU;
 use App\Model\GPU;
+use App\Model\Post;
 use App\Model\Product;
 use App\Model\Slider;
 use App\Model\User;
@@ -190,6 +191,61 @@ class HomeController extends Controller
 
         return view('shop.store', ['categories' => $this->categories, 'products' => $products, "queryString"=>$queryString,'filters'=>$filters]);
     }
+    public function editUserInfo(){
+
+        return view('shop.customer',['categories'=>$this->categories]);
+    }
+    public function updateUserInfo(Request $request){
+        $request->validate([
+            'name' => ['required','min:5'],
+           
+        ],[
+            'name.required' => 'Tên không được bỏ trống!',
+            'name.min' => 'Độ dài tên tối thiểu phải 5 ký tự!'
+           
+        ]);
+
+        $user = Auth::user();
+        //xử lý cập nhật thông tin
+
+        $options = [
+            'name' => $request->input('name'),
+            'address' => $request->input('address'),
+            'birthday' => $request->input('birthday'),
+            'gender' => $request->input('gender'),
+        ];
+        $user->update($options);
+
+
+        $messages = [];
+        
+
+        //xử lý đổi mật khẩu
+        if($request->input('old_password')){
+            //kiểm tra mật khẩu chính xác
+            Auth::user()->makeVisible('password');
+           if(Hash::check($request->input('old_password'),Auth::user()->password)){
+                $request->validate([
+                    'password' => ['required','min:6'],
+                    'confirm' => ['required','same:password']
+                ],[
+                    'password.required' => 'Mật khẩu không được để trống!',
+                    'password.min' => 'Mật khẩu phải tối thiểu 6 ký tự',
+                    'confirm.same' => 'Xác nhận mật khẩu thất bại!'
+                ]);
+
+                
+                
+                $user->update(['password' => Hash::make($request->input('password'))]);
+                return back()->with('success', 'Đã lưu!');
+           }
+           else{
+                $messages['old_password'] = 'Mật khẩu không chính xác!';
+                return redirect()->back()->withErrors($messages)->withInput();
+           }
+        }
+        return back()->with('success', 'Đã lưu!');
+    }
     public function showProduct($slug)
     {
         $product = Product::where('slug', $slug)->first();
@@ -210,6 +266,18 @@ class HomeController extends Controller
     }
     public function postPage()
     {
+        $posts = Post::where('status',1)->orderBy('created_at','desc')->paginate(6);
+        return view('shop.post.index',['categories'=>$this->categories,'posts' => $posts]);
+    }
+    public function showPost($slug){
+
+        $post = Post::where('slug',$slug)->first();
+
+        if($post){
+            return view('shop.post.show',['categories'=>$this->categories,'post'=>$post]);
+        }else{
+            abort(404);
+        }
     }
 
     public function login(Request $request)
@@ -284,11 +352,12 @@ class HomeController extends Controller
     {
         if (Auth::check()) {
             $accessToken = auth()->user()->setRememberToken("");
-
+         
             Auth::logout();
-            session()->invalidate();
-            session()->flush();
-            session()->regenerateToken();
+            // session()->invalidate();
+            // session()->flush();
+            // session()->regenerateToken();
+           
             return back();
         }
         return back();

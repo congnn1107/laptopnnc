@@ -62,4 +62,5 @@ class ProductRequest extends FormRequest
             'keyboard.required' => 'Không được bỏ trống bàn phím',
         ];
     }
+    
 }

@@ -9,8 +9,10 @@
     Tất cả sản phẩm
 @endsection
 @section('content')
+   
 
     <hr class="offset-top">
+    @include('admin.layout.message')
     <div class="tags">
         <div class="container">
             <div class="btn-group pull-right sorting">

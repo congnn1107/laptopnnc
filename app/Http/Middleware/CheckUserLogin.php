@@ -16,9 +16,14 @@ class CheckUserLogin
      */
     public function handle($request, Closure $next)
     {
+        
         if (Auth::check()) {
             return $next($request)->header('Cache-Control','nocache, no-store, max-age=0, must-revalidate')
             ->header('Pragma','no-cache')->header('Expires','Sun, 02 Jan 1990 00:00:00 GMT');
+        }
+        $path = $request->getPathInfo();
+        if( $path == '/ca-nhan' || $path =='/lich-su' || $path == '/mua-sau'){
+            return redirect()->route('shop.index');
         }
         return back();
     }

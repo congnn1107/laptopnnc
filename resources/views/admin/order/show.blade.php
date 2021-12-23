@@ -6,15 +6,19 @@
             <span class="h4 text-muted">Thông tin đơn hàng</span>
         </div>
         <div class="box-body">
+            <a href="{{ route('order.index') }}" class="btn"><i class="fa fa-caret-left"></i> Trở về</a>
+
             <h2 class="text-purple">Thông tin khách hàng:</h2>
             @php
                 $customer = $order->customer()->first();
             @endphp
+            
             <p>Họ và tên: <span class="text-primary"><strong>{{ $customer->name }}</strong></span></p>
             <p>SDT: <span class="text-primary"><strong>{{ $customer->phone }}</strong></span></p>
             <p>Email: <span class="text-primary"><strong>{{ $customer->email }}</strong></span></p>
             <p>ĐC giao hàng: <span class="text-primary"><strong>{{ $order->address }}</strong></span></p>
             <h2 class="text-purple">Danh sách sản phẩm</h2>
+            <p>Đơn hàng: <span class="text-primary"><strong>{{$order->order_code}}</strong></span></p>
             <p>Ngày tạo: <span class="text-primary"><strong>{{ $order->created_at }}</strong></span></p>
             <p>Cập nhật: <span class="text-primary"><strong>{{ $order->updated_at }}</strong></span></p>
             <span>Sản phẩm:</span>
@@ -55,10 +59,10 @@
                 <span class="h3 pull-right">Tổng tiền: <span
                         class="text-red"><strong>{{ $sum }}</strong></span></span>
             </p>
-            <form action="" method="post">
+            <form action="{{route('order.changeStatus')}}" method="post">
                 @csrf
                 <input type="hidden" name="order" value="{{ $order->id }}">
-                <input type="hidden" name="admin" value="1"> {{--Thay 1 bằng id của admin--}}
+                {{-- <input type="hidden" name="admin" value="1"> Thay 1 bằng id của admin --}}
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
