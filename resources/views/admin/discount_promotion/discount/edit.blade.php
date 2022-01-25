@@ -11,6 +11,8 @@
             </div>
         </div>
         <div class="box-body">
+        <button class="btn btn-link" onclick="history.back()"><i class="fa fa-caret-left"></i> Trở lại</button>
+
             <form action="{{ route('promotion.update',$discount->id) }}" method="post" class="form">
                 @csrf
                 @method('put')
@@ -74,7 +76,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Đường dẫn:</label>
-                    <input type="text" name="url" id="" value="{{ $discount->url) }}" class="form-control">
+                    <input type="text" name="url" id="" value="{{ $discount->url }}" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="">Nội dung chương trình khuyến mại</label>

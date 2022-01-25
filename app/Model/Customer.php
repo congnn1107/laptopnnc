@@ -17,7 +17,7 @@ class Customer extends Model
 
 
     public function order(){
-        return $this->hasMany("App\Model\Order","customer");
+        return $this->hasMany("App\Model\Order","customer")->withTrashed();
     }
 
     /**

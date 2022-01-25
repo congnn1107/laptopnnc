@@ -3,7 +3,7 @@
     <div class="box-header with-border">
         <span class="h4 text-muted">Tạo thông tin CPU mới</span>
         <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" data-original-title="Collapse">
+            <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" id="btnBox" data-original-title="Collapse">
                 <i class="fa {{$collapsed?'fa-plus':'fa-minus'}}"></i>
             </button>
         </div>

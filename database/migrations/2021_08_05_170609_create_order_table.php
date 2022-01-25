@@ -21,6 +21,7 @@ class CreateOrderTable extends Migration
             $table->string("address")->nullable();
             $table->string("phone")->nullable();
             $table->unsignedBigInteger("admin")->nullable()->default(1);
+            $table->dateTime('finished_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
             //foreign key

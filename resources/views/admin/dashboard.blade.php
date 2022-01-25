@@ -74,9 +74,9 @@
                             <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-wrench"></i></button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Theo ngày</a></li>
-                                <li><a href="#">Theo tuần</a></li>
-                                <li><a href="#">Theo tháng</a></li>
+                                <li><a href="{{route('admin.dashboard')}}">Tất cả</a></li>
+                                <li><a href="{{route('admin.dashboard')}}?reportBy=week">Theo tuần</a></li>
+                                <li><a href="{{route('admin.dashboard')}}?reportBy=month">Theo tháng</a></li>
                                 <li class="divider"></li>
                                 {{-- <li><a href="#">Separated link</a></li> --}}
                             </ul>
@@ -322,6 +322,52 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <span class="h4">Sản phẩm bán chạy</span>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table" id="best-seller">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên SP</th>
+                                <th>Số lượng đã bán</th>
+                                <th>Trạng thái</th>
+                                <th>Đã xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $statusArray = ['Sắp về','Đang kinh doanh','Không kinh doanh'];
+                                $colors = ['orange','green','gray']
+                            @endphp
+                            @foreach ($bestSeller as $key => $item)
+                                <tr>
+                                    <td>
+                                        {{$key+1}}
+                                    </td>
+                                    <td>
+                                        {{$item->name}}
+                                    </td>
+                                    <td>{{$item->sold_qty}}</td>
+                                    <td><span class="label bg-{{$colors[$item->status]}}">{{$statusArray[$item->status]}}</span></td>
+                                    <td><span class="label bg-red">{{$item->deleted_at?'Đã xóa':''}}</span></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('bower_components/chart.js/Chart.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{-- <script src="{{ asset('dist/js/pages/dashboard2.js') }}"></script> --}}
@@ -402,7 +448,12 @@
     // dd(Carbon\Carbon::now()->dayOfWeek)
 
     @endphp
-    
+    <script>
+        //xử lý data table bảng sản phẩm bán chạy
+        $(document).ready(()=>{
+            $('#best-seller').DataTable();
+        })
+    </script>
     <script>
         $(document).ready(() => {
             var salesChartCanvas = $('#salesChart').get(0).getContext('2d');

@@ -106,10 +106,10 @@
           <!-- Menu Footer-->
           <li class="user-footer">
             <div class="pull-left">
-              <a href="{{route('dashboard.profile')}}" class="btn btn-default btn-flat">Profile</a>
+              <a href="{{route('dashboard.profile')}}" class="btn btn-default btn-flat">TT Cá nhân</a>
             </div>
             <div class="pull-right">
-              <a href="{{route('admin.logout')}}" class="btn btn-default btn-flat">Logout</a>
+              <a href="{{route('admin.logout')}}" class="btn btn-default btn-flat">Đăng xuất</a>
             </div>
           </li>
         </ul>

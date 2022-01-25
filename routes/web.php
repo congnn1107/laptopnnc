@@ -7,12 +7,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\DiscountPromotionController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LocalController;
 use App\Http\Controllers\PostController;
 use App\Mail\Invoice;
 use App\Model\Admin;
 use App\Model\Category;
 use App\Model\Customer;
+use App\Model\Product;
 use App\Model\Role;
 use App\Model\Slider;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -30,13 +32,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource("/categories", "CategoryController");
+
 
 Route::prefix('/local')->name('local.')->group(function(){
     Route::get('/province',[LocalController::class,'getProvinces'])->name('province');
     Route::get('/district/parent={id}',[LocalController::class,'getDistricts'])->name('district');
     Route::get('/ward/parent={id}',[LocalController::class,'getWards'])->name('ward');
 });
+
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('reset-password/{email}/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
 Route::get("/", 'HomeController@index')->name('shop.index');
 Route::get("/san-pham", 'HomeController@storePage')->name('shop.product.index');
 Route::get("/lien-he", 'HomeController@contactPage')->name('shop.contact');
@@ -54,16 +61,27 @@ Route::get('/clear-cart', function () {
 });
 Route::get('/bai-viet','HomeController@postPage')->name('shop.post');
 Route::get('/bai-viet/{slug}.html','HomeController@showPost')->name('shop.post.show');
+Route::get('/bai-viet/tang-view/{slug}','PostController@addView')->name('shop.post.addview');
 Route::middleware(['shop.checkLogin'])->group(function(){
-    Route::get('/test-login', function(){
-        return "OK";
-    });
     Route::get('/ca-nhan','HomeController@editUserInfo')->name('shop.user.edit');
     Route::put('/ca-nhan','HomeController@updateUserInfo')->name('shop.user.update');
+    Route::get('/lich-su','HomeController@history')->name('shop.history');
+    Route::get('/mua-sau/{id}','WishlistController@add')->name('mua-sau.add');
+    Route::resource('/mua-sau','WishlistController');
+    Route::get('/lich-su/huy-don/{orderCode}','HomeController@cancelOrder')->name('shop.history.cancel');
 });
+
 Route::post('/login','HomeController@login')->name('shop.login')->middleware('shop.preventLogin');
 Route::get('/logout','HomeController@logout')->name('shop.logout');
 Route::post('/register','HomeController@register')->name('shop.register');
+//đánh giá sản phẩm
+Route::post('/review','ReviewController@store')->name('review.store');
+Route::get('/test', function(){
+    dd(Product::find(2)->discount);
+});
+Route::get('/khuyen-mai/{slug}.html',function(){
+
+})->name('discount.show');
 //khách: xem chương trình khuyến mại (test)
 Route::get('discount/{slug}', function () {
     //làm gì đó
@@ -92,7 +110,7 @@ Route::prefix("admin")->group(function () {
         Route::get('product/{id}/images', [ProductImageController::class, 'images'])->name('products.show_image');
         Route::post('product/{id}/images', [ProductImageController::class, 'store'])->name('products.store_image');
         Route::delete('product/{id}/images', [ProductImageController::class, 'destroy'])->name('products.delete_image');
-        //quản lý khuyến mại, giảm giá
+        // quản lý khuyến mại, giảm giá
         Route::name('promotion.')->group(function () {
             Route::prefix('promotion')->group(function () {
                 Route::get('/', [DiscountPromotionController::class, 'index'])->name('index');
@@ -106,6 +124,8 @@ Route::prefix("admin")->group(function () {
                 Route::put('/', [DiscountPromotionController::class, 'destroyDiscount'])->name('destroy');
             });
         });
+        // Route::resource('/discount','DiscountPromotionController');
+        Route::post('/product/{id}/update-stock','ProductController@updateStock')->name('product.stock');
         Route::resource('/product', 'ProductController');
         Route::resource('/cpu', "CPUController");
         Route::resource('/gpu', "GPUController");
@@ -122,11 +142,12 @@ Route::prefix("admin")->group(function () {
         Route::post('banner/stt', 'BannerController@changeStatus')->name('banner.stt');
         //order
         Route::post('/change-status','OrderController@changeStatus')->name('order.changeStatus');
-
+        Route::post('/order/finish/{id}','OrderController@finishOrder')->name('order.finish');
         Route::resource('/order', 'OrderController');
         Route::post('/order/search-product', 'OrderController@searchProduct')->name('order.search_product');
         Route::resource('/post','PostController');
         Route::resource('/user','UserController');
+        Route::resource("/categories", "CategoryController");
     });
 });
 

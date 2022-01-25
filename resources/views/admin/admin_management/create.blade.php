@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="">Password</label>
-                <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}">
+                <input type="password" onkeypress="return event.charCode != 32" name="password" id="password" class="form-control" value="{{old('password')}}">
                 @error('password')
                 <p class="text-danger"><i class="fa fa-times-circle"></i> {{$message}}</p>
                 @enderror

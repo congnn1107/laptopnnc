@@ -15,10 +15,11 @@ class CreateReviewTable extends Migration
     {
         Schema::create('review', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string("customer_phone");
+            $table->string("email");
+            $table->string("name");
             $table->unsignedBigInteger("product");
             $table->string("title");
-            $table->string("content");
+            $table->string("content")->nullable();
             $table->integer("points");
             $table->timestamps();
             $table->softDeletes();

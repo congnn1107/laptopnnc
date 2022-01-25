@@ -23,6 +23,22 @@ class PostController extends Controller
        
     }
 
+    public function addView($slug){
+        $post = Post::where('slug',$slug)->first();
+        if($post){
+            if($post->increment('view',1))
+            {
+                return response()->json(['status' => 'ok',['views'=>$post->view]]);
+            }
+            else
+            {
+                return response('Không thành công!',404);
+            }
+        }
+        else{
+            return response('Không thấy bài viết!',404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

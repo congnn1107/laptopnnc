@@ -24,10 +24,12 @@ class CPURequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->input());
         $uniqueNameRule = Rule::unique('cpu','name')->ignore($this->id??0)->whereNull('deleted_at');
         return [
             //
             'name' => ['required',$uniqueNameRule]
+            
         ];
     }
     public function messages()

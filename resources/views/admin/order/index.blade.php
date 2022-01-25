@@ -17,7 +17,7 @@
                 <div class="info-box-content">
                     <div class="info-box-text">Chờ xác nhận</div>
 
-                    <div class="info-box-number">{{$orders->where('status',0)->count()}}</div>
+                    <div class="info-box-number">{{$counts[0]}}</div>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="info-box-content">
                     <div class="info-box-text">Đã xác nhận</div>
-                    <div class="info-box-number">{{$orders->where('status',1)->count()}}</div>
+                    <div class="info-box-number">{{$counts[1]}}</div>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="info-box-content">
                     <div class="info-box-text">Đang giao hàng</div>
-                    <div class="info-box-number">{{$orders->where('status',2)->count()}}</div>
+                    <div class="info-box-number">{{$counts[2]}}</div>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="info-box-content">
                     <div class="info-box-text">Đã giao</div>
-                    <div class="info-box-number">{{$orders->where('status',3)->count()}}</div>
+                    <div class="info-box-number">{{$counts[3]}}</div>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="info-box-content">
                     <div class="info-box-text">Đã hủy</div>
-                    <div class="info-box-number">{{$orders->where('status',4)->count()}}</div>
+                    <div class="info-box-number">{{$counts[4]}}</div>
                 </div>
             </div>
         </div>
@@ -74,7 +74,42 @@
         </div>
         <div class="box-body">
             <a href="{{ route('order.create') }}" class="btn btn-primary">Tạo hóa đơn mới</a>
+
             <br>
+            <br>
+            <form action="{{route('order.index')}}" method="get">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Từ ngày:</label>
+                                    <input type="date" class="form-control" value="{{request()->query('from')}}" name="from" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Đến ngày:</label>
+                                    <input type="date" class="form-control" value="{{request()->query('to')}}" name="to" id="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Trạng thái: </label>
+                            <select name="status" id="" class="form-control">
+                                <option value="-1">Chọn</option>
+                                @foreach ($statusArray as $key => $item)
+                                    <option value="{{ $key }}" @if(request()->query('status')===$key) selected @endif>{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Lọc</button>
+                            <a href="{{ route('order.index') }}" class="btn">Hủy bộ lọc</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <br>
             <br>
             <div class="table">
@@ -86,6 +121,7 @@
                         <th>Tên khách hàng</th>
                         <th>Địa chỉ nhận</th>
                         <th>SDT nhận</th>
+                        <th>Thời gian</th>
                         <th>Trạng thái</th>
                         <th>Tùy chọn</th>
                     </tr>
@@ -101,10 +137,17 @@
                         <td>{{$item->customer()->first()->name}}</td>
                         <td>{{$item->address}}</td>
                         <td>{{$item->phone}}</td>
+                        <td>{{$item->created_at}}</td>
                         <td><span class="bg-{{$colorLabel[$item->status]}} label">{{$statusArray[$item->status]}}</span></td>
                         <td>
                             <a href="{{route('order.show',$item->id)}}" title="Cập nhật" class="btn"><i class="fa fa-edit text-green"></i></a>
-                            <a href="" title="Hủy đơn hàng" class="btn"><i class="fa fa-trash text-red"></i></a>
+                            
+                            <form class="" onsubmit="return confirm('Bạn có chắc muốn xóa đơn hàng?')" style="display:inline" action="{{route('order.destroy',$item->id)}}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" title="Xóa đơn hàng" class="btn btn-link"><i class="fa fa-trash text-red"></i></button>
+                            </form>
+                            
                         </td>
                     </tr>
                     @endforeach

@@ -41,7 +41,12 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([], []);
+        $request->validate([
+            'image' => ['required','image']
+        ], [
+            'image.required' => 'Vui lòng chọn hình ảnh!',
+            'image.image' => 'Hình ảnh không đúng định dạng!'
+        ]);
         $status = $request->status ? 1 : 0;
         $imagePath = $request->file('image')->store('images/slider', 'public');
     

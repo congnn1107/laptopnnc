@@ -2,8 +2,8 @@
 
     @if (auth()->check())
         <a href="{{route('shop.logout')}}"> <i class="fa fa-power-off"></i> Đăng xuất </a>
-        <a href="#"> <i class="fa fa-book"></i> Lịch sử mua hàng </a>
-        <a href="#"> <i class="ion-ios-heart"></i> Danh sách mua sau </a>
+        <a href="{{route('shop.history')}}"> <i class="fa fa-book"></i> Lịch sử mua hàng </a>
+        <a href="{{route('mua-sau.index')}}"> <i class="ion-ios-heart"></i> Danh sách mua sau </a>
         <a href="{{route('shop.user.edit')}}"> <i class="fa fa-cogs"></i> Thông tin cá nhân </a>
         
         <a href="#"> <i class="ion-person"></i> Hi 

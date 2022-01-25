@@ -20,7 +20,7 @@ class CreatePostTable extends Migration
             $table->mediumText("content")->nullable();
             $table->string("cover_image")->nullable();
             $table->string("meta_keyword")->nullable();
-            $table->string("meta_description")->nullable();
+            $table->text("meta_description")->nullable();
             $table->unsignedBigInteger("author");
             $table->integer("view")->default(0);
             $table->integer("status")->default(0);//0=draff,1= saved, 2 = published

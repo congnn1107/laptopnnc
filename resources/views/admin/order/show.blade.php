@@ -6,7 +6,7 @@
             <span class="h4 text-muted">Thông tin đơn hàng</span>
         </div>
         <div class="box-body">
-            <a href="{{ route('order.index') }}" class="btn"><i class="fa fa-caret-left"></i> Trở về</a>
+            <button class="btn btn-link" onclick="history.back()"><i class="fa fa-caret-left"></i> Trở về</button>
 
             <h2 class="text-purple">Thông tin khách hàng:</h2>
             @php
@@ -47,17 +47,17 @@
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->sku }}</td>
-                            <td>{{ $item->price }}</td>
-                            <td>{{ $item->discounted }}</td>
+                            <td>{{ number_format($item->price) }}</td>
+                            <td>{{ number_format($item->discounted) }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>{{ $item->final_price }}</td>
+                            <td>{{ number_format($item->final_price) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
             <p>
                 <span class="h3 pull-right">Tổng tiền: <span
-                        class="text-red"><strong>{{ $sum }}</strong></span></span>
+                        class="text-red"><strong>{{ number_format($sum) }}</strong>đ</span></span>
             </p>
             <form action="{{route('order.changeStatus')}}" method="post">
                 @csrf
@@ -67,7 +67,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="">Trạng thái đơn hàng: </label>
-                            <select name="status" class="form-control" id="">
+                            <select name="status" class="form-control" @if($order->finished_at) disabled @endif id="">
                                 @foreach ($statusArray as $key => $status)
                                     <option value="{{ $key }}" {{ $order->status==$key?'selected':'' }}>{{ $status }}</option>
                                 @endforeach
@@ -80,11 +80,14 @@
                 
             </form>
             <div class="">
-                <a href="" class="btn">Sửa Thông Tin Đơn Hàng</a>
-                <form action="" class="pull-right" method="post">
-                    @method('delete')
-                    <button type="submit" class="btn btn-danger">Xóa đơn hàng</button>
-                </form>
+               @if ($order->status==3)
+                    <form action="{{route('order.finish',$order->id)}}" method="post" onsubmit="return confirm('Sau khi bấm xác nhận, đơn hàng sẽ không thể thay đổi trạng thái, bạn muốn tiếp tục?')">
+                        @csrf
+                        <button type="submit" class="btn bg-green pull-right">Hoàn thành đơn hàng</button>
+                    </form>
+                 
+               @endif
+                
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@ class CreateDiscountTable extends Migration
         Schema::create('discount', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string("title");
-            $table->text("content");
+            $table->text("content")->nullable();
             $table->integer('type')->default(1);
             $table->double("discounted_rate")->nullable()->default(0);
             $table->integer('discounted_amount')->nullable()->default(0);

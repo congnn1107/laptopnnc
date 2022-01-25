@@ -21,6 +21,27 @@
             opacity: 0.3;
         }
 
+        /* Review Star */
+        .star {
+            font-size: 25px;
+            color: gray;
+
+        }
+
+        .star.small {
+            font-size: 16px;
+        }
+
+        .btn-star {
+            cursor: pointer;
+        }
+
+        .star.checked {
+            color: rgb(255, 196, 0);
+        }
+
+        .star .btn-star .checked {}
+
     </style>
 @endsection
 
@@ -75,6 +96,17 @@
                         @php
                             $cpu = $product->cpu()->first();
                             $gpu = $product->gpu()->first();
+                            //xử lý khuyến mại
+                            $discounts = $product->discount;
+                            // if($discounts->count()!=0)dd($discounts);
+                            $discounted = 0;
+                            foreach ($discounts as $discount) {
+                                if ($discount->type == 0) {
+                                    $discounted += $product->sell_price * $discount->discounted_rate * 0.01;
+                                } elseif ($discount->type == 1) {
+                                    $discounted += $discount->discounted_amount;
+                                }
+                            }
                         @endphp
                         <p> &middot; {{ $product->operating_system }}</p>
                         <p> &middot; {{ $product->screen_detail }}</p>
@@ -83,14 +115,33 @@
                         <hr class="offset-sm visible-sm">
                         <hr class="offset-xs visible-sm">
 
-                        <p class="price">{{ number_format($product->sell_price) }}đ</p>
-                        <p class="price through">$3 449.99</p>
-                        <hr class="offset-md">
+                        @if ($product->status == 1)
 
-                        <button class="btn btn-primary rounded add-to-cart"
-                            data-url="{{ route('shop.product.addtocart', $product->id) }}"> <i class="ion-bag"></i>
-                            Thêm vào giỏ hàng</button>
-                        <button class="btn btn-link"> <i class="ion-ios-heart"></i> Mua sau </button>
+
+                            <p class="price">{{ number_format($product->sell_price - $discounted) }}đ</p>
+                            @if ($discounted > 0)
+                                <p class="price through">{{ number_format($product->sell_price) }}</p>
+                            @endif
+
+                            <hr class="offset-md">
+
+                            <button class="btn btn-primary rounded add-to-cart"
+                                data-url="{{ route('shop.product.addtocart', $product->id) }}"> <i
+                                    class="ion-bag"></i>
+                                Thêm vào giỏ hàng</button>
+                            @if (Auth::check())
+                                <a class="add-to-wishlist" data-url="http://localhost:8000/mua-sau/{{ $product->id }}">
+                                    <button class="btn btn-link"> <i class="ion-ios-heart"></i> Mua sau </button></a>
+
+                            @endif
+                            
+                        @else
+                            @if ($product->status==0)
+                                <span class="h2 label" style="background-color: red">Sắp về hàng</span>
+                            @else
+                                <span class="label h2" style="background-color: darkgray">Không kinh doanh</span>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>
@@ -229,6 +280,24 @@
                     <hr class="offset-lg">
                 </div>
                 <div class="col-sm-5 no-padding-xs">
+                    @if ($discounts->count() > 0)
+                        <div class="talk white">
+                            <h2 class="h3">Khuyến mãi:</h2>
+
+
+                            @foreach ($discounts as $discount)
+
+
+                                <p class="text-danger"> &middot; {{ $discount->title }}</p>
+
+                            @endforeach
+
+                            <hr class="offset-md hidden-sm">
+                            <hr class="offset-sm visible-sm">
+                            <hr class="offset-xs visible-sm">
+
+                        </div>
+                    @endif
                     <div class="talk white">
                         <h2 class="h3">Bạn có bất kỳ thắc mắc gì?</h2>
                         <p class="">Liên hệ ngay với chúng tôi</p>
@@ -241,45 +310,40 @@
                     <hr class="offset-sm hidden-xs">
 
                     <div class="comments white">
-                        <h2 class="h3">Bình luận: (#4)</h2>
+                        <h2 class="h3">Đánh giá: (#{{ $product->review()->count() }}) <span
+                                class="pull-right star checked">{{ number_format($product->review()->avg('points')), 1, '.', ',' }}
+                                <i class="fa fa-star"></i></span></h2>
                         <br>
 
 
                         <div class="wrapper">
                             <div class="content">
-                                <h3>Ngô Toàn Cà</h3>
-                                <label>30 phút trước</label>
-                                <p>
-                                    Mới mua em này hôm qua, dùng ổn, lâu dài thì chưa biết.
-                                </p>
 
 
-                                <h3>Mai Anh Bảo</h3>
-                                <label>45 phút trước</label>
-                                <p>
-                                    Máy mỏng đẹp, màn hình đẹp, pin trâu.
-                                </p>
+                                @foreach ($product->review as $review)
+                                    <h3>{{ $review->name }} </h3>
+                                    <label>{{ $review->created_at }}</label>
+                                    <h4>{{ $review->title }} <span
+                                            class="pull-right star checked small">{{ $review->points }} <i
+                                                class="fa fa-star"></i></span></h4>
+                                    <p>
+                                        {{ $review->content }}
+                                    </p>
 
-                                <h3>Nguyễn Văn A</h3>
-                                <label>46 phút trước</label>
-                                <p>
-                                    Máy ổn, shop giao hàng nhanh, đóng gói chắc chắn.
-                                </p>
+                                @endforeach
 
-                                <h3>Nguyễn Văn B</h3>
-                                <label>1 ngày trước</label>
-                                <p>
-                                    Thấy giá ổn nên vừa đặt hàng luôn cho nóng.
-                                </p>
 
-                                
                             </div>
                         </div>
                         <hr class="offset-lg">
                         <hr class="offset-md">
 
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Modal-Comment"> <i
-                                class="ion-chatbox-working"></i> Add comment </button>
+                        @if ($product->status == 1)
+
+
+                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Modal-Comment"> <i
+                                    class="ion-chatbox-working"></i> Đánh giá </button>
+                        @endif
                         <hr class="offset-md visible-xs">
                     </div>
                 </div>
@@ -382,32 +446,58 @@
                 <div class="modal-header align-center">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true"><i class="ion-android-close"></i></span></button>
-                    <h1 class="h4 modal-title">Add your comment</h1>
+                    <h1 class="h4 modal-title">Để lại đánh giá</h1>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <form class="join" action="index.php" method="post">
+                        <form class="" action="{{ route('review.store') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="product" value="{{ $product->id }}">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <textarea name="comment" placeholder="Type here" required="" class="form-control"
+                                    <span class="star btn-star checked" data-point="1"><i
+                                            class="fa fa-star"></i></span>
+                                    <span class="star btn-star checked" data-point="2"><i
+                                            class="fa fa-star"></i></span>
+                                    <span class="star btn-star checked" data-point="3"><i
+                                            class="fa fa-star"></i></span>
+                                    <span class="star btn-star checked" data-point="4"><i
+                                            class="fa fa-star"></i></span>
+                                    <span class="star btn-star checked" data-point="5"><i
+                                            class="fa fa-star"></i></span>
+                                </div>
+
+                            </div>
+                            <br>
+                            <input type="hidden" name="point" id="txtPoint" value="5">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input required type="text" name="title" id="" placeholder="Đánh giá.."
+                                        class="form-control">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea name="comment" placeholder="Thêm mô tả" class="form-control"
                                         rows="5"></textarea>
                                     <br>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" name="name" value="" placeholder="Name" required=""
-                                        class="form-control" />
+                                    <input type="text" name="name" value="@if (Auth::check()) {{ Auth::user()->name }} @endif" placeholder="Họ tên"
+                                        required="" class="form-control" />
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="email" name="email" value="" placeholder="E-mail" required=""
-                                        class="form-control" />
+                                    <input type="email" name="email" value="@if (Auth::check()) {{ Auth::user()->email }} @endif" placeholder="Email"
+                                        required="" class="form-control" />
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="align-center">
                                         <br>
                                         <button type="submit" class="btn btn-primary btn-sm"> <i
-                                                class="ion-android-send"></i> Send</button>
+                                                class="ion-android-send"></i> Gửi</button>
                                         <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal"> <i
-                                                class="ion-android-share"></i> No, thanks </button>
+                                                class="ion-android-share"></i> Đóng </button>
                                         <br><br>
                                     </div>
                                 </div>
@@ -424,6 +514,16 @@
     @parent
     <script src="{{ asset('shop/assets/js/carousel-product.js') }}"></script>
     <script>
+        $(document).ready(() => {
+            $('.btn-star').on('click', function(event) {
 
+                $('.btn-star').removeClass('checked');
+                let stars = $(this).prevAll().addClass('checked');
+                $(this).addClass('checked');
+
+                $('#txtPoint').val($(this).data('point'));
+
+            })
+        })
     </script>
 @endsection

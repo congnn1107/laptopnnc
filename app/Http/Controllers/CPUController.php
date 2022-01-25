@@ -8,8 +8,8 @@ use App\Model\CPU;
 
 class CPUController extends Controller
 {
-    protected $brands = ['Intel', 'AMD'];
-    protected $series = ['Celeron', 'Pentium', 'Core i3', 'Core i5', 'Core i7', 'Ryzen 3', 'Ryzen 5', 'Ryzen 7'];
+    protected $brands = ['Intel', 'AMD', 'Apple'];
+    protected $series = ['Celeron', 'Pentium', 'Core i3', 'Core i5', 'Core i7', 'Ryzen 3', 'Ryzen 5', 'Ryzen 7','Apple Silicon'];
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +19,8 @@ class CPUController extends Controller
     {
         //
         $cpuList = CPU::all();
-        $collapsed = "collapsed-box";
+        
+        $collapsed = "";
         return view('admin.product.cpu.index', ["cpuList" => $cpuList, "brands" => $this->brands, "series" => $this->series, "collapsed" => $collapsed]);
     }
 
@@ -44,6 +45,7 @@ class CPUController extends Controller
     public function store(CPURequest $request)
     {
         //
+        
         $cpu = new CPU();
         $cpu->name = $request->name;
         $cpu->series = $request->series;

@@ -16,7 +16,7 @@ class OrderDetail extends Model
     ];
 
     public function product(){
-        return $this->hasMany("App\Model\Product","id","product");
+        return $this->hasMany("App\Model\Product","id","product")->withTrashed();
     }
     public function customer(){
         return $this->belongsTo("App\Model\Customer","customer");

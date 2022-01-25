@@ -47,6 +47,12 @@ class ProductController extends Controller
         return view('admin.product.index', ['productList' => $productList]);
     }
 
+    public function updateStock(Request $request, $id){
+        $product = Product::findOrFail($id);
+        $product->increment('stock',$request->input('stock'));
+        return back();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -300,9 +306,21 @@ class ProductController extends Controller
     {
         // Cart::destroy();
         $product = Product::with(['discount'])->findOrFail($id);
+        
+        
         $items = Cart::search(function ($item, $rowId) use ($id) {
             return $item->id == $id;
         });
+        //xử lý lưu trữ khuyến mãi
+        $discounts = $product->discount;
+        $discounted = 0;
+        foreach ($discounts as $discount) {
+            if ($discount->type == 0) {
+                $discounted += $product->sell_price * $discount->discounted_rate * 0.01;
+            } else if($discount->type==1) {
+                $discounted += $discount->discounted_amount;
+            }
+        }
         $cartItemData = [
             'id' => $product->id,
             'name' => $product->name,
@@ -312,11 +330,16 @@ class ProductController extends Controller
             'options' => [
                 'image' => asset('storage/' . $product->card_image),
                 'product_url' => route('shop.product.show', $product->slug),
-                'display_price' => number_format($product->sell_price)
+                'display_price' => number_format($product->sell_price),
+                'discount' => $discounted
             ]
         ];
         $item = Cart::add($cartItemData);
-        
+        //nếu số lượng vượt quá trong kho
+        if($item->qty>$product->stock){
+            $item->qty--;
+            return response()->json(['error'=>'Không thể thêm số lượng vì kho không còn đủ!']);
+        }
         if (count($items) > 0)
             return response()->json([
                 'type' => 'update',
@@ -337,8 +360,13 @@ class ProductController extends Controller
     public function updateQuantityCartItem(Request $request)
     {
         try {
-
+            $row = Cart::get($request->rowId);
+            if($row->qty >= Product::find($row->id)->stock){
+                return response()->json(['error'=>'Không thể thêm số lượng vì kho không còn đủ!']);
+            }
             $result = Cart::update($request->rowId, $request->qty);
+            //nếu số lượng vượt quá trong kho
+       
             return response()->json(['type' => 'update', 'total_items' => Cart::count()]);
         } catch (Exception $e) {
             return response('Item not found!', 404);

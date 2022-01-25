@@ -26,10 +26,10 @@ class Product extends Model
     ];
 
     public function cpu(){
-        return $this->belongsTo("App\Model\CPU","cpu");
+        return $this->belongsTo("App\Model\CPU","cpu")->withTrashed();
     }
     public function gpu(){
-        return $this->belongsTo("App\Model\GPU","gpu");
+        return $this->belongsTo("App\Model\GPU","gpu")->withTrashed();
     }
     public function status(){
         return $this->belongsTo("App\Model\ProductStatus","status");
@@ -42,18 +42,15 @@ class Product extends Model
         return $this->hasMany("App\Model\ProductStock","product");
     }
     public function discount(){
-        return $this->hasManyThrough("App\Model\Discount","App\Model\DiscountedProduct","product","id");
-    }
-    public function promotion(){
-        return $this->hasManyThrough("App\Model\Promotion","App\Model\PromotionProduct","product","id");
+        return $this->hasManyThrough("App\Model\Discount","App\Model\DiscountedProduct","product","id","id","discount");
     }
     public function review(){
-        return $this->hasMany("App\Model\Review","product");
+        return $this->hasMany("App\Model\Review","product",'id');
     }
     public function question(){
         return $this->hasMany("App\Model\Question","product");
     }
     public function categories(){
-        return $this->hasManyThrough('App\Model\Category',"App\Model\ProductCategory","product","id","id","category");
+        return $this->hasManyThrough('App\Model\Category',"App\Model\ProductCategory","product","id","id","category")->withTrashed();
     }
 }

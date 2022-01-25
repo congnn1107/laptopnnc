@@ -8,6 +8,8 @@
             </span>
         </div>
         <div class="box-body">
+        <button class="btn btn-link" onclick="history.back()"><i class="fa fa-caret-left"></i> Trở lại</button>
+
             <form action="{{ route('promotion.store') }}" method="post" class="form">
                 @csrf
                 <div class="row">

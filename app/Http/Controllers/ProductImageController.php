@@ -59,7 +59,7 @@ class ProductImageController extends Controller
 
             $result = ProductImage::insert($image_paths);
             if ($result) {
-                return redirect(route('products.manage_image'));
+                return back();
             }
         }
         return back();

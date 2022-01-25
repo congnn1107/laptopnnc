@@ -76,6 +76,8 @@
         </div>
         <div class="box-body">
             {{-- Nội dung ở đây --}}
+        <button class="btn btn-link" onclick="history.back()"><i class="fa fa-caret-left"></i> Trở lại</button>
+
             <form action="{{ route('product.update',$product->id) }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <input type="hidden" name="id" value="{{$product->id}}">

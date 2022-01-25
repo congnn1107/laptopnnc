@@ -18,11 +18,15 @@ class AdminLoginCheck
     public function handle($request, Closure $next)
     {
         // dd($request->path());
+        // dd(Auth::guard('admin')->user());
+        
         if(Auth::guard('admin')->check()){
+            
             return $next($request)->header('Cache-Control','nocache, no-store, max-age=0, must-revalidate')
             ->header('Pragma','no-cache')->header('Expires','Sun, 02 Jan 1990 00:00:00 GMT');
         }
-        
+            
+        Auth::guard('admin')->logout();
         return redirect()->guest(route("admin.login"))->with("message","Bạn phải đăng nhập!");
     }
 }

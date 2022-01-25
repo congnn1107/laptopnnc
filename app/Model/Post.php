@@ -17,6 +17,6 @@ class Post extends Model
     ];
 
     public function author(){
-        return $this->belongsTo("App\Model\Admin","author");
+        return $this->belongsTo("App\Model\Admin","author")->withTrashed();
     }
 }

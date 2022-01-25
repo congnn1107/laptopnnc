@@ -12,6 +12,7 @@ use App\Model\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -33,8 +34,21 @@ class HomeController extends Controller
         //
         $sliders = Slider::where('type', 1)->where('status', '1')->orderBy('position')->get();
         // dd($sliders);
-        $products = Product::offset(0)->limit(4)->orderBy('id', 'desc')->get();
-        return view('shop.index', ['sliders' => $sliders, 'products' => $products, 'categories' => $this->categories]);
+        // $products = Product::offset(0)->limit(4)->orderBy('id', 'desc')->get();
+        $highlight = Product::leftJoin('review','review.product','=','product.id')
+        ->select(['product.*',DB::raw('ifnull(avg(review.points),0) as point')])
+        ->groupBy('product.id')->orderBy('point','desc')->where('status',1)->take(4)->get();
+        // dd($highlights);
+        $besseller = Product::leftJoin('order_detail','product.id','=','order_detail.product')
+        ->select('product.*',DB::raw('ifnull(sum(order_detail.quantity),0) as sumsell'))
+        ->groupBy('product.id')->orderBy('sumsell','desc')->where('status',1)->take(3)->get();
+        // dd($besseller);
+        $new = Product::orderBy('created_at','desc')->where('status',1)->take(3)->get();
+        // dd($new);
+        $posts = Post::orderBy('view','desc')->where('status',1)->take(2)->get();
+        // dd($posts);
+        return view('shop.index', ['sliders' => $sliders,'posts'=>$posts, 'highlight' => $highlight,'bestseller'=>$besseller,'new'=>$new, 'categories' => $this->categories]);
+
     }
     public function liveSearch(){
         $searchKey = request()->query('q');
@@ -68,7 +82,7 @@ class HomeController extends Controller
         
        
         
-        $products = Product::with('cpu','gpu');
+        $products = Product::with('cpu','gpu')->where('status',1);
         $searchKey = request()->query('q');
         $sortKey = request()->query('sort');
         $categoryID = request()->query('catalog');
@@ -252,7 +266,7 @@ class HomeController extends Controller
         if ($product) {
             return view('shop.product.show', ['product' => $product, 'categories' => $this->categories]);
         } else {
-            return "Không thấy sản phẩm";
+            abort(404,'Không tìm thấy sản phẩm!');
         }
     }
     public function contactPage()
@@ -279,6 +293,7 @@ class HomeController extends Controller
             abort(404);
         }
     }
+
 
     public function login(Request $request)
     {
@@ -361,6 +376,27 @@ class HomeController extends Controller
             return back();
         }
         return back();
+    }
+
+
+    public function history(){
+        // dd(Auth::user()->customer);
+        $statusArray = ['Chờ xác nhận','Đã xác nhận','Đang giao hàng', 'Đã giao hàng', 'Đã hủy'];
+        return view('shop.history',['categories'=>$this->categories,'statusArray'=> $statusArray]);
+    }
+
+    public function cancelOrder($orderCode){
+        $customer = Auth::user()->customer;
+        $order = $customer->order()->withTrashed()->where('order_code',$orderCode)->first();
+        if($order){
+            $order->update(['status' => 4]);
+            foreach($order->detail as $detail){
+                $detail->product()->first()->increment('stock',$detail->quantity);
+            }
+            return back()->with('success','Đã hủy đơn hàng');
+        }else{
+            return back()->with('error', 'Có lỗi xảy ra!');
+        }
     }
     /**
      * Store a newly created resource in storage.

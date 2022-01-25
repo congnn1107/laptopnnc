@@ -1,4 +1,7 @@
 @extends('shop.layout.master')
+@section('title')
+    Thông tin cá nhân
+@endsection
 @section('content')
     <hr class="offset-top">
     <div class="container">
@@ -86,7 +89,7 @@
                     <div class="col-md-3">
                         <div class="form-group @error('password') has-error @enderror">
                             <label for="">Mật khẩu mới: </label>
-                            <input type="password" class="form-control" name="password" id=""
+                            <input onkeypress="return event.charCode != 32" type="password" class="form-control" name="password" id=""
                                 value="{{ old('password') }}">
                             @error('password')
                                 <div class="alert alert-danger">{{ $message }}</div>

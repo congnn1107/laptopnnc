@@ -8,6 +8,12 @@
             </span>
         </div>
         <div class="box-body">
+            <div class="button">
+                <a href="{{ route('warranty.create') }}"><button class="btn bg-purple"><i class="fa fa-plus"></i> Thêm
+                        mới</button></a>
+            </div>
+            <br>
+            <br>
             <table class="table" id="warrantyTable">
                 <thead>
                     <tr>
@@ -38,9 +44,12 @@
     </div>
 
     <script>
-        $(document).ready(()=>{
-            $('#warrantyTable').DataTable();
+        $(document).ready(() => {
+            $('#warrantyTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/vi.json"
+                }
+            });
         })
     </script>
 @endsection
-

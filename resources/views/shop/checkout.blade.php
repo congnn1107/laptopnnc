@@ -48,7 +48,7 @@
 
                     <br><br>
                     <div class="">
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-4">
                                 <h2 class="h4">Tỉnh/Thành phố:</h2>
 
@@ -70,12 +70,14 @@
                                 {{-- <input type="text" class="form-control" name="address[]" value="" required=""
                                     placeholder="" /> --}}
                             </div>
-                        </div>
+                        </div>-->
                         <div class="row">
                             <div class="col-sm-12">
-                                <h2 class="h4">Địa chỉ chi tiết</h2>
-                                <input type="text" class="form-control" name="address[]" value="" required=""
-                                    placeholder="" />
+                                <h2 class="h4">Địa chỉ: </h2>
+                                {{-- <h2 class="h4">Địa chỉ chi tiết</h2> --}}
+                                {{-- <input type="text" class="form-control" name="address[]" value="" required=""
+                                    placeholder="" /> --}}
+                                    <input type="text" class="form-control" name="address" id="" value="@if(Auth::check()) {{Auth::user()->address}} @else {{old('address')}} @endif">
                             </div>
                         </div>
                     </div>
@@ -101,13 +103,13 @@
                         </div>
                     </div>
 
-                    <div class="row group">
+                    {{-- <div class="row group">
                         <div class="col-sm-4">
                             <h2 class="h4">Mã khuyến mại</h2>
                         </div>
                         <div class="col-sm-8"> <input type="text" class="form-control" name="promo" value=""
                                 placeholder="" /></div>
-                    </div>
+                    </div> --}}
 
 
                     <hr class="offset-lg visible-xs visible-sm">
@@ -117,6 +119,9 @@
                 <div class="col-md-5 white">
                     <hr class="offset-md visible-xs visible-sm">
                     <div class="checkout-cart">
+                        @php
+                            $discounted = 0;
+                        @endphp
                         <div class="content">
                             @foreach (Cart::content() as $item)
                                 <div class="media">
@@ -130,24 +135,32 @@
                                     <div class="media-body">
                                         <h2 class="h4 media-heading">{{ $item->name }}</h2>
                                         {{-- <label>Tablets</label> --}}
-                                        <p class="price" data-price="{{ $item->price }}">
+                                        <p class="price" data-price="{{ $item->price }}"> {{$item->qty}} x
                                             {{ $item->options['display_price'] }} vnđ</p>
+
+                                            <p style="color:red"> - {{$item->qty}} x
+                                                {{ number_format($item->options['discount']) }} vnđ</p>
+                                                @php
+                                                    $discounted+=$item->options['discount']*$item->qty;
+                                                @endphp
                                     </div>
                                     <div class="controls">
                                         <div class="input-group">
+{{-- 
                                             <span class="input-group-btn">
                                                 <button class="btn btn-default btn-sm" type="button" data-action="minus"><i
                                                         class="ion-minus-round"></i></button>
-                                            </span>
-                                            <input type="text" name="qty[]" class="form-control input-sm" placeholder="Qty"
+                                            </span> --}}
+                                            <input type="hidden" name="qty[]" class="form-control input-sm" placeholder="Qty"
                                                 value="{{ $item->qty }}" readonly="">
-                                            <span class="input-group-btn">
+                                            {{-- <span class="input-group-btn">
                                                 <button class="btn btn-default btn-sm" type="button" data-action="plus"><i
                                                         class="ion-plus-round"></i></button>
-                                            </span>
+                                            </span> --}}
+
                                         </div><!-- /input-group -->
 
-                                        <a href="#remove"> <i class="ion-trash-b"></i> Xóa </a>
+                                        {{-- <a href="#remove"> <i class="ion-trash-b"></i> Xóa </a> --}}
                                     </div>
                                 </div>
                             @endforeach
@@ -166,7 +179,7 @@
                         <div class="col-xs-6 col-md-4">
                             <h3 class="h5 no-margin">Tổng số số sản phẩm: <span id="count">{{ Cart::count() }}</span>
                             </h3>
-                            <h3 class="h4 no-margin">Tổng tiền: <span id="total">{{ Cart::subtotal() }}</span> vnđ</h3>
+                            <h3 class="h4 no-margin">Tổng tiền: <span id="total">{{number_format( Cart::subtotal(0,'','') - $discounted )}}</span> vnđ</h3>
                         </div>
                         <div class="col-md-4 hidden-xs">
                         </div>

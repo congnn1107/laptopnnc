@@ -61,6 +61,10 @@
         $("#data-table").dataTable({
             scrollX: true
         });
+
+        
     })
 </script>
+
 @endsection
+

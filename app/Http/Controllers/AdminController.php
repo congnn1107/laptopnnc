@@ -7,6 +7,7 @@ use App\Model\Admin;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AdminRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -15,14 +16,22 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+    }
     public function index()
     {
-        //
+        //check quyền root
+        if (Auth::guard('admin')->user()->role != 1) abort(403);
+
         $adminsList = Admin::all();
         return view('admin.admin_management.index', ["adminsList" => $adminsList]);
     }
     public function getDataList()
     {
+        //check quyền root
+        if (Auth::guard('admin')->user()->role != 1) abort(403);
+
         $adminDataList = Admin::all();
         return json_encode($adminDataList);
     }
@@ -34,6 +43,9 @@ class AdminController extends Controller
     public function create()
     {
         //
+        //check quyền root
+        if (Auth::guard('admin')->user()->role != 1) abort(403);
+
         return view('admin.admin_management.create');
     }
 
@@ -45,6 +57,8 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
+        //check quyền root
+        if (Auth::guard('admin')->user()->role != 1) abort(403);
         //
 
         $admin = new Admin();
@@ -90,6 +104,8 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
+        //check quyền root
+        if (Auth::guard('admin')->user()->role != 1) abort(403);
         //
         $admin = Admin::findOrFail($id);
 
@@ -107,23 +123,25 @@ class AdminController extends Controller
      */
     public function update(AdminRequest $request, $id)
     {
+        //check quyền root
+        if (Auth::guard('admin')->user()->role != 1) abort(403);
         //
         $admin = Admin::findOrFail($id);
-        $admin->name=$request->name;
-        $admin->username=$request->username;
-        $admin->email= $request->email;
-        if($request->file('avatar')){
-            if($admin->avatar!='images/default-user.jpg'){
+        $admin->name = $request->name;
+        $admin->username = $request->username;
+        $admin->email = $request->email;
+        if ($request->file('avatar')) {
+            if ($admin->avatar != 'images/default-user.jpg') {
                 //xóa ảnh cũ
             }
-            $path=$request->file('avatar')->store('images/admin','public');
-            $admin->avatar='storage/'.$path;
+            $path = $request->file('avatar')->store('images/admin', 'public');
+            $admin->avatar = 'storage/' . $path;
         }
         $result = $admin->save();
-        if($result){
-            return back()->with('success','Đã lưu!');
-        }else{
-            return back()->with('error','Có lỗi xảy ra!');
+        if ($result) {
+            return back()->with('success', 'Đã lưu!');
+        } else {
+            return back()->with('error', 'Có lỗi xảy ra!');
         }
     }
 
@@ -136,9 +154,12 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
-        $result= Admin::destroy($id);
-        if($result){
-            return redirect(route('admins.index'))->with('success',"Đã xóa Admin có id: $id");
+        //check quyền root
+        if (Auth::guard('admin')->user()->role != 1) abort(403);
+
+        $result = Admin::destroy($id);
+        if ($result) {
+            return redirect(route('admins.index'))->with('success', "Đã xóa Admin có id: $id");
         }
     }
 }

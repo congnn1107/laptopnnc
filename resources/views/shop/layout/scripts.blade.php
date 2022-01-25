@@ -23,6 +23,10 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
             url: url,
             method: "get",
             success: function(result) {
+                if(result.error){
+                    alert(result.error);
+                    return;
+                }
                 if (result.type == 'create') {
                     //if
                     let box = $('#mCSB_1_container');
@@ -104,7 +108,7 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
         });
     }
 
-    function updateQuantityCartItem(id, quantity) {
+    function updateQuantityCartItem(id, quantity, target) {
         $.ajax({
             url: '{{ route('shop.product.update_qty_cart') }}',
             method: 'post',
@@ -114,6 +118,11 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
                 _token: '{{ csrf_token() }}'
             },
             success: function(result) {
+                if(result.error){
+                    alert(result.error);
+                    $(target).parents('.input-group').find('input').val( parseInt($(target).parents('.input-group').find('input').val()) - 1 );
+                    return;
+                }
                 console.log(result);
                 $('#items-quantity').text(result.total_items);
 
@@ -132,7 +141,7 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
         $('.cart').on('click', '.input-group button[data-action="plus"]', function() {
             let quantity = $(this).parents('.input-group').find('input').val();
             let id = $(this).parents('.input-group').find('input').data('id');
-            updateQuantityCartItem(id, quantity);
+            updateQuantityCartItem(id, quantity,this);
 
         });
         $('.cart').on('click', '.input-group button[data-action="minus"]', function() {
@@ -193,3 +202,32 @@ src="{{ asset('shop/assets/js/custom-scroll/jquery.mCustomScrollbar.concat.min.j
     })
 </script>
 @endif
+@if ($errors->forget->any() || Session::has('email-sent'))
+<script>
+    $(document).ready(()=>{
+        $('#btnForget').click();
+    })
+</script>
+@endif
+{{-- Thêm sản phẩm vào giỏ hàng --}}
+<script>
+    function addToWishlist(){
+        console.log(this);
+        let url = $(this).data('url');
+        $.ajax({
+            url: url,
+            method: 'get',
+            success: function(result){
+                console.log(result);
+            },
+            error: function(response){
+                console.log(response);
+            }
+        })
+    }
+    $(document).ready(()=>{
+        $('.products .product').on('click', 'a.favorites',addToWishlist);
+        $('a.add-to-wishlist').on('click',addToWishlist);
+    })
+</script>
+

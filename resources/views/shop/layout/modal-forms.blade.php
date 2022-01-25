@@ -10,16 +10,16 @@
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
                             <h2 class="modal-title text-center">Đăng nhập</h2>
-                            @error('msg','login')
-                            <div class="alert alert-danger">
-                                {{$message}}
-                            </div>
+                            @error('msg', 'login')
+                                <div class="alert alert-danger">
+                                    {{ $message }}
+                                </div>
                             @enderror
                             <br>
 
                             <form class="signin" action="{{ route('shop.login') }}" method="post">
-                                <input type="email" name="email" value="{{old('email')}}" placeholder="Email" required=""
-                                    class="form-control" />
+                                <input type="email" name="email" value="{{ old('email') }}" placeholder="Email"
+                                    required="" class="form-control" />
                                 <br>
                                 @csrf
                                 <input type="password" name="password" value="" placeholder="Mật khẩu" required=""
@@ -27,7 +27,7 @@
                                 <br>
 
                                 <button type="submit" class="btn btn-primary">OK</button>
-                                <a href="#forgin-password" data-action="Forgot-Password">Quên mật khẩu? ></a>
+                                <a href="#forgin-password" id="btnForget" data-action="Forgot-Password">Quên mật khẩu? ></a>
                             </form>
                             <br>
 
@@ -97,7 +97,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group @error('password', 'register') has-error @enderror">
-                                    <input type="password" name="password" value="" onkeypress="return event.charCode != 32" placeholder="Mật khẩu" required=""
+                                    <input type="password" name="password" value=""
+                                        onkeypress="return event.charCode != 32" placeholder="Mật khẩu" required=""
                                         class="form-control" />
                                     <br>
                                     @error('password', 'register')
@@ -145,11 +146,23 @@
                             <h4 class="modal-title">Bạn quên mật khẩu?</h4>
                             <br>
 
-                            <form class="join" action="index.php" method="post">
-                                <input type="email" name="email" value="" placeholder="E-mail" required=""
-                                    class="form-control" />
-                                <br>
+                            <form class="join" action="{{ route('forget.password.post') }}" method="post">
+                                <div class="form-group">
+                                    <input type="email" name="email" value="" placeholder="E-mail" required=""
+                                        class="form-control" />
+                                    <br>
+                                    @error('email', 'forget')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
 
+                                    @if (Session::has('email-sent'))
+                                        <div class="alert alert-success">
+                                            {{Session::get('email-sent')}}
+                                        </div>
+                                    @endif
+                                </div>
+                                @csrf
+                                
                                 <button type="submit" class="btn btn-primary btn-sm">Tiếp tục</button>
                                 <a href="#Sign-In" data-action="Sign-In">Trở lại ></a>
                             </form>
@@ -157,7 +170,8 @@
                         <div class="col-sm-6">
                             <br><br>
                             <p>
-                                Nhập lại email bạn đã dùng để đăng ký tài khoản, nhấn "Tiếp tục" và truy cập link từ email để đặt lại mật khẩu!
+                                Nhập lại email bạn đã dùng để đăng ký tài khoản, nhấn "Tiếp tục" và truy cập link từ
+                                email để đặt lại mật khẩu!
                             </p>
                         </div>
                     </div>

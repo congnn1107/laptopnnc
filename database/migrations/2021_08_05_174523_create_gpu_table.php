@@ -17,11 +17,11 @@ class CreateGpuTable extends Migration
             $table->id()->autoIncrement();
             $table->string("series");
             $table->string("name");
-            $table->string("graph_memory_cap");
-            $table->string("clock");
-            $table->dateTime("release_date")->nullable();
+            $table->string("graph_memory_cap")->nullable();
+            $table->string("clock")->nullable();
+            $table->dateTime("release_date")->nullable()->useCurrent();
             $table->string("brand");
-            $table->string("addition");
+            $table->string("addition")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

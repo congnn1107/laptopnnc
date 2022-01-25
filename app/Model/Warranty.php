@@ -16,13 +16,13 @@ class Warranty extends Model
         "activated_at","expired",'info'
     ];
     function products(){
-        return $this->belongsTo("App\Model\Product","product","id");
+        return $this->belongsTo("App\Model\Product","product","id")->withTrashed();
     }
     function customer(){
-        return $this->belongsTo("App\Model\Customer","customer_phone","phone");
+        return $this->belongsTo("App\Model\Customer","customer_phone","phone")->withTrashed();
     }
     function user(){
-        return $this->belongsTo("App\Model\User","customer_phone","phone");
+        return $this->belongsTo("App\Model\User","customer_phone","phone")->withTrashed();
     }
     function logs(){
         return $this->hasMany('App\Model\WarrantyLog','warranty_id');

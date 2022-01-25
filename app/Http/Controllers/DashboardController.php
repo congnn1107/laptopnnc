@@ -52,15 +52,24 @@ class DashboardController extends Controller
         $products =  Product::offset(0)->limit(6)->orderBy('created_at', 'desc')->get();
         $orderStatus = ['Chờ xác nhận', 'Đã xác nhận', 'Đang giao hàng', 'Đã giao hàng', 'Đã hủy'];
         $orderStatusColor = ['yellow', 'orange', 'blue', 'green', 'red'];
-        $newOrders = Order::with('detail', 'customer')->offset(0)->limit(6)->orderBy('created_at')->get();
+        $newOrders = Order::with('detail', 'customer')->offset(0)->limit(6)->orderBy('created_at','desc')->get();
         $totalProduct = Product::count();
-        $totalOrder = Order::count();
+        $totalOrder = Order::withTrashed()->count();
         $totalUser = User::count();
-        $totalSoldProduct = OrderDetail::join('order', 'order_detail.order', '=', 'order.id')->where('status', '!=', '5')->sum('quantity');
+        $totalSoldProduct = OrderDetail::join('order', 'order_detail.order', '=', 'order.id')->where('status', '!=', '4')->sum('quantity');
         // dd($totalProduct);
-        $report = [];
         DB::enableQueryLog();
-        $orders = Order::with('detail');
+        $bestSellerProducts = Product::withTrashed()->leftJoin('order_detail','order_detail.product','=','product.id')
+        ->leftJoin('order','order_detail.order','=','order.id')
+        ->select(DB::raw('product.* , ifnull(sum(order_detail.quantity),0) as sold_qty'))
+        ->where('order.status','!=',4)
+        ->groupBy('product.id')
+        ->orderBy('sold_qty','desc')->get();
+        // dd([DB::getQueryLog(),$bestSellerProducts]);
+        $report = [];
+        
+
+        $orders = Order::withTrashed()->with('detail');
 
         $countOrderData = DB::table('order')->select([DB::raw('date(created_at) as day'), DB::raw('count(id) as orders')]);
 
@@ -128,7 +137,8 @@ class DashboardController extends Controller
             'totalSoldProduct' => $totalSoldProduct,
             'report' => $report,
             'countOrderDataResult' => $countOrderDataResult,
-            'countReceivedOrderData' =>$countReceivedOrderData
+            'countReceivedOrderData' =>$countReceivedOrderData,
+            'bestSeller' => $bestSellerProducts
 
         ];
         

@@ -19,9 +19,12 @@
                 @csrf
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="form-group">
+                        <div class="form-group @error('image') has-error @enderror">
                             <label for="">Chọn hình ảnh:</label>
                             <input type="file" name="image" accept="image/*" class="form-control" id="">
+                            @error('image')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-4">

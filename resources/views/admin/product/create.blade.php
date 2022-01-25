@@ -93,6 +93,7 @@
         <h3 class="text-info">Tạo sản phẩm mới</h3>
     </div>
     <div class="box-body">
+        <button class="btn btn-link" onclick="history.back()"><i class="fa fa-caret-left"></i> Trở lại</button>
         <form action="{{route('product.store')}}" enctype="multipart/form-data" method="post">
             @csrf
             <h4 class="text-muted">Thông tin sản phẩm</h4>

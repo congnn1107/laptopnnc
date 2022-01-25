@@ -20,6 +20,9 @@ class User extends Authenticatable
         "password"
     ];
     public function customer(){
-        return $this->hasMany("App\Model\Customer","email","email");
+        return $this->hasOne("App\Model\Customer","email","email");
+    }
+    public function wishlist(){
+        return $this->hasMany("App\Model\Wishlist",'user');
     }
 }

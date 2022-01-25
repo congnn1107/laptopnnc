@@ -22,7 +22,7 @@ class CheckUserLogin
             ->header('Pragma','no-cache')->header('Expires','Sun, 02 Jan 1990 00:00:00 GMT');
         }
         $path = $request->getPathInfo();
-        if( $path == '/ca-nhan' || $path =='/lich-su' || $path == '/mua-sau'){
+        if( $path == '/ca-nhan' || $path =='/lich-su' || str_contains($path, '/mua-sau')){
             return redirect()->route('shop.index');
         }
         return back();
